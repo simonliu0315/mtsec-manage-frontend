@@ -41,6 +41,13 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="/DomesticBackboneTrafficMonitor" class="nav-link active">
+                  <i class="nav-icon bi bi-circle"></i>
+                  <p>TANet監控儀錶板</p>
+                </a>
+              </li>
+              
+              <li class="nav-item">
                 <a href="/ResourceSoftware" class="nav-link">
                   <i class="nav-icon bi bi-circle"></i>
                   <p>軟體資源監控儀錶板</p>
@@ -107,19 +114,9 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <router-link to="/DomesticBackboneTrafficMonitor">
+                    <a href="/DomesticCircuit" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>國內骨幹流量狀況</p>
-                    </router-link>
-                    <a href="/" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>國內骨幹流量狀況</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
-                      <p>國內骨幹界接介面狀況</p>
                     </a>
                   </li>
                   <li class="nav-item">
@@ -513,6 +510,12 @@
                     </ul>
                   </li>
                 </ul>
+                <li class="nav-item">
+                    <a href="/TopologyManage" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>網路流量拓樸圖管理</p>
+                    </a>
+                  </li>
               </li>
             </ul>
           </li>

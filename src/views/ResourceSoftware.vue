@@ -18,13 +18,13 @@
                 width="30px"
                 height="30px"
                 style="opacity: 0.8"
-              />TANet監控儀錶板
+              />軟體資源監控儀錶板
             </h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-end">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">TANet監控儀錶板</li>
+              <li class="breadcrumb-item active" aria-current="page">軟體資源監控儀錶板</li>
             </ol>
           </div>
         </div>

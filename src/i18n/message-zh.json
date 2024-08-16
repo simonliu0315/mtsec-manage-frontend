@@ -1,6 +1,7 @@
 {
   "menu": {
-    "monitoringBashboard": "監控儀錶板"
+    "monitoringBashboard": "監控儀錶板",
+    "topologyManage":"網路流量拓樸圖管理"
   },
   "dashboard": {
     "infomation": "通知",

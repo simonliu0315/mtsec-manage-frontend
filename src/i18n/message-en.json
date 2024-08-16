@@ -1,6 +1,7 @@
 {
   "menu": {
-    "monitoringBashboard": "Monitoring Bashboard"
+    "monitoringBashboard": "Monitoring Bashboard",
+    "topologyManage":"Topology Manage"
   },
   "dashboard": {
     "infomation": "Infomation",

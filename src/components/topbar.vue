@@ -36,35 +36,19 @@
         <!--begin::User Menu Dropdown-->
         <li class="nav-item dropdown user-menu">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-            <img src="" class="user-image rounded-circle shadow" alt="User Image" />
+            <i data-lte-icon="maximize" class="rounded-circle shadow bi bi-person-circle"></i>
             <span class="d-none d-md-inline">Administrator</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
             <!--begin::User Image-->
             <li class="user-header text-bg-primary">
-              <img src="" class="rounded-circle shadow" alt="User Image" />
+              <i data-lte-icon="maximize" class="rounded-circle shadow bi bi-person-circle"></i>
               <p>
-                Alexander Pierce - Web Developer
+                Administrator
                 <small>Member since Nov. 2023</small>
               </p>
             </li>
             <!--end::User Image-->
-            <!--begin::Menu Body-->
-            <li class="user-body">
-              <!--begin::Row-->
-              <div class="row">
-                <div class="col-4 text-center">
-                  <a href="#">Followers</a>
-                </div>
-                <div class="col-4 text-center">
-                  <a href="#">Sales</a>
-                </div>
-                <div class="col-4 text-center">
-                  <a href="#">Friends</a>
-                </div>
-              </div>
-              <!--end::Row-->
-            </li>
             <!--end::Menu Body-->
             <!--begin::Menu Footer-->
             <li class="user-footer">

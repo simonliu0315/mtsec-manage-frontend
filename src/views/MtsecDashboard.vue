@@ -621,6 +621,29 @@
   <!--end::App Main-->
 </template>
 <script setup lang="ts">
+import { ref, onMounted, onUnmounted } from 'vue'
+//import { Sortable } from 'sortablejs-vue3'
+
+onMounted(() => {
+  import('../../node_modules/sortablejs/Sortable').then((m) => {
+    // use my library here or call a method that uses it
+    const connectedSortables = document.querySelectorAll('div.connectedSortable')
+    console.log(connectedSortables)
+    connectedSortables.forEach((connectedSortable) => {
+      let sortable = new Sortable(connectedSortable, {
+        group: 'shared',
+        handle: '.card-header'
+      })
+      console.log(sortable)
+    })
+    const cardHeaders = document.querySelectorAll('.connectedSortable .card-header')
+    cardHeaders.forEach((cardHeader) => {
+      cardHeader.style.cursor = 'move'
+    })
+  })
+})
+  
+
 //import '@/components/dashboard3.vue'
 //import { Sortable } from 'sortablejs-vue3'
 //import '@/ts/adminlte.ts'
