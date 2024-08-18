@@ -4,12 +4,12 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/',  //TWAREN監控儀錶板
       name: 'MtsecDashboard',
       component: () => import('../views/MtsecDashboard.vue')
     },
     {
-      path: '/DomesticBackboneTrafficMonitor',
+      path: '/DomesticBackboneTrafficMonitor',  //TANet監控儀錶板
       name: 'DomesticBackboneTrafficMonitor',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -33,7 +33,7 @@ const router = createRouter({
       component: () => import('../views/TopologyManage.vue')
     },
     {
-      path: '/DomesticCircuit',
+      path: '/DomesticCircuit',  //國內骨幹流量狀況
       name: 'DomesticCircuit',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route

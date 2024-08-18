@@ -1,4 +1,18 @@
 {
+ "pagination": {
+    "first": "First page",
+    "previous": "Previous",
+    "next": "Next",
+    "last": "Last page",
+    "total": "Total {0} Elements",
+    "to": " Go to page ",
+    "unit": "",
+    "page": "Page",
+    "execute": "Execute",
+    "count": "Count",
+    "display": "Display",
+    "displayCount": "Display count"
+  },
   "menu": {
     "monitoringBashboard": "Monitoring Bashboard",
     "topologyManage":"Topology Manage"

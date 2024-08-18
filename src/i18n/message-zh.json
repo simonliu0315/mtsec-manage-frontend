@@ -1,7 +1,21 @@
 {
+  "pagination": {
+    "first": "第一頁",
+    "previous": "上一頁",
+    "next": "下一頁",
+    "last": "最後一頁",
+    "total": "共 {0} 筆",
+    "to": "到第",
+    "unit": "頁",
+    "page": "分頁",
+    "execute": "執行",
+    "count": "筆",
+    "display": "顯示",
+    "displayCount": "顯示筆數"
+  },
   "menu": {
     "monitoringBashboard": "監控儀錶板",
-    "topologyManage":"網路流量拓樸圖管理"
+    "topologyManage": "網路流量拓樸圖管理"
   },
   "dashboard": {
     "infomation": "通知",

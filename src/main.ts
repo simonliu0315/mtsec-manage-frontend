@@ -16,6 +16,9 @@ import { i18n } from '@/i18n' // 引入 I18n 套件
 import VNetworkGraph from "v-network-graph"
 import "v-network-graph/lib/style.css"
 
+import NetworkPagination  from "@/components/network-grid-pagination.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 document.body.classList.add('layout-fixed')
 document.body.classList.add('sidebar-expand-lg')
 document.body.classList.add('bg-body-tertiary')
@@ -27,5 +30,7 @@ app.use(router)
 app.use(i18n)
 app.use(VNetworkGraph)
 
+app.component("network-grid-pagination", NetworkPagination)
+app.component("font-awesome-icon", FontAwesomeIcon)
 app.mount('#app')
-export default app
+//export default app
