@@ -16,8 +16,11 @@ import { i18n } from '@/i18n' // 引入 I18n 套件
 import VNetworkGraph from "v-network-graph"
 import "v-network-graph/lib/style.css"
 
-import NetworkPagination  from "@/components/network-grid-pagination.vue";
+import NetworkPagination  from "@/components/network-pagination.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import NetworkPaginationPlugin from "@/NetworkPaginationPlugin";
+import VueAwesomePaginatePlugin from "@/VueAwesomePaginatePlugin";
+
 
 document.body.classList.add('layout-fixed')
 document.body.classList.add('sidebar-expand-lg')
@@ -25,12 +28,12 @@ document.body.classList.add('bg-body-tertiary')
 const app = createApp(App)
 
 app.use(createPinia())
-
 app.use(router)
 app.use(i18n)
 app.use(VNetworkGraph)
-
-app.component("network-grid-pagination", NetworkPagination)
+app.use(NetworkPaginationPlugin)
+app.use(VueAwesomePaginatePlugin)
+//app.component("network-grid-pagination", NetworkPagination)
 app.component("font-awesome-icon", FontAwesomeIcon)
 app.mount('#app')
 //export default app

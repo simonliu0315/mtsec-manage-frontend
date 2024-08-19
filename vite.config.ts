@@ -12,5 +12,22 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  build: {
+    cssCodeSplit: false,
+    lib: {
+      entry: "./src/NetworkPagination.ts",
+      formats: ["es", "cjs"],
+      name: "NetworkPagination",
+      fileName: (format) => (format === "es" ? "index.js" : "index.cjs"),
+    },
+    rollupOptions: {
+      external: ["vue"],
+      output: {
+        globals: {
+          vue: "Vue",
+        },
+      },
+    }
   }
 })

@@ -1,4 +1,0 @@
-export { default as NetworkPagination } from "@/components/network-grid-pagination.vue";
-export { default as Topbar } from "@/components/topbar.vue";
-export { default as Sidenav } from "@/components/sidenav.vue";
-export { default as Footer } from "@/components/footer.vue";

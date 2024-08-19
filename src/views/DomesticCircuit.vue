@@ -50,7 +50,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="align-middle" v-for="(item, key) in qeuryRespList" :key="key">
+                      <tr class="align-middle" v-for="(item, key) in data" :key="key">
                         <td>1.</td>
                         <td>{{ item.equipmentName }}</td>
                         <td>{{ item.equipmentInterface }}</td>
@@ -72,9 +72,13 @@
                   <li class="page-item"> <a class="page-link" href="#">3</a> </li>
                   <li class="page-item"> <a class="page-link" href="#">&raquo;</a> </li>
                 </ul>
-                <network-grid-pagination v-show="qeuryRespList[0].equipmentName &&
-                  qeuryRespList[0].equipmentName.length > 0
-                  " :data="qeuryRespList" @page="page" :sizeOptions="sizeOptions" />
+                
+                <vue-awesome-paginate
+    :total-items="50"
+    v-model="currentPage1"
+    :items-per-page="5"
+    :max-pages-shown="5"
+  />
               </div>
             </div> <!-- /.card -->
           </div> <!-- /.col -->
@@ -100,14 +104,15 @@
   <!--end::App Main-->
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
-
+import { ref, defineComponent } from 'vue'
+import NetworkPagination from "@/components/network-pagination.vue";
 
 export default {
-  name: "tutorials-list",
+  name: "domestic-circuit",
   data() {
     return {
-      qeuryRespList: [{
+      currentPage1 : ref(1),
+      data: [{
         equipmentId: "",
         equipmentName: "",
         equipmentInterface: "",
@@ -117,18 +122,16 @@ export default {
         equipmentNetworkTrafficOut: "",
         note: ""
       }],
-      currentTutorial: null,
-      currentIndex: -1,
       title: "",
       pageSize: 20,
-      sizeOptions: [10, 20, 50, 100]
+      sizeOptions: [10, 20, 50, 100],      
     };
   },
   methods: {
     retrieveDefaultData() {
       //let jsonArrayObject = [];
-      this.qeuryRespList = [];
-      this.qeuryRespList.push({
+      this.data = [];
+      this.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -138,8 +141,83 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      //this.qeuryRespList=jsonArrayObject;
-
+      this.data.push({
+        equipmentId: "TWAREN-TP-ASR9006-01",
+        equipmentName: "TWAREN-TP-ASR9006-01",
+        equipmentInterface: "Te0/0/0/5.3",
+        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
+        checkDate: "2024-06-24 10:00:00",
+        equipmentNetworkTrafficIn: "0.342(Mpbs)",
+        equipmentNetworkTrafficOut: "0.421(Mpbs)",
+        note: "N/A"
+      });
+      this.data.push({
+        equipmentId: "TWAREN-TP-ASR9006-01",
+        equipmentName: "TWAREN-TP-ASR9006-01",
+        equipmentInterface: "Te0/0/0/5.3",
+        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
+        checkDate: "2024-06-24 10:00:00",
+        equipmentNetworkTrafficIn: "0.342(Mpbs)",
+        equipmentNetworkTrafficOut: "0.421(Mpbs)",
+        note: "N/A"
+      });
+      this.data.push({
+        equipmentId: "TWAREN-TP-ASR9006-01",
+        equipmentName: "TWAREN-TP-ASR9006-01",
+        equipmentInterface: "Te0/0/0/5.3",
+        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
+        checkDate: "2024-06-24 10:00:00",
+        equipmentNetworkTrafficIn: "0.342(Mpbs)",
+        equipmentNetworkTrafficOut: "0.421(Mpbs)",
+        note: "N/A"
+      });
+      this.data.push({
+        equipmentId: "TWAREN-TP-ASR9006-01",
+        equipmentName: "TWAREN-TP-ASR9006-01",
+        equipmentInterface: "Te0/0/0/5.3",
+        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
+        checkDate: "2024-06-24 10:00:00",
+        equipmentNetworkTrafficIn: "0.342(Mpbs)",
+        equipmentNetworkTrafficOut: "0.421(Mpbs)",
+        note: "N/A"
+      });
+      this.data.push({
+        equipmentId: "TWAREN-TP-ASR9006-01",
+        equipmentName: "TWAREN-TP-ASR9006-01",
+        equipmentInterface: "Te0/0/0/5.3",
+        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
+        checkDate: "2024-06-24 10:00:00",
+        equipmentNetworkTrafficIn: "0.342(Mpbs)",
+        equipmentNetworkTrafficOut: "0.421(Mpbs)",
+        note: "N/A"
+      });
+      this.data.push({
+        equipmentId: "TWAREN-TP-ASR9006-01",
+        equipmentName: "TWAREN-TP-ASR9006-01",
+        equipmentInterface: "Te0/0/0/5.3",
+        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
+        checkDate: "2024-06-24 10:00:00",
+        equipmentNetworkTrafficIn: "0.342(Mpbs)",
+        equipmentNetworkTrafficOut: "0.421(Mpbs)",
+        note: "N/A"
+      });
+      this.data.push({
+        equipmentId: "TWAREN-TP-ASR9006-01",
+        equipmentName: "TWAREN-TP-ASR9006-01",
+        equipmentInterface: "Te0/0/0/5.3",
+        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
+        checkDate: "2024-06-24 10:00:00",
+        equipmentNetworkTrafficIn: "0.342(Mpbs)",
+        equipmentNetworkTrafficOut: "0.421(Mpbs)",
+        note: "N/A"
+      });
+      this.data.sizeOptions= [10, 20, 50, 100]
+      this.data.totalElements = 1
+      this.data.totalPages = 1
+      this.data.number = 0
+      this.data.size = 10
+      this.data.first= true
+      this.data.last= true
 
     },
     page(page, size) {
