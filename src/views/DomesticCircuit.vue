@@ -50,7 +50,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="align-middle" v-for="(item, key) in data" :key="key">
+                      <tr class="align-middle" v-for="(item, key) in results.data" :key="key">
                         <td>1.</td>
                         <td>{{ item.equipmentName }}</td>
                         <td>{{ item.equipmentInterface }}</td>
@@ -72,7 +72,7 @@
                   <li class="page-item"> <a class="page-link" href="#">3</a> </li>
                   <li class="page-item"> <a class="page-link" href="#">&raquo;</a> </li>
                 </ul>
-                
+                <network-pagination portal :data="results" @page="retrieveDefaultData" :sizeOptions="results.sizeOptions"/>
                 <vue-awesome-paginate
     :total-items="50"
     v-model="currentPage1"
@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       currentPage1 : ref(1),
-      data: [{
+      results: { data: [{
         equipmentId: "",
         equipmentName: "",
         equipmentInterface: "",
@@ -122,16 +122,25 @@ export default {
         equipmentNetworkTrafficOut: "",
         note: ""
       }],
+      
       title: "",
       pageSize: 20,
-      sizeOptions: [10, 20, 50, 100],      
-    };
+      sizeOptions: [10, 20, 50, 100],
+      totalElements : 8,
+      totalPages : 4,
+      number : 0,
+      size : 2,
+      first : true,
+      last : false,
+      numberOfElements : 2,
+      empty : false 
+      }};
   },
   methods: {
     retrieveDefaultData() {
       //let jsonArrayObject = [];
-      this.data = [];
-      this.data.push({
+      this.results.data = [];
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -141,7 +150,7 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.push({
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -151,7 +160,7 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.push({
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -161,7 +170,7 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.push({
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -171,7 +180,7 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.push({
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -181,7 +190,7 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.push({
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -191,7 +200,7 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.push({
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -201,7 +210,7 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.push({
+      this.results.data.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
         equipmentName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
@@ -211,20 +220,22 @@ export default {
         equipmentNetworkTrafficOut: "0.421(Mpbs)",
         note: "N/A"
       });
-      this.data.sizeOptions= [10, 20, 50, 100]
-      this.data.totalElements = 1
-      this.data.totalPages = 1
-      this.data.number = 0
-      this.data.size = 10
-      this.data.first= true
-      this.data.last= true
-
+      this.results.sizeOptions= [10, 20, 50, 100]
+      this.results.totalElements = 8
+      this.results.totalPages = 4
+      this.results.number = 2
+      this.results.size = 2
+      this.results.first= true
+      this.results.last= false
+      this.results.numberOfElements = 2
+      this.results.empty = false
+      console.log(this.results)
     },
     page(page, size) {
-      if (size !== this.pageSize) {
+      if (size !== this.results.pageSize) {
         page = 0;
       }
-      this.pageSize = size;
+      this.results.pageSize = size;
 
     },
     refreshList() {

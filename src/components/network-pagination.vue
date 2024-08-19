@@ -249,12 +249,12 @@ const props = withDefaults(
   {
     sizeOptions: () => [10, 20, 50, 100],
     data: () => ({
-      size: 20,
+      size: 10,
       number: 0,
       totalElements: 0,
       totalPages: 1,
       first: true,
-      last: true
+      last: true,
     })
   }
 )
@@ -269,7 +269,9 @@ const state = reactive({
 })
 
 const minIndex = computed(() => {
+  console.log(props.data)
   console.log('minIndex ' + props.data.totalPages + ' ' + props.data.number)
+  
   return Math.max(
     0,
     props.data.number - Math.max(5 - (props.data.totalPages - props.data.number), 2)
@@ -278,6 +280,9 @@ const minIndex = computed(() => {
 
 const maxIndex = computed(() => {
   console.log('maxIndex: ' + minIndex.value)
+  if (isNaN(minIndex.value)) {
+    minIndex.value = 0
+  }
   return Math.min(minIndex.value + 5, props.data.totalPages)
 })
 
