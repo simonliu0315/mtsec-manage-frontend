@@ -176,10 +176,6 @@ use([
 provide(THEME_KEY, 'light');
 
 const option = ref({
-  title: {
-    text: 'Traffic Sources',
-    left: 'center',
-  },
   tooltip: {
     trigger: 'item',
     formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -187,20 +183,18 @@ const option = ref({
   legend: {
     orient: 'vertical',
     left: 'left',
-    data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines'],
+    data: ['正常數', '異常數', '不告警數'],
   },
   series: [
     {
-      name: 'Traffic Sources',
+      name: '國內骨幹電路狀態',
       type: 'pie',
       radius: '55%',
       center: ['50%', '60%'],
       data: [
-        { value: 335, name: 'Direct' },
-        { value: 310, name: 'Email' },
-        { value: 234, name: 'Ad Networks' },
-        { value: 135, name: 'Video Ads' },
-        { value: 1548, name: 'Search Engines' },
+        { value: 335, name: '正常數' },
+        { value: 310, name: '異常數' },
+        { value: 234, name: '不告警數' },
       ],
       emphasis: {
         itemStyle: {
