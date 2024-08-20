@@ -1,4 +1,8 @@
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.chart {
+  height: 20vh;
+}
+</style>
 
 <template>
   <!--begin::App Main-->
@@ -31,10 +35,61 @@
               <div class="card-header">
                 <h3 class="card-title">電路狀態-國內骨幹電路狀態</h3>
                 <div class="card-tools">
-
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <v-chart class="chart" :option="option" autoresize />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h3 class="card-title">電路狀態-國內骨幹電路狀態</h3>
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"> 
+                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i> 
+                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i> 
+                  </button>                      
+                  <div class="btn-group"> 
+                    <button type="button" class="btn btn-tool dropdown-toggle" data-bs-toggle="dropdown"> 
+                      <i class="bi bi-download"></i> 
+                    </button>                        
+                    <div class="dropdown-menu dropdown-menu-end" role="menu"> 
+                      <a href="#" class="dropdown-item">CSV</a> 
+                      <a href="#" class="dropdown-item">EXCEL</a> 
+                    </div>  
+                  </div> 
+                  <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"> 
+                    <i class="bi bi-x-lg"></i> 
+                  </button>
                 </div>
               </div> <!-- /.card-header -->
               <div class="card-body p-0">
+                <div class="row">
+                  <div class="col-sm-9 col-md-9"></div>
+                  <div class="col-sm-3 col-md-3">
+                    <div class="text-right mt-2 mb-1">
+                      <div class="input-group mb-3 d-flex" role="search">
+                            <input
+                              class="form-control"
+                              type="search"
+                              :placeholder="$t('pagination.search')"
+                              aria-label="Search"
+                            />
+                            <button
+                              class="bi bi-search input-group-text"
+                              type="submit"></button
+                            >
+                      </div>
+                </div>
+                  </div>
+                </div>
+                
                 <div class="table-responsive">
                   <table class="table table-striped">
                     <thead>
@@ -65,20 +120,15 @@
                 </div>
               </div> <!-- /.card-body -->
               <div class="card-footer bg-light">
-                <ul class="pagination pagination-sm float-end">
+                <!--ul class="pagination pagination-sm float-end">
                   <li class="page-item"> <a class="page-link" href="#">&laquo;</a> </li>
                   <li class="page-item"> <a class="page-link" href="#">1</a> </li>
                   <li class="page-item"> <a class="page-link" href="#">2</a> </li>
                   <li class="page-item"> <a class="page-link" href="#">3</a> </li>
                   <li class="page-item"> <a class="page-link" href="#">&raquo;</a> </li>
-                </ul>
+                </ul-->
                 <network-pagination portal :data="results" @page="retrieveDefaultData" :sizeOptions="results.sizeOptions"/>
-                <vue-awesome-paginate
-    :total-items="50"
-    v-model="currentPage1"
-    :items-per-page="5"
-    :max-pages-shown="5"
-  />
+                <!--vue-awesome-paginate :total-items="50" v-model="currentPage1" :items-per-page="5" :max-pages-shown="5"/-->
               </div>
             </div> <!-- /.card -->
           </div> <!-- /.col -->
@@ -103,10 +153,69 @@
   </main>
   <!--end::App Main-->
 </template>
-<script lang="ts">
-import { ref, defineComponent } from 'vue'
-import NetworkPagination from "@/components/network-pagination.vue";
+<script setup>
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { PieChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from 'echarts/components';
+import VChart, { THEME_KEY } from 'vue-echarts';
+import { ref, provide } from 'vue';
 
+use([
+  CanvasRenderer,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+]);
+
+provide(THEME_KEY, 'light');
+
+const option = ref({
+  title: {
+    text: 'Traffic Sources',
+    left: 'center',
+  },
+  tooltip: {
+    trigger: 'item',
+    formatter: '{a} <br/>{b} : {c} ({d}%)',
+  },
+  legend: {
+    orient: 'vertical',
+    left: 'left',
+    data: ['Direct', 'Email', 'Ad Networks', 'Video Ads', 'Search Engines'],
+  },
+  series: [
+    {
+      name: 'Traffic Sources',
+      type: 'pie',
+      radius: '55%',
+      center: ['50%', '60%'],
+      data: [
+        { value: 335, name: 'Direct' },
+        { value: 310, name: 'Email' },
+        { value: 234, name: 'Ad Networks' },
+        { value: 135, name: 'Video Ads' },
+        { value: 1548, name: 'Search Engines' },
+      ],
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)',
+        },
+      },
+    },
+  ],
+});
+</script>
+<script >
+import {  defineComponent } from 'vue';
+import NetworkPagination from "@/components/network-pagination.vue"
 export default {
   name: "domestic-circuit",
   data() {
@@ -122,9 +231,8 @@ export default {
         equipmentNetworkTrafficOut: "",
         note: ""
       }],
-      
       title: "",
-      pageSize: 20,
+      pageSize: 10,
       sizeOptions: [10, 20, 50, 100],
       totalElements : 8,
       totalPages : 4,
@@ -133,8 +241,10 @@ export default {
       first : true,
       last : false,
       numberOfElements : 2,
-      empty : false 
-      }};
+      empty : false,
+      }
+    };
+      
   },
   methods: {
     retrieveDefaultData() {
@@ -224,7 +334,7 @@ export default {
       this.results.totalElements = 8
       this.results.totalPages = 4
       this.results.number = 2
-      this.results.size = 2
+      this.results.size = 10
       this.results.first= true
       this.results.last= false
       this.results.numberOfElements = 2

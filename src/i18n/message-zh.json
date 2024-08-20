@@ -11,7 +11,8 @@
     "execute": "執行",
     "count": "筆",
     "display": "顯示",
-    "displayCount": "顯示筆數"
+    "displayCount": "顯示筆數",
+    "search": "搜尋"
   },
   "menu": {
     "monitoringBashboard": "監控儀錶板",

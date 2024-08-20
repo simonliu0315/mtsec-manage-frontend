@@ -14,15 +14,17 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.8",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
+    "@popperjs/core": "^2.11.8",
+    "echarts": "^5.5.1",
     "pinia": "^2.1.7",
     "sortablejs": "^1.15.2",
     "sortablejs-vue3": "^1.2.11",
     "v-network-graph": "^0.9.16",
     "vue": "^3.4.29",
+    "vue-echarts": "^7.0.3",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.3.3"
   },

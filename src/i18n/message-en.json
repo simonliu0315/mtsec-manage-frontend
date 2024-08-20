@@ -11,7 +11,8 @@
     "execute": "Execute",
     "count": "Count",
     "display": "Display",
-    "displayCount": "Display count"
+    "displayCount": "Display count",
+    "search": "Search"
   },
   "menu": {
     "monitoringBashboard": "Monitoring Bashboard",

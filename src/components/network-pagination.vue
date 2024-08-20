@@ -1,6 +1,6 @@
 <template>
   <template v-if="portal">
-    <ul class="pagination">
+    <ul class="pagination pagination-sm float-end">
       <li class="page-item">
         <a
           v-if="data.first"
@@ -280,9 +280,6 @@ const minIndex = computed(() => {
 
 const maxIndex = computed(() => {
   console.log('maxIndex: ' + minIndex.value)
-  if (isNaN(minIndex.value)) {
-    minIndex.value = 0
-  }
   return Math.min(minIndex.value + 5, props.data.totalPages)
 })
 
@@ -314,11 +311,18 @@ function last() {
   emits('page', props.data.totalPages - 1, state.size)
 }
 </script>
-  <style scoped>
+
+<style scoped>
 @media screen and (max-width: 767px) {
   .page-item-display {
     display: none;
   }
+}
+.btn-outline-gray {
+    border: 1px solid #ddd;
+}
+.bg-gray {
+    background-color: #f1f1f1;
 }
 </style>
   
