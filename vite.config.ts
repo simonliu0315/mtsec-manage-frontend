@@ -15,11 +15,13 @@ export default defineConfig({
   },
   build: {
     cssCodeSplit: false,
+    sourcemap: true,
+    outDir: "dist",
     lib: {
-      entry: "./src/NetworkPagination.ts",
+      entry: "./src/entry.ts",
       formats: ["es", "cjs"],
-      name: "NetworkPagination",
-      fileName: (format) => (format === "es" ? "index.js" : "index.cjs"),
+      name: "plugin",
+      fileName: (format) => (format === "es" ? "index.js" : "index.cjs.js"),
     },
     rollupOptions: {
       external: ["vue"],

@@ -653,11 +653,26 @@ function search(page?: number, size?: number) {
       searchForm.results = data
       searchForm.results.grid = grid
 }
-onMounted(() => {
-  import('@/ts/adminlte').then((m) => {
-    // use my library here or call a method that uses it
-  })
-})
+
+import { ODS302WApi, AlertReceiverApi } from '@/ts/openapi'
+import { useEInvAxios } from "@/ts/container/axios-container";
+import axios from 'axios';
+const axios1 = useEInvAxios();
+console.log(axios1)
+const pet = ref(null);
+const api = new ODS302WApi(undefined,'http://localhost:8081', axios1);
+
+    console.log(api)
+    //const response = await api.greeting();
+
+    const api2 = new AlertReceiverApi(undefined,'http://localhost:8081', axios);
+    api2.findAllRes2().then(({ data }) => {
+      console.log(data)
+    }).finally(() => {
+     
+    });
+    
+
 </script>
 
 
