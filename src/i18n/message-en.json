@@ -18,6 +18,9 @@
     "monitoringBashboard": "Monitoring Bashboard",
     "topologyManage":"Topology Manage"
   },
+  "topbar": {
+    "language": "Language" 
+  },
   "dashboard": {
     "infomation": "Infomation",
     "TWARENMonitoringBashboard": "TWAREN Monitoring dashboard",

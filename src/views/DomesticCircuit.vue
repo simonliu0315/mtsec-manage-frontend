@@ -1,5 +1,11 @@
 <style scoped lang="scss">
-.chart {
+.chart-10 {
+  height: 10vh;
+}
+.chart-20 {
+  height: 20vh;
+}
+.chart-30 {
   height: 30vh;
 }
 </style>
@@ -39,10 +45,10 @@
               </div>
               <div class="card-body p-0">
                 <div class="row">
-                  <div class="col-md-8 float-left mt-5">
-                    <v-chart class="chart"  ref="pie" :option="option1" autoresize />
+                  <div class="col-md-12 float-left mt-1">
+                    <v-chart class="chart-20"  ref="pie" :option="option1" autoresize />
                   </div>
-                  <div class="col-md-4 float-left mt-5">
+                  <!--div class="col-md-4 float-left mt-5">
 				            正常數: 
                     <a href="" style="font-size:14pt; color:#00a65a">322</a>
                     <small class="text-success ms-2">
@@ -66,9 +72,75 @@
                     <br/>
                     總監控數: 
                     <a href="" style="font-size:14pt; color:#6c757d">467</a>
-                  </div>
+                  </div-->
                 </div>
               </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block text-center border-end">
+                      <span class="description-percentage text-success"
+                        ><i class="bi bi-arrow-up"></i> 1%</span
+                      >
+                      <h5 class="description-header text-danger" style="font-size: 18px">
+                        17<small class="text-dark mr-1">件</small>
+                      </h5>
+                      <span class="description-text"
+                        ><i class="bi bi-exclamation-circle-fill" style="color: #dc3545"></i
+                        >異常數</span
+                      >
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block text-center border-end">
+                      <span class="description-percentage text-danger"
+                        ><i class="bi bi-arrow-down"></i> 2%</span
+                      >
+                      <h5 class="description-header text-warning" style="font-size: 18px">
+                        128<small class="text-dark mr-1">件</small>
+                      </h5>
+                      <span class="description-text"
+                        ><i class="bi bi-exclamation-triangle-fill" style="color: #ffc107"></i>不告警數</span
+                      >
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block text-center border-end">
+                      <span class="description-percentage text-success"
+                        ><i class="bi bi-arrow-up"></i> 0%</span
+                      >
+                      <h5 class="description-header text-success" style="font-size: 18px">
+                        332<small class="text-dark mr-1">件</small>
+                      </h5>
+                      <span class="description-text"
+                        ><i class="bi bi-check" style="color: #28a745"
+                          ><span class="btn-tool"></span></i
+                        >正常數</span
+                      >
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 col-6">
+                    <div class="description-block text-center border-end">
+                      <span class="description-percentage text-danger"
+                        ><i class="bi bi-arrow-down"></i> 1%</span
+                      >
+                      <h5 class="description-header" style="font-size: 18px">
+                        467<small class="text-dark mr-1">件</small>
+                      </h5>
+                      <span class="description-text">總監控數</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.card-footer -->
             </div>
           </div>
           <div class="col-md-6 card-group">
@@ -79,30 +151,41 @@
                 </div>
               </div>
               <div class="card-body p-0">
-                  <div class="row">
-                    <div class="form-group col-sm-4">
-                    </div>
-                    <div class="form-group col-sm-4">
-                      <input class="form-check-input" type="checkbox" name="checkboxes" id="checkboxes-0" value="1" checked>
-                        <label class="col-md-8 checkbox-inline text-right" for="checkboxes-0">
-                        與過去比較
-                        </label>
+                  <div class="row text-end">
+                    <div class="form-group col-sm-3">
                     </div>
                     <div class="form-group col-sm-3">
-                      <div class="text-right">
-                        <select class="form-select">
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div class="row">
+                        <div class="col-sm-7 text-end">
+                          <select class="form-select">
                           <option>過去30分鐘</option>
                           <option>過去1小時</option>
                           <option>過去3小時</option>
                           <option>過去6小時</option>
-                        </select>
+                          </select>
+                        </div>
+                        <div class="col-sm-5 text-start">
+                        <input class="form-check-input" type="checkbox" name="checkboxes" id="checkboxes-0" value="1" checked>
+                        <label class="col-md-8 checkbox-inline" for="checkboxes-0">
+                        與過去比較
+                        </label>
                       </div>
+                    </div>
                     </div>
                   </div>
                   <div class="row">
-                    <v-chart class="chart"  ref="pie" :option="option2" autoresize />
+                    <div class="col-md-12 float-left mt-4">
+                      <v-chart class="chart-20"  ref="pie" :option="option2" autoresize />
+                    </div>
                   </div>
               </div>
+               <!-- /.card-body -->
+              <!--div class="card-footer">
+                <div class="row"></div>
+              </div-->
+               <!-- /.card-footer -->
             </div>
           </div>
         </div>
@@ -122,8 +205,8 @@
                       <i class="bi bi-download"></i> 
                     </button>                        
                     <div class="dropdown-menu dropdown-menu-end" role="menu"> 
-                      <a href="#" class="dropdown-item">CSV</a> 
-                      <a href="#" class="dropdown-item">EXCEL</a> 
+                      <a href="#" class="dropdown-item"><i class="bi bi-filetype-csv"></i>CSV</a> 
+                      <a href="#" class="dropdown-item"><i class="bi bi-filetype-xls"></i>EXCEL</a> 
                     </div>  
                   </div> 
                 </div>
@@ -259,7 +342,7 @@ use([
 
 provide(THEME_KEY, 'light');
 
-const option1 = ref({
+const option0 = ref({
   tooltip: {
     trigger: 'item',
     formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -277,7 +360,7 @@ const option1 = ref({
       type: 'pie',
       radius: ['30%', '60%'],
       center: ['50%', '60%'],
-      startAngle: 180,
+      startAngle: 0,
       endAngle: 360,
       data: [
         { value: 17, name: '異常數', },
@@ -313,7 +396,63 @@ const option1 = ref({
     }
   },
 });
-
+const option1 = ref({
+  tooltip: {
+    trigger: 'item',
+    formatter: '{a} <br/>{b} : {c} ({d}%)',
+  },
+  legend: {
+    //orient: 'vertical',
+    //top: 'top',
+    //top: '3%',
+    //left: 'left',
+    //data: ['正常數', '異常數', '不告警數'],
+  },
+  series: [
+    {
+      name: '國內骨幹電路狀態',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      center: ['50%', '60%'],
+      avoidLabelOverlap: false,
+      padAngle: 5,
+      itemStyle: {
+        borderRadius: 10
+      },
+      data: [
+        { value: 17, name: '異常數', },
+        { value: 128, name: '不告警數' },
+        { value: 322, name: '正常數' },
+      ],
+      label: {
+            show: true,
+            formatter: "{c}({d}%)", // {b} represents name, {c} represents value {d} represents percent
+            position: "inside", // You can adjust the position of the labels
+            fontSize: 15,
+            textStyle: {
+              color: '#000'
+            },
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 20,
+          fontWeight: 'bold'
+        }
+      },
+      color: ['rgba(241, 69, 69, 0.6)','rgba(247, 207, 7, 0.8)','rgba(0, 165, 114, 0.6)'],
+    },
+  ],
+  toolbox: {
+    show: true,
+    orient: 'vertical',
+    left: 'right',
+    top: 'top',
+    feature: {
+      saveAsImage: { show: false },
+    }
+  },
+});
 const option2 = ref({
   /*
   title: {

@@ -18,6 +18,9 @@
     "monitoringBashboard": "監控儀錶板",
     "topologyManage": "網路流量拓樸圖管理"
   },
+  "topbar": {
+    "language": "語言" 
+  },
   "dashboard": {
     "infomation": "通知",
     "TWARENMonitoringBashboard": "TWAREN監控儀錶板",

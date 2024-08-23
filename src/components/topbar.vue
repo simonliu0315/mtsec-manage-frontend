@@ -18,12 +18,29 @@
 
       <!--begin::End Navbar Links-->
       <ul class="navbar-nav ms-auto">
-        <!--begin::Fullscreen Toggle-->
-        <li class="nav-item">
-          <button class="btn btn-info" @click="$i18n.locale = 'en'">英文</button>
-          <button class="btn btn-info" @click="$i18n.locale = 'zh'">中文</button>
+        <!--begin::User Menu Dropdown-->
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+            <i data-lte-icon="maximize" class="rounded-circle shadow bi bi-translate"></i>
+            <span class="d-none d-md-inline">{{ $t('topbar.language') }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <!--begin::User Image-->
+            <li class="header">
+                <a href="#" class="nav-link" @click="$i18n.locale = 'zh'">
+                  <i class="bi bi-translate"></i>
+                  中文
+                </a>
+            </li>
+            <li class="header">
+                <a href="#" class="nav-link" @click="$i18n.locale = 'en'">
+                  <i class="bi bi-alphabet-uppercase"></i>
+                  英文
+                </a>
+            </li>
+          </ul>
         </li>
-        <!--end::Fullscreen Toggle-->
+        <!--end::User Menu Dropdown-->
         <!--begin::Fullscreen Toggle-->
         <li class="nav-item">
           <a class="nav-link" href="#" data-lte-toggle="fullscreen" id="fullscreen">
