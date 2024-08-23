@@ -654,25 +654,44 @@ function search(page?: number, size?: number) {
       searchForm.results.grid = grid
 }
 
-import { ODS302WApi, AlertReceiverApi } from '@/ts/openapi'
+import { ODS302WApi, AlertReceiverApi, DomesticCircuitControllerApi } from '@/ts/openapi'
+
+import type {PageDomesticCircuitDto} from '@/ts/openapi'
+
 import { useEInvAxios } from "@/ts/container/axios-container";
-import axios from 'axios';
+//import axios from 'axios';
 const axios1 = useEInvAxios();
 console.log(axios1)
 const pet = ref(null);
-const api = new ODS302WApi(undefined,'http://localhost:8081', axios1);
 
-    console.log(api)
+
+const api1 = new ODS302WApi(undefined,'http://localhost:8081', axios1);
+
+    console.log(api1)
     //const response = await api.greeting();
 
-    const api2 = new AlertReceiverApi(undefined,'http://localhost:8081', axios);
+    const api2 = new AlertReceiverApi(undefined,'http://localhost:8081', axios1);
     api2.findAllRes2().then(({ data }) => {
       console.log(data)
     }).finally(() => {
      
     });
-    
-
+const searchForm2 = reactive<{
+  filter: string | undefined;
+  result: PageDomesticCircuitDto | undefined;
+}>({
+  filter: undefined,
+  result: undefined,
+});
+function search2(page?: number, size?: number) {
+  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios1)
+  api.findAllRes(searchForm2, page, size).then(({ data }) => {
+      console.log(data)
+    }).finally(() => {
+     
+    });
+}
+search2();
 </script>
 
 
