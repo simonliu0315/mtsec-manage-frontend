@@ -248,7 +248,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="align-middle" v-for="(item, key) in searchForm.results.grid" :key="key">
+                      <tr class="align-middle" v-for="(item, key) in searchForm.results?.content" :key="key">
                         <td v-if="item.warnLevel =='danger'" style="background-color: rgba(248, 215, 218, 0.8);"> 
                           <i
                           class="icon bi bi-exclamation-circle-fill"
@@ -267,14 +267,13 @@
                           {{ (searchForm.results.number * searchForm.results.size) + key + 1 }}</td>
                         <td v-if="item.warnLevel =='normal'" style="background-color: rgba(212, 237, 218, 0.8);"> 
                           {{ (searchForm.results.number * searchForm.results.size) + key + 1 }}</td>
-                        
-                        <td>{{ item.equipmentName }}</td>
-                        <td>{{ item.equipmentInterface }}</td>
-                        <td>{{ item.equipmentDescript }}</td>
-                        <td>{{ item.checkDate }}</td>
-                        <td>{{ item.equipmentNetworkTrafficIn }}</td>
-                        <td>{{ item.equipmentNetworkTrafficOut }}</td>
-                        <td>{{ item.note }}</td>
+                        <td>{{ item.deviceName }}</td>
+                        <td>{{ item.deviceInterface }}</td>
+                        <td>{{ item.interfaceDescription }}</td>
+                        <td>{{ item.checkTime }}</td>
+                        <td>{{ item.inputUsage }}</td>
+                        <td>{{ item.outputUsage }}</td>
+                        <td>{{ item.remarks }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -288,7 +287,7 @@
                   <li class="page-item"> <a class="page-link" href="#">3</a> </li>
                   <li class="page-item"> <a class="page-link" href="#">&raquo;</a> </li>
                 </ul-->
-                <network-pagination portal :data="searchForm.results" @page="search" :sizeOptions="searchForm.results.sizeOptions"/>
+                <network-pagination portal :data="searchForm.results" @page="search" />
                 <!--vue-awesome-paginate :total-items="50" v-model="currentPage1" :items-per-page="5" :max-pages-shown="5"/-->
               </div>
             </div> <!-- /.card -->
@@ -543,19 +542,19 @@ const option2 = ref({
 
 const searchForm = reactive<{
   filter: string | undefined;
-  results: {} | undefined;
+  results: PageDomesticCircuitDto | undefined;
 }>({
   filter: undefined,
   results: undefined,
 });
-
+/*
 search();
 function search(page?: number, size?: number) {
   let data = {};
   let grid = [];
   grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -566,7 +565,7 @@ function search(page?: number, size?: number) {
       });
       grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -577,7 +576,7 @@ function search(page?: number, size?: number) {
       });
       grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -588,7 +587,7 @@ function search(page?: number, size?: number) {
       });
       grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -599,7 +598,7 @@ function search(page?: number, size?: number) {
       });
       grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -610,7 +609,7 @@ function search(page?: number, size?: number) {
       });
       grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -621,7 +620,7 @@ function search(page?: number, size?: number) {
       });
       grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -632,7 +631,7 @@ function search(page?: number, size?: number) {
       });
       grid.push({
         equipmentId: "TWAREN-TP-ASR9006-01",
-        equipmentName: "TWAREN-TP-ASR9006-01",
+        deviceName: "TWAREN-TP-ASR9006-01",
         equipmentInterface: "Te0/0/0/5.3",
         equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
         checkDate: "2024-06-24 10:00:00",
@@ -653,45 +652,28 @@ function search(page?: number, size?: number) {
       searchForm.results = data
       searchForm.results.grid = grid
 }
-
-import { ODS302WApi, AlertReceiverApi, DomesticCircuitControllerApi } from '@/ts/openapi'
+*/
+import { DomesticCircuitControllerApi } from '@/ts/openapi'
 
 import type {PageDomesticCircuitDto} from '@/ts/openapi'
 
 import { useEInvAxios } from "@/ts/container/axios-container";
 //import axios from 'axios';
-const axios1 = useEInvAxios();
-console.log(axios1)
+const axios = useEInvAxios();
 const pet = ref(null);
 
+search();
 
-const api1 = new ODS302WApi(undefined,'http://localhost:8081', axios1);
-
-    console.log(api1)
-    //const response = await api.greeting();
-
-    const api2 = new AlertReceiverApi(undefined,'http://localhost:8081', axios1);
-    api2.findAllRes2().then(({ data }) => {
+function search(page?: number, size?: number) {
+  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
+  api.findAllRes(searchForm, page, size).then(({ data }) => {
       console.log(data)
-    }).finally(() => {
-     
-    });
-const searchForm2 = reactive<{
-  filter: string | undefined;
-  result: PageDomesticCircuitDto | undefined;
-}>({
-  filter: undefined,
-  result: undefined,
-});
-function search2(page?: number, size?: number) {
-  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios1)
-  api.findAllRes(searchForm2, page, size).then(({ data }) => {
-      console.log(data)
+      searchForm.results =  data.domesticCircuitDto;
     }).finally(() => {
      
     });
 }
-search2();
+
 </script>
 
 

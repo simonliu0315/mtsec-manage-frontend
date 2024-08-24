@@ -216,13 +216,13 @@ export interface PageDomesticCircuitDto {
      * @type {number}
      * @memberof PageDomesticCircuitDto
      */
-    'totalPages'?: number;
+    'totalElements'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageDomesticCircuitDto
      */
-    'totalElements'?: number;
+    'totalPages'?: number;
     /**
      * 
      * @type {number}
@@ -249,6 +249,18 @@ export interface PageDomesticCircuitDto {
     'sort'?: Array<SortObject>;
     /**
      * 
+     * @type {PageableObject}
+     * @memberof PageDomesticCircuitDto
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageDomesticCircuitDto
+     */
+    'numberOfElements'?: number;
+    /**
+     * 
      * @type {boolean}
      * @memberof PageDomesticCircuitDto
      */
@@ -259,18 +271,6 @@ export interface PageDomesticCircuitDto {
      * @memberof PageDomesticCircuitDto
      */
     'last'?: boolean;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageDomesticCircuitDto
-     */
-    'numberOfElements'?: number;
-    /**
-     * 
-     * @type {PageableObject}
-     * @memberof PageDomesticCircuitDto
-     */
-    'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}
@@ -298,10 +298,10 @@ export interface PageableObject {
     'sort'?: Array<SortObject>;
     /**
      * 
-     * @type {number}
+     * @type {boolean}
      * @memberof PageableObject
      */
-    'pageNumber'?: number;
+    'paged'?: boolean;
     /**
      * 
      * @type {number}
@@ -310,10 +310,10 @@ export interface PageableObject {
     'pageSize'?: number;
     /**
      * 
-     * @type {boolean}
+     * @type {number}
      * @memberof PageableObject
      */
-    'paged'?: boolean;
+    'pageNumber'?: number;
     /**
      * 
      * @type {boolean}

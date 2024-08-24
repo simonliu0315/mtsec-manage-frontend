@@ -45,9 +45,9 @@ app.use(EInvPortalPlugin, {
     enableServiceWork: import.meta.env.MODE === "production",
   })
 app.use(VNetworkGraph)
-app.use(NetworkPaginationPlugin)
+//app.use(NetworkPaginationPlugin)
 app.use(VueAwesomePaginatePlugin)
 //app.component("network-grid-pagination", NetworkPagination)
-app.component("font-awesome-icon", FontAwesomeIcon)
+//app.component("font-awesome-icon", FontAwesomeIcon)
 app.mount('#app')
 //export default app
