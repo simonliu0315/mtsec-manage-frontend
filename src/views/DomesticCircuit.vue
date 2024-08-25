@@ -666,7 +666,7 @@ search();
 
 function search(page?: number, size?: number) {
   const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
-  api.findAllRes(searchForm, page, size).then(({ data }) => {
+  api.findAllRes1(searchForm, page, size).then(({ data }) => {
       console.log(data)
       searchForm.results =  data.domesticCircuitDto;
     }).finally(() => {

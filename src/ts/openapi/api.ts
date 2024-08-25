@@ -139,59 +139,17 @@ export interface Alerts {
     'fingerprint'?: string;
 }
 /**
- * 
+ * 素材管理查詢任務Request目的: 依據素材名稱、素材描述，進行素材查詢，顯示於素材清單列表 (應含未刪除註記、最新版次、最新版本日期)列表包含項次(rowCount)、素材名稱(name)、素材描述(description)、最新版次(maxResVerCreated)、最新版本日期(maxResVer)
  * @export
- * @interface DomesticCircuitDto
+ * @interface FindAllReq
  */
-export interface DomesticCircuitDto {
+export interface FindAllReq {
     /**
-     * 
+     * request參數1: 輸入之關鍵字
      * @type {string}
-     * @memberof DomesticCircuitDto
+     * @memberof FindAllReq
      */
-    'deviceId'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DomesticCircuitDto
-     */
-    'deviceName'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DomesticCircuitDto
-     */
-    'deviceInterface'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DomesticCircuitDto
-     */
-    'interfaceDescription'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof DomesticCircuitDto
-     */
-    'checkTime'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof DomesticCircuitDto
-     */
-    'inputUsage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DomesticCircuitDto
-     */
-    'outputUsage'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof DomesticCircuitDto
-     */
-    'remarks'?: string;
+    'filter'?: string;
 }
 /**
  * 素材管理查詢任務Request目的: 依據素材名稱、素材描述，進行素材查詢，顯示於素材清單列表 (應含未刪除註記、最新版次、最新版本日期)列表包含項次(rowCount)、素材名稱(name)、素材描述(description)、最新版次(maxResVerCreated)、最新版本日期(maxResVer)
@@ -201,81 +159,112 @@ export interface DomesticCircuitDto {
 export interface FindAllRes {
     /**
      * 
-     * @type {PageDomesticCircuitDto}
+     * @type {PageInventoryDto}
      * @memberof FindAllRes
      */
-    'domesticCircuitDto'?: PageDomesticCircuitDto;
+    'inventoryDto'?: PageInventoryDto;
+}
+/**
+ * 
+ * @export
+ * @interface InventoryDto
+ */
+export interface InventoryDto {
+    /**
+     * 
+     * @type {number}
+     * @memberof InventoryDto
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof InventoryDto
+     */
+    'deviceName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InventoryDto
+     */
+    'deviceInterface'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InventoryDto
+     */
+    'interfaceDescription'?: string;
 }
 /**
  * response參數1: 查詢結果清單 包含項次(rowCount)、素材名稱(name)、素材描述(description)、最新版次(maxResVerCreated)、最新版本日期(maxResVer)
  * @export
- * @interface PageDomesticCircuitDto
+ * @interface PageInventoryDto
  */
-export interface PageDomesticCircuitDto {
+export interface PageInventoryDto {
     /**
      * 
      * @type {number}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'totalElements'?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'totalPages'?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'size'?: number;
     /**
      * 
-     * @type {Array<DomesticCircuitDto>}
-     * @memberof PageDomesticCircuitDto
+     * @type {Array<InventoryDto>}
+     * @memberof PageInventoryDto
      */
-    'content'?: Array<DomesticCircuitDto>;
+    'content'?: Array<InventoryDto>;
     /**
      * 
      * @type {number}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'number'?: number;
     /**
      * 
      * @type {Array<SortObject>}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'sort'?: Array<SortObject>;
     /**
      * 
-     * @type {PageableObject}
-     * @memberof PageDomesticCircuitDto
-     */
-    'pageable'?: PageableObject;
-    /**
-     * 
      * @type {number}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'numberOfElements'?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'first'?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'last'?: boolean;
     /**
      * 
+     * @type {PageableObject}
+     * @memberof PageInventoryDto
+     */
+    'pageable'?: PageableObject;
+    /**
+     * 
      * @type {boolean}
-     * @memberof PageDomesticCircuitDto
+     * @memberof PageInventoryDto
      */
     'empty'?: boolean;
 }
@@ -372,9 +361,9 @@ export const AlertReceiverApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes1: async (alertVM: AlertVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findAllRes2: async (alertVM: AlertVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'alertVM' is not null or undefined
-            assertParamExists('findAllRes1', 'alertVM', alertVM)
+            assertParamExists('findAllRes2', 'alertVM', alertVM)
             const localVarPath = `/alerting/receiver`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -406,7 +395,7 @@ export const AlertReceiverApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes2: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findAllRes2_1: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/alerting/getalert`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -512,8 +501,8 @@ export const AlertReceiverApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findAllRes1(alertVM: AlertVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes1(alertVM, options);
+        async findAllRes2(alertVM: AlertVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes2(alertVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -521,8 +510,8 @@ export const AlertReceiverApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findAllRes2(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes2(options);
+        async findAllRes2_1(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes2_1(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -561,16 +550,16 @@ export const AlertReceiverApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes1(alertVM: AlertVM, options?: any): AxiosPromise<object> {
-            return localVarFp.findAllRes1(alertVM, options).then((request) => request(axios, basePath));
+        findAllRes2(alertVM: AlertVM, options?: any): AxiosPromise<object> {
+            return localVarFp.findAllRes2(alertVM, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes2(options?: any): AxiosPromise<string> {
-            return localVarFp.findAllRes2(options).then((request) => request(axios, basePath));
+        findAllRes2_1(options?: any): AxiosPromise<string> {
+            return localVarFp.findAllRes2_1(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -607,8 +596,8 @@ export class AlertReceiverApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AlertReceiverApi
      */
-    public findAllRes1(alertVM: AlertVM, options?: AxiosRequestConfig) {
-        return AlertReceiverApiFp(this.configuration).findAllRes1(alertVM, options).then((request) => request(this.axios, this.basePath));
+    public findAllRes2(alertVM: AlertVM, options?: AxiosRequestConfig) {
+        return AlertReceiverApiFp(this.configuration).findAllRes2(alertVM, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -617,8 +606,8 @@ export class AlertReceiverApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AlertReceiverApi
      */
-    public findAllRes2(options?: AxiosRequestConfig) {
-        return AlertReceiverApiFp(this.configuration).findAllRes2(options).then((request) => request(this.axios, this.basePath));
+    public findAllRes2_1(options?: AxiosRequestConfig) {
+        return AlertReceiverApiFp(this.configuration).findAllRes2_1(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -654,16 +643,16 @@ export const DomesticCircuitControllerApiAxiosParamCreator = function (configura
         /**
          * 
          * @summary 取得素材清單
-         * @param {object} body 
+         * @param {FindAllReq} findAllReq 
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes: async (body: object, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('findAllRes', 'body', body)
+        findAllRes1: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findAllReq' is not null or undefined
+            assertParamExists('findAllRes1', 'findAllReq', findAllReq)
             const localVarPath = `/domesticCircuit/find/all`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -695,7 +684,7 @@ export const DomesticCircuitControllerApiAxiosParamCreator = function (configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(findAllReq, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -715,15 +704,15 @@ export const DomesticCircuitControllerApiFp = function(configuration?: Configura
         /**
          * 
          * @summary 取得素材清單
-         * @param {object} body 
+         * @param {FindAllReq} findAllReq 
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findAllRes(body: object, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes(body, page, size, sort, options);
+        async findAllRes1(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes1(findAllReq, page, size, sort, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -739,15 +728,15 @@ export const DomesticCircuitControllerApiFactory = function (configuration?: Con
         /**
          * 
          * @summary 取得素材清單
-         * @param {object} body 
+         * @param {FindAllReq} findAllReq 
          * @param {number} [page] Zero-based page index (0..N)
          * @param {number} [size] The size of the page to be returned
          * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes(body: object, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
-            return localVarFp.findAllRes(body, page, size, sort, options).then((request) => request(axios, basePath));
+        findAllRes1(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
+            return localVarFp.findAllRes1(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -762,7 +751,7 @@ export class DomesticCircuitControllerApi extends BaseAPI {
     /**
      * 
      * @summary 取得素材清單
-     * @param {object} body 
+     * @param {FindAllReq} findAllReq 
      * @param {number} [page] Zero-based page index (0..N)
      * @param {number} [size] The size of the page to be returned
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
@@ -770,8 +759,139 @@ export class DomesticCircuitControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DomesticCircuitControllerApi
      */
-    public findAllRes(body: object, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
-        return DomesticCircuitControllerApiFp(this.configuration).findAllRes(body, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    public findAllRes1(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
+        return DomesticCircuitControllerApiFp(this.configuration).findAllRes1(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * InventoryControllerApi - axios parameter creator
+ * @export
+ */
+export const InventoryControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findAllRes: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findAllReq' is not null or undefined
+            assertParamExists('findAllRes', 'findAllReq', findAllReq)
+            const localVarPath = `/inventory/find/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findAllReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * InventoryControllerApi - functional programming interface
+ * @export
+ */
+export const InventoryControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InventoryControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes(findAllReq, page, size, sort, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * InventoryControllerApi - factory interface
+ * @export
+ */
+export const InventoryControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InventoryControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
+            return localVarFp.findAllRes(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * InventoryControllerApi - object-oriented interface
+ * @export
+ * @class InventoryControllerApi
+ * @extends {BaseAPI}
+ */
+export class InventoryControllerApi extends BaseAPI {
+    /**
+     * 
+     * @summary 取得資產
+     * @param {FindAllReq} findAllReq 
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryControllerApi
+     */
+    public findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).findAllRes(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -880,4 +1000,5 @@ export class ODS302WApi extends BaseAPI {
         return ODS302WApiFp(this.configuration).greeting(name, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
 

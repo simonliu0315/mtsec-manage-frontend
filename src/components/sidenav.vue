@@ -434,6 +434,12 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
+                    <a href="./inventoryManage" class="nav-link">
+                      <i class="nav-icon bi bi-circle"></i>
+                      <p>資產管理</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="#" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>維運團隊管理</p>
