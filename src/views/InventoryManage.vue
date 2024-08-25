@@ -81,11 +81,12 @@
                     <thead>
                       <tr>
                         <th style="width: 10px">#</th>
-                        <th style="width: 530px">設備</th>
+                        <th style="width: 230px">設備</th>
                         <th style="width: 130px">介面</th>
                         <th style="width: 1030px">介面描述</th>
-                        <th style="width: 530px">檢查時間</th>
+                        <th style="width: 130px">檢查時間</th>
                         <th>備註</th>
+                        <th>操作</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -97,6 +98,9 @@
                         <td>{{ item.interfaceDescription }}</td>
                         <td>{{ item.checkTime }}</td>
                         <td>{{ item.remarks }}</td>
+                        <td><div class="fs-4 mb-3"><a href="#" @click="edit(item.id)" ><i class="bi bi-pencil"></i></a><a href="#" @click="remove(item.id)"><i class="bi bi-trash"></i></a></div>
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -133,6 +137,15 @@
       <!--end::Container-->
     </div>
     <!--end::App Content-->
+    <!-- modal-->
+     <!-- Modal -->
+     <button @click="showModal">Show Modal</button>
+  <Modal title="Model title goes here" ref="thisModal">
+    <template #body>This should be in the body</template>
+    <template #footer>
+      <button class="btn btn-primary">Extra footer button</button>
+    </template>
+</Modal>
   </main>
   <!--end::App Main-->
 </template>
@@ -167,7 +180,21 @@ function search(page?: number, size?: number) {
      
     });
 }
+function edit(id) {
+  console.log(id)
+}
 
+function remove(id) {
+  console.log(id)
+}
+
+import Modal from "@/components/modal.vue";
+
+let thisModal= ref(null);
+
+function showModal(){
+ thisModal.value.show();
+}
 </script>
 
 
