@@ -41,8 +41,16 @@ const router = createRouter({
       component: () => import('../views/DomesticCircuit.vue')
     },
     {
-      path: '/InventoryManage',  //TANet監控儀錶板
+      path: '/monitoring-item-management/data-management/InventoryManage',  //TANet監控儀錶板
       name: 'InventoryManage',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/InventoryManage.vue')
+    },
+    {
+      path: '/monitoring-item-management/data-management/OperationTeamManagement',  //TANet監控儀錶板
+      name: 'OperationTeamManagement',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
