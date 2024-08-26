@@ -139,6 +139,37 @@ export interface Alerts {
     'fingerprint'?: string;
 }
 /**
+ * 
+ * @export
+ * @interface DeleteOneReq
+ */
+export interface DeleteOneReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'deviceName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'deviceInterface'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'interfaceDescription'?: string;
+}
+/**
  * 素材管理查詢任務Request目的: 依據素材名稱、素材描述，進行素材查詢，顯示於素材清單列表 (應含未刪除註記、最新版次、最新版本日期)列表包含項次(rowCount)、素材名稱(name)、素材描述(description)、最新版次(maxResVerCreated)、最新版本日期(maxResVer)
  * @export
  * @interface FindAllReq
@@ -167,15 +198,41 @@ export interface FindAllRes {
 /**
  * 
  * @export
+ * @interface FindOneReq
+ */
+export interface FindOneReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof FindOneReq
+     */
+    'id'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface FindOneRes
+ */
+export interface FindOneRes {
+    /**
+     * 
+     * @type {InventoryDto}
+     * @memberof FindOneRes
+     */
+    'inventoryDto'?: InventoryDto;
+}
+/**
+ * 
+ * @export
  * @interface InventoryDto
  */
 export interface InventoryDto {
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof InventoryDto
      */
-    'id'?: number;
+    'id'?: string;
     /**
      * 
      * @type {string}
@@ -239,12 +296,6 @@ export interface PageInventoryDto {
     'sort'?: Array<SortObject>;
     /**
      * 
-     * @type {number}
-     * @memberof PageInventoryDto
-     */
-    'numberOfElements'?: number;
-    /**
-     * 
      * @type {boolean}
      * @memberof PageInventoryDto
      */
@@ -255,6 +306,12 @@ export interface PageInventoryDto {
      * @memberof PageInventoryDto
      */
     'last'?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageInventoryDto
+     */
+    'numberOfElements'?: number;
     /**
      * 
      * @type {PageableObject}
@@ -347,6 +404,37 @@ export interface SortObject {
      * @memberof SortObject
      */
     'ignoreCase'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateOneReq
+ */
+export interface UpdateOneReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'deviceName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'deviceInterface'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'interfaceDescription'?: string;
 }
 
 /**
@@ -773,6 +861,42 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
     return {
         /**
          * 
+         * @summary 刪除資產
+         * @param {DeleteOneReq} deleteOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOne: async (deleteOneReq: DeleteOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteOneReq' is not null or undefined
+            assertParamExists('deleteOne', 'deleteOneReq', deleteOneReq)
+            const localVarPath = `/inventory/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteOneReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 取得資產
          * @param {FindAllReq} findAllReq 
          * @param {number} [page] Zero-based page index (0..N)
@@ -822,6 +946,78 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindOneReq} findOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findOneRes: async (findOneReq: FindOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findOneReq' is not null or undefined
+            assertParamExists('findOneRes', 'findOneReq', findOneReq)
+            const localVarPath = `/inventory/find/one`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findOneReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 修改資產
+         * @param {UpdateOneReq} updateOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        update: async (updateOneReq: UpdateOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateOneReq' is not null or undefined
+            assertParamExists('update', 'updateOneReq', updateOneReq)
+            const localVarPath = `/inventory/update`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateOneReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -832,6 +1028,17 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
 export const InventoryControllerApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = InventoryControllerApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @summary 刪除資產
+         * @param {DeleteOneReq} deleteOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteOne(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOne(deleteOneReq, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          * 
          * @summary 取得資產
@@ -846,6 +1053,28 @@ export const InventoryControllerApiFp = function(configuration?: Configuration) 
             const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes(findAllReq, page, size, sort, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindOneReq} findOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async findOneRes(findOneReq: FindOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findOneRes(findOneReq, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary 修改資產
+         * @param {UpdateOneReq} updateOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async update(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.update(updateOneReq, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -856,6 +1085,16 @@ export const InventoryControllerApiFp = function(configuration?: Configuration) 
 export const InventoryControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = InventoryControllerApiFp(configuration)
     return {
+        /**
+         * 
+         * @summary 刪除資產
+         * @param {DeleteOneReq} deleteOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOne(deleteOneReq: DeleteOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.deleteOne(deleteOneReq, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @summary 取得資產
@@ -869,6 +1108,26 @@ export const InventoryControllerApiFactory = function (configuration?: Configura
         findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
             return localVarFp.findAllRes(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindOneReq} findOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findOneRes(findOneReq: FindOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.findOneRes(findOneReq, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 修改資產
+         * @param {UpdateOneReq} updateOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        update(updateOneReq: UpdateOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.update(updateOneReq, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -879,6 +1138,18 @@ export const InventoryControllerApiFactory = function (configuration?: Configura
  * @extends {BaseAPI}
  */
 export class InventoryControllerApi extends BaseAPI {
+    /**
+     * 
+     * @summary 刪除資產
+     * @param {DeleteOneReq} deleteOneReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryControllerApi
+     */
+    public deleteOne(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).deleteOne(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @summary 取得資產
@@ -892,6 +1163,30 @@ export class InventoryControllerApi extends BaseAPI {
      */
     public findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
         return InventoryControllerApiFp(this.configuration).findAllRes(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 取得資產
+     * @param {FindOneReq} findOneReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryControllerApi
+     */
+    public findOneRes(findOneReq: FindOneReq, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).findOneRes(findOneReq, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 修改資產
+     * @param {UpdateOneReq} updateOneReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof InventoryControllerApi
+     */
+    public update(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).update(updateOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1000,5 +1295,4 @@ export class ODS302WApi extends BaseAPI {
         return ODS302WApiFp(this.configuration).greeting(name, options).then((request) => request(this.axios, this.basePath));
     }
 }
-
 

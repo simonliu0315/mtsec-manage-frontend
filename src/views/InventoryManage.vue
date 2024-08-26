@@ -83,10 +83,13 @@
                         <th style="width: 10px">#</th>
                         <th style="width: 230px">設備</th>
                         <th style="width: 130px">介面</th>
-                        <th style="width: 1030px">介面描述</th>
+                        <th style="width: 530px">介面描述</th>
                         <th style="width: 130px">檢查時間</th>
                         <th>備註</th>
-                        <th>操作</th>
+                        <th>操作
+                            <span class="fs-4 mb-3"><a href="#" @click="showeditModal()" >
+                              <i class="bi bi-plus"></i></a>
+                            </span></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -98,8 +101,11 @@
                         <td>{{ item.interfaceDescription }}</td>
                         <td>{{ item.checkTime }}</td>
                         <td>{{ item.remarks }}</td>
-                        <td><div class="fs-4 mb-3"><a href="#" @click="edit(item.id)" ><i class="bi bi-pencil"></i></a><a href="#" @click="remove(item.id)"><i class="bi bi-trash"></i></a></div>
-                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+                        <td>
+                          <div class="fs-4 mb-3">
+                            <a href="#" @click="showeditModal(item.id)" ><i class="bi bi-pencil"></i></a>
+                            <a href="#" @click="remove(item.id)"><i class="bi bi-trash"></i></a>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -137,21 +143,43 @@
       <!--end::Container-->
     </div>
     <!--end::App Content-->
-    <!-- modal-->
-     <!-- Modal -->
-     <button @click="showModal">Show Modal</button>
-  <Modal title="Model title goes here" ref="thisModal">
-    <template #body>This should be in the body</template>
-    <template #footer>
-      <button class="btn btn-primary">Extra footer button</button>
-    </template>
-</Modal>
+    <!--start::Modal -->
+    <Modal title="新增" ref="thisModal">
+      <template #body>
+        <div>
+            <div class="form-group row">
+                <label for="deviceName" class="col-sm-3 col-form-label">設備名稱</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="deviceName" placeholder="設備名稱" v-model="saveForm.deviceName">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="deviceInterface" class="col-sm-3 col-form-label">介面</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="deviceInterface" placeholder="介面" v-model="saveForm.deviceInterface">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="interfaceDescription" class="col-sm-3 col-form-label">介面描述</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="interfaceDescription" placeholder="介面描述" v-model="saveForm.interfaceDescription">
+              </div>
+            </div>
+        </div>
+      </template>
+      <template #footer>
+        <button class="btn btn-primary" @click="edit(saveForm.id)">確認</button>
+      </template>
+    </Modal>
+    <!--end:: Modal-->
   </main>
   <!--end::App Main-->
 </template>
 <script setup lang="ts">
 import { ref, provide, reactive, onMounted } from 'vue';
 import NetworkPagination from "@/components/network-pagination.vue"
+
+
 
 const searchForm = reactive<{
   filter: string | undefined;
@@ -169,6 +197,9 @@ import { useEInvAxios } from "@/ts/container/axios-container";
 //import axios from 'axios';
 const axios = useEInvAxios();
 
+import Modal from "@/components/modal.vue";
+
+let thisModal= ref(null);
 search();
 
 function search(page?: number, size?: number) {
@@ -180,21 +211,77 @@ function search(page?: number, size?: number) {
      
     });
 }
+
+const saveForm = reactive<{
+  id: string | undefined;
+  deviceName: string | undefined;
+  deviceInterface: string | undefined;
+  interfaceDescription: string | undefined;
+}>({
+  id: undefined,
+  deviceName: undefined,
+  deviceInterface: undefined,
+  interfaceDescription: undefined,
+});
+
+function add() {
+  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)  
+  api.update(saveForm).then(({ data }) => {}).finally(() => {
+    thisModal.value.hide();
+    search();
+  });
+  
+}
+
 function edit(id) {
   console.log(id)
+  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
+  console.log(saveForm)
+  
+  api.update(saveForm).then(({ data }) => {}).finally(() => {
+    thisModal.value.hide();
+    search();
+  });
+  
 }
 
 function remove(id) {
   console.log(id)
+  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
+  saveForm.id = id
+  api.deleteOne(saveForm).then(({ data }) => {}).finally(() => {
+    thisModal.value.hide();
+    search();
+  });
+}
+function showeditModal(id) {
+    if (id == undefined) {
+      saveForm.id = undefined
+      saveForm.deviceName = undefined
+      saveForm.deviceInterface = undefined
+      saveForm.interfaceDescription = undefined
+
+    } else {
+      const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
+      searchForm.id = id
+      api.findOneRes(searchForm).then(({ data }) => {
+      console.log(data)
+      console.log(data.inventoryDto?.id)
+      saveForm.id = data.inventoryDto?.id
+      saveForm.deviceName = data.inventoryDto?.deviceName
+      saveForm.deviceInterface = data.inventoryDto?.deviceInterface
+      saveForm.interfaceDescription = data.inventoryDto?.interfaceDescription
+    }).finally(() => {
+     
+    });
+    }
+    
+    thisModal.value.show();
 }
 
-import Modal from "@/components/modal.vue";
+onMounted(() => {
+})
 
-let thisModal= ref(null);
-
-function showModal(){
- thisModal.value.show();
-}
 </script>
 
 

@@ -269,8 +269,8 @@ const state = reactive({
 })
 
 const minIndex = computed(() => {
-  console.log(props.data)
-  console.log('minIndex ' + props.data.totalPages + ' ' + props.data.number)
+  //console.log(props.data)
+  //console.log('minIndex ' + props.data.totalPages + ' ' + props.data.number)
   
   return Math.max(
     0,
@@ -279,7 +279,7 @@ const minIndex = computed(() => {
 })
 
 const maxIndex = computed(() => {
-  console.log('maxIndex: ' + minIndex.value)
+  //console.log('maxIndex: ' + minIndex.value)
   return Math.min(minIndex.value + 5, props.data.totalPages)
 })
 

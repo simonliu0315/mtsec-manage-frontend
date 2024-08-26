@@ -23,6 +23,12 @@ import { ref, onMounted, onUnmounted } from 'vue'
 onMounted(() => {
   import('../src/ts/adminlte').then((m) => {
     // use my library here or call a method that uses it
+
+    const toastTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="toast"]',
+      );
+      console.log("onMounted");
+      console.log(toastTriggerList)
   })
 })
 </script>

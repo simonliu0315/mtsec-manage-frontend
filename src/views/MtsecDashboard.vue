@@ -624,6 +624,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 //import { Sortable } from 'sortablejs-vue3'
 
+import Modal from "@/components/modal.vue";
+
 onMounted(() => {
   import('../../node_modules/sortablejs/Sortable').then((m) => {
     // use my library here or call a method that uses it

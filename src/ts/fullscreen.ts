@@ -44,6 +44,7 @@ class FullScreen {
 
     void document.documentElement.requestFullscreen()
 
+    console.log(iconMaximize)
     if (iconMaximize) {
       iconMaximize.style.display = 'none'
     }

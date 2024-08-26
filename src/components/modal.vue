@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { Modal } from "bootstrap";
+import  Modal from "bootstrap/js/dist/modal";
 defineProps({
   title: {
     type: String,
@@ -16,11 +16,14 @@ onMounted(() => {
 function _show() {
   thisModalObj.show();
 }
-defineExpose({ show: _show });
+function _hide() {
+  thisModalObj.hide();
+}
+defineExpose({ show: _show, hide: _hide });
 </script>
 
 <template>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby=""
+  <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby=""
     aria-hidden="true" ref="modalEle">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -41,3 +44,17 @@ defineExpose({ show: _show });
     </div>
   </div>
 </template>
+<style lang="css">
+.modal-dialog,
+.modal-content {
+    /* 80% of window height */
+    height: 80%;
+    width: 80%;
+}
+
+.modal-body {
+    /* 100% = dialog height, 120px = header + footer */
+    max-height: calc(100% - 120px);
+    overflow-y: scroll;
+}
+</style>

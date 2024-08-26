@@ -21,7 +21,7 @@
         <!--begin::User Menu Dropdown-->
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-            <i data-lte-icon="maximize" class="rounded-circle shadow bi bi-translate"></i>
+            <i class="rounded-circle shadow bi bi-translate"></i>
             <span class="d-none d-md-inline">{{ $t('topbar.language') }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
