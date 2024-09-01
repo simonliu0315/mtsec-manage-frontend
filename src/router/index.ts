@@ -41,7 +41,7 @@ const router = createRouter({
       component: () => import('../views/DomesticCircuit.vue')
     },
     {
-      path: '/monitoring-item-management/data-management/InventoryManage',  //TANet監控儀錶板
+      path: '/monitoring-item-management/data-management/InventoryManage',  //資產管理
       name: 'InventoryManage',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
@@ -49,12 +49,20 @@ const router = createRouter({
       component: () => import('../views/InventoryManage.vue')
     },
     {
-      path: '/monitoring-item-management/data-management/OperationTeamManagement',  //TANet監控儀錶板
+      path: '/monitoring-item-management/data-management/OperationTeamManagement',  //維運團隊管理
       name: 'OperationTeamManagement',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/InventoryManage.vue')
+      component: () => import('../views/OperationTeamManagement.vue')
+    },
+    {
+      path: '/contact-data/OperationTeam',  //維運團隊
+      name: 'OperationTeam',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/OperationTeam.vue')
     },
   ]
 })

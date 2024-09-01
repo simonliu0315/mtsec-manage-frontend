@@ -46,7 +46,7 @@
               <div class="card-body p-0">
                 <div class="row">
                   <div class="col-md-12 float-left mt-1">
-                    <v-chart class="chart-20"  ref="pie" :option="option1" autoresize />
+                    <v-chart class="chart-20"  ref="pie" :option="currentOption" autoresize />
                   </div>
                   <!--div class="col-md-4 float-left mt-5">
 				            正常數: 
@@ -83,7 +83,7 @@
                         ><i class="bi bi-arrow-up"></i> 1%</span
                       >
                       <h5 class="description-header text-danger" style="font-size: 18px">
-                        17<small class="text-dark mr-1">件</small>
+                        <span v-html="eventCntForm.criticalCnt"/><small class="text-dark mr-1">件</small>
                       </h5>
                       <span class="description-text"
                         ><i class="bi bi-exclamation-circle-fill" style="color: #dc3545"></i
@@ -99,7 +99,7 @@
                         ><i class="bi bi-arrow-down"></i> 2%</span
                       >
                       <h5 class="description-header text-warning" style="font-size: 18px">
-                        128<small class="text-dark mr-1">件</small>
+                        <span v-html="eventCntForm.minorCnt"/><small class="text-dark mr-1">件</small>
                       </h5>
                       <span class="description-text"
                         ><i class="bi bi-exclamation-triangle-fill" style="color: #ffc107"></i>不告警數</span
@@ -114,7 +114,7 @@
                         ><i class="bi bi-arrow-up"></i> 0%</span
                       >
                       <h5 class="description-header text-success" style="font-size: 18px">
-                        332<small class="text-dark mr-1">件</small>
+                        <span v-html="eventCntForm.normalCnt"/><small class="text-dark mr-1">件</small>
                       </h5>
                       <span class="description-text"
                         ><i class="bi bi-check" style="color: #28a745"
@@ -131,7 +131,7 @@
                         ><i class="bi bi-arrow-down"></i> 1%</span
                       >
                       <h5 class="description-header" style="font-size: 18px">
-                        467<small class="text-dark mr-1">件</small>
+                        <span v-html="eventCntForm.totalCnt"/><small class="text-dark mr-1">件</small>
                       </h5>
                       <span class="description-text">總監控數</span>
                     </div>
@@ -159,17 +159,17 @@
                     <div class="form-group col-sm-6">
                         <div class="row">
                         <div class="col-sm-7 text-end">
-                          <select class="form-select">
-                          <option>過去30分鐘</option>
-                          <option>過去1小時</option>
-                          <option>過去3小時</option>
-                          <option>過去6小時</option>
+                          <select class="form-select" v-model="searchForm.timeInterval" @change="findEventCntHistory">
+                          <option value="30" selected>過去30分鐘</option>
+                          <option value="60">過去1小時</option>
+                          <option value="180">過去3小時</option>
+                          <option value="360">過去6小時</option>
                           </select>
                         </div>
                         <div class="col-sm-5 text-start">
-                        <input class="form-check-input" type="checkbox" name="checkboxes" id="checkboxes-0" value="1" checked>
+                        <input class="form-check-input" type="checkbox" name="checkboxes" id="checkboxes-0" value="false" v-model="searchForm.sameTimeLast" @check="">
                         <label class="col-md-8 checkbox-inline" for="checkboxes-0">
-                        與過去比較
+                        與過去同期比較
                         </label>
                       </div>
                     </div>
@@ -177,7 +177,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12 float-left mt-4">
-                      <v-chart class="chart-20"  ref="pie" :option="option2" autoresize />
+                      <v-chart class="chart-20"  ref="pie" :option="historyOption" autoresize />
                     </div>
                   </div>
               </div>
@@ -197,7 +197,7 @@
               <div class="card-header">
                 <h3 class="card-title">國內骨幹電路狀態</h3>
                 <div class="card-tools">
-                  <button type="button" class="btn btn-tool"> 
+                  <button type="button" class="btn btn-tool" @click="search()"> 
                     <i class="bi bi-arrow-clockwise"></i> 
                   </button>                      
                   <div class="btn-group"> 
@@ -222,10 +222,11 @@
                               type="search"
                               :placeholder="$t('pagination.search')"
                               aria-label="Search"
+                              v-model="searchForm.filter"
                             />
                             <button
                               class="bi bi-search input-group-text"
-                              type="submit"></button
+                              @click="search()"></button
                             >
                       </div>
                 </div>
@@ -249,23 +250,23 @@
                     </thead>
                     <tbody>
                       <tr class="align-middle" v-for="(item, key) in searchForm.results?.content" :key="key">
-                        <td v-if="item.warnLevel =='danger'" style="background-color: rgba(248, 215, 218, 0.8);"> 
+                        <td v-if="item.warnLevel =='Critical'" style="background-color: rgba(248, 215, 218, 0.8);"> 
                           <i
                           class="icon bi bi-exclamation-circle-fill"
                           style="font-size: 20px; color: #dc3545"></i></td>
-                        <td v-if="item.warnLevel =='warning'" style="background-color: rgba(255, 243, 205, 0.8);"> 
+                        <td v-if="item.warnLevel =='Minor'" style="background-color: rgba(255, 243, 205, 0.8);"> 
                           <i
                           class="icon bi bi-exclamation-triangle-fill"
                           style="font-size: 20px; color: #ffc107"></i></td>
-                        <td v-if="item.warnLevel =='normal'" style="background-color: rgba(212, 237, 218, 0.8);"> 
+                        <td v-if="item.warnLevel =='Normal' || item.warnLevel == null" style="background-color: rgba(212, 237, 218, 0.8);"> 
                           <i
                           class="icon bi bi-check"
                           style="font-size: 20px; color: #28a745"></i></td>
-                        <td v-if="item.warnLevel =='danger'" style="background-color: rgba(248, 215, 218, 0.8);"> 
+                        <td v-if="item.warnLevel =='Critical'" style="background-color: rgba(248, 215, 218, 0.8);"> 
                           {{ (searchForm.results.number * searchForm.results.size) + key + 1 }}</td>
-                        <td v-if="item.warnLevel =='warning'" style="background-color: rgba(255, 243, 205, 0.8);"> 
+                        <td v-if="item.warnLevel =='Minor'" style="background-color: rgba(255, 243, 205, 0.8);"> 
                           {{ (searchForm.results.number * searchForm.results.size) + key + 1 }}</td>
-                        <td v-if="item.warnLevel =='normal'" style="background-color: rgba(212, 237, 218, 0.8);"> 
+                        <td v-if="item.warnLevel =='Normal' || item.warnLevel == null" style="background-color: rgba(212, 237, 218, 0.8);"> 
                           {{ (searchForm.results.number * searchForm.results.size) + key + 1 }}</td>
                         <td>{{ item.deviceName }}</td>
                         <td>{{ item.deviceInterface }}</td>
@@ -325,7 +326,7 @@ import {
   GridComponent 
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
-import { ref, provide, reactive, onMounted } from 'vue';
+import { ref, provide, reactive, onMounted, watch } from 'vue';
 import NetworkPagination from "@/components/network-pagination.vue"
 
 use([
@@ -395,7 +396,7 @@ const option0 = ref({
     }
   },
 });
-const option1 = ref({
+const currentOption = ref({
   tooltip: {
     trigger: 'item',
     formatter: '{a} <br/>{b} : {c} ({d}%)',
@@ -419,9 +420,9 @@ const option1 = ref({
         borderRadius: 10
       },
       data: [
-        { value: 17, name: '異常數', },
-        { value: 128, name: '不告警數' },
-        { value: 322, name: '正常數' },
+        { value: 0, name: '異常數', },
+        { value: 0, name: '不告警數' },
+        { value: 0, name: '正常數' },
       ],
       label: {
             show: true,
@@ -452,7 +453,7 @@ const option1 = ref({
     }
   },
 });
-const option2 = ref({
+const historyOption = ref({
   /*
   title: {
     text: 'Stacked Line'
@@ -462,7 +463,8 @@ const option2 = ref({
     trigger: 'axis'
   },
   legend: {
-    data: ['正常數', '異常數', '不告警數']
+    data: ['異常數', '不告警數', '正常數'],
+    //selected: { '同期異常': false }
   },
   grid: {
     left: '3%',
@@ -490,169 +492,75 @@ const option2 = ref({
             },
     }
   },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
+  yAxis: [
     {
-      name: '正常數',
-      type: 'line',
-      //stack: 'Total',
-      data: [150, 232, 201, 154, 190, 330, 322],
-      //areaStyle: {color: 'rgba(0, 165, 114, 0.6)'},
-      lineStyle: {color: 'rgba(0, 165, 114, 0.6)'},
-      itemStyle: {color: 'rgba(0, 165, 114, 0.6)'},
-      //itemStyle: {normal: {areaStyle: {type: 'default'}}},
-      label: {
-        show: true,
-        position: 'top',
-      }
+      type: 'value',
+      name: '個數',
+      show: true,
     },
+  ],
+    //type: 'value'
+  
+  series: [
     {
       name: '異常數',
       type: 'line',
       //stack: 'Total',
-      data: [21, 16, 12, 20, 10, 15, 17],
-      //areaStyle: {color: 'rgba(241, 69, 69, 0.6)'},
+      data: [0, 0, 0, 0, 0, 0, 0],
+      //areaStyle: {color: 'rgba(0, 165, 114, 0.6)'},
       lineStyle: {color: 'rgba(241, 69, 69, 0.6)'},
       itemStyle: {color: 'rgba(241, 69, 69, 0.6)'},
+      //itemStyle: {normal: {areaStyle: {type: 'default'}}},
       label: {
         show: true,
         position: 'top',
-      }
-      //itemStyle: {normal: {areaStyle: {type: 'default'}}},
+      },
+      yAxisIndex: 0,
     },
     {
       name: '不告警數',
       type: 'line',
       //stack: 'Total',
-      data: [122, 102, 125, 110, 125, 120, 128],
-      //areaStyle: {color: 'rgba(247, 207, 7, 0.8)'},
+      data: [0, 0, 0, 0, 0, 0, 0],
+      //areaStyle: {color: 'rgba(241, 69, 69, 0.6)'},
       lineStyle: {color: 'rgba(247, 207, 7, 0.8)'},
       itemStyle: {color: 'rgba(247, 207, 7, 0.8)'},
       label: {
         show: true,
         position: 'top',
-      }
+      },
+      yAxisIndex: 0,
+      //itemStyle: {normal: {areaStyle: {type: 'default'}}},
+    },
+    {
+      name: '正常數',
+      type: 'line',
+      //stack: 'Total',
+      data: [0, 0, 0, 0, 0, 0, 0],
+      //areaStyle: {color: 'rgba(247, 207, 7, 0.8)'},
+      lineStyle: {color: 'rgba(0, 165, 114, 0.6)'},
+      itemStyle: {color: 'rgba(0, 165, 114, 0.6)'},
+      label: {
+        show: true,
+        position: 'top',
+      },
+      yAxisIndex: 0,
       //areaStyle: {},
     },
-    
   ],
 });
 
 const searchForm = reactive<{
   filter: string | undefined;
+  timeInterval: number | undefined;
+  sameTimeLast: boolean | undefined;
   results: PageDomesticCircuitDto | undefined;
 }>({
-  filter: undefined,
+  filter: '',
+  timeInterval: 30,
+  sameTimeLast: false,
   results: undefined,
 });
-/*
-search();
-function search(page?: number, size?: number) {
-  let data = {};
-  let grid = [];
-  grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'danger'
-      });
-      grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'normal'
-      });
-      grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'danger'
-      });
-      grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'normal'
-      });
-      grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'danger'
-      });
-      grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'warning'
-      });
-      grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'normal'
-      });
-      grid.push({
-        equipmentId: "TWAREN-TP-ASR9006-01",
-        deviceName: "TWAREN-TP-ASR9006-01",
-        equipmentInterface: "Te0/0/0/5.3",
-        equipmentDescript: "INT#20_TWAREN-TP-ASR9006-01\nto CHI-4801l 10GE (2671UD80004)",
-        checkDate: "2024-06-24 10:00:00",
-        equipmentNetworkTrafficIn: "0.342(Mpbs)",
-        equipmentNetworkTrafficOut: "0.421(Mpbs)",
-        note: "N/A",
-        warnLevel: 'warning'
-      });
-      data.sizeOptions= [10, 20, 50, 100]
-      data.totalElements = 8
-      data.totalPages = 30
-      data.number = 15
-      data.size = 10
-      data.first= true
-      data.last= false
-      data.numberOfElements = 1
-      data.empty = false
-      searchForm.results = data
-      searchForm.results.grid = grid
-}
-*/
 import { DomesticCircuitControllerApi } from '@/ts/openapi'
 
 import type {PageDomesticCircuitDto} from '@/ts/openapi'
@@ -666,13 +574,105 @@ search();
 
 function search(page?: number, size?: number) {
   const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
-  api.findAllRes1(searchForm, page, size).then(({ data }) => {
+  api.findAllRes(searchForm, page, size).then(({ data }) => {
       console.log(data)
       searchForm.results =  data.domesticCircuitDto;
     }).finally(() => {
      
     });
+    console.log(option0.value.series[0].data[0].value)
+    option0.value.series[0].data[0].value = 30
+    console.log(option0.value.series[0].data[0].value)
 }
+
+
+const eventCntForm = reactive<{
+  criticalCnt: Number | undefined;
+  minorCnt: Number | undefined;
+  normalCnt: Number | undefined;
+  totalCnt: Number | undefined;
+}>({
+  criticalCnt: 0,
+  minorCnt: 0,
+  normalCnt: 0,
+  totalCnt: 0
+});
+//console.log(historyOption.value.legend.data[0]);
+//historyOption.value.legend.data[0] = '2222' 
+
+
+console.log(currentOption.value.series[0].data[0])
+currentOption.value.series[0].data[0].value = 100
+function findEventCnt() {
+  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
+  api.findEventCnt(searchForm).then(({ data }) => {
+      console.log(data)
+      eventCntForm.criticalCnt = data.criticalCnt
+      eventCntForm.minorCnt= data.minorCnt
+      eventCntForm.normalCnt = data.normalCnt
+      eventCntForm.totalCnt = data.criticalCnt + data.minorCnt + data.normalCnt
+      currentOption.value.series[0].data[0].value = eventCntForm.criticalCnt
+      currentOption.value.series[0].data[1].value = eventCntForm.minorCnt
+      currentOption.value.series[0].data[2].value = eventCntForm.normalCnt
+    }).finally(() => {
+      
+    });
+}
+
+findEventCnt();
+
+function findEventCntHistory() {
+  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
+  api.findEventCntHistory(searchForm).then(({ data }) => {
+      console.log(data)
+      historyOption.value.xAxis.data = data.checkTime
+      historyOption.value.series[0].data = data.criticalCnt
+      historyOption.value.series[1].data = data.minorCnt
+      historyOption.value.series[2].data = data.normalCnt
+    }).finally(() => {
+      
+    });
+}
+
+findEventCntHistory();
+
+watch(
+  () => searchForm.sameTimeLast,
+  () => {
+    if (searchForm.sameTimeLast == true) {
+      console.log('check')
+      historyOption.value.legend.data.push('同期數')
+      historyOption.value.legend.selected = {'不告警數': false, '正常數': false}
+      historyOption.value.series.push({
+      name: '同期數',
+      type: 'line',
+      //stack: 'Total',
+      data: [0, 0, 0, 0, 0, 0, 0],
+      //areaStyle: {color: 'rgba(0, 165, 114, 0.6)'},
+      lineStyle: {color: 'rgba(241, 69, 69, 0.6)'},
+      itemStyle: {color: 'rgba(241, 69, 69, 0.6)'},
+      //itemStyle: {normal: {areaStyle: {type: 'default'}}},
+      label: {
+        show: true,
+        position: 'top',
+      },
+      yAxisIndex: 0,
+    })
+    } else {
+      console.log('uncheck')
+      historyOption.value.legend.data.splice(3, 1);
+      historyOption.value.legend.selected = {'不告警數': true, '正常數': true}
+      historyOption.value.series.splice(3, 1);
+    }
+    
+  }
+);
+watch(
+  historyOption,
+  () => {
+    console.log(historyOption.value.legend.selected)
+  }
+);
 
 </script>
 

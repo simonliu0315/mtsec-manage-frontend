@@ -65,7 +65,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="/contact-data/OperationTeam" class="nav-link">
                   <i class="nav-icon bi bi-circle"></i>
                   <p>維運團隊</p>
                 </a>
@@ -434,13 +434,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="./monitoring-item-management/data-management/InventoryManage" class="nav-link">
+                    <a href="/monitoring-item-management/data-management/InventoryManage" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>資產管理</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="./monitoring-item-management/data-management/OperationTeamManagement" class="nav-link">
+                    <a href="/monitoring-item-management/data-management/OperationTeamManagement" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>維運團隊管理</p>
                     </a>

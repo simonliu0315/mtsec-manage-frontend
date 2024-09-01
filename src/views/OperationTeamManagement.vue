@@ -1,15 +1,3 @@
-<style scoped lang="scss">
-.chart-10 {
-  height: 10vh;
-}
-.chart-20 {
-  height: 20vh;
-}
-.chart-30 {
-  height: 30vh;
-}
-</style>
-
 <template>
   <!--begin::App Main-->
   <main class="app-main">
@@ -22,14 +10,14 @@
           <div class="col-sm-6">
             <h3 class="mb-0">
               <img src="@/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
-                height="30px" style="opacity: 0.8" />{{
-                  $t('dashboard.TWARENMonitoringBashboard') }}
+                height="30px" style="opacity: 0.8" />營運團隊管理
             </h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-end">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">國內骨幹流量狀況</li>
+              <li class="breadcrumb-item">資料管理</li>
+              <li class="breadcrumb-item active" aria-current="page">營運團隊管理</li>
             </ol>
           </div>
         </div>
@@ -39,9 +27,9 @@
           <div class="col-md-12">
             <div class="card mb-4">
               <div class="card-header">
-                <h3 class="card-title">資產管理</h3>
+                <h3 class="card-title"></h3>
                 <div class="card-tools">
-                  <button type="button" class="btn btn-tool"> 
+                  <button type="button" class="btn btn-tool" @click="search()"> 
                     <i class="bi bi-arrow-clockwise"></i> 
                   </button>                      
                   <div class="btn-group"> 
@@ -66,10 +54,11 @@
                               type="search"
                               :placeholder="$t('pagination.search')"
                               aria-label="Search"
+                              v-model="searchForm.filter"
                             />
                             <button
                               class="bi bi-search input-group-text"
-                              type="submit"></button
+                              @click="search()"></button
                             >
                       </div>
                 </div>
@@ -81,22 +70,39 @@
                     <thead>
                       <tr>
                         <th style="width: 10px">#</th>
-                        <th style="width: 530px">設備</th>
-                        <th style="width: 130px">介面</th>
-                        <th style="width: 1030px">介面描述</th>
-                        <th style="width: 530px">檢查時間</th>
+                        <th style="width: 100px">姓名</th>
+                        <th style="width: 150px">公司</th>
+                        <th style="width: 100px">職稱/負責項目</th>
+                        <th style="width: 100px"><div>手機電話</div><div>(註:以、區隔)</div></th>
+                        <th style="width: 100px"><div>電話號碼</div><div>(註:以、區隔)</div></th>
+                        <th style="width: 100px"><div>傳真號碼</div><div>(註:以、區隔)</div></th>
+                        <th style="width: 100px">電子郵件</th>
                         <th>備註</th>
-                      </tr>
+                        <th>操作
+                            <span class="fs-4 mb-3"><a href="#" @click="showEditModal()" >
+                              <i class="bi bi-plus"></i></a>
+                            </span>
+                        </th>
+                      </tr> 
                     </thead>
                     <tbody>
                       <tr class="align-middle" v-for="(item, key) in searchForm.results?.content" :key="key">
                         <td> 
                           {{ (searchForm.results.number * searchForm.results.size) + key + 1 }}</td>
-                        <td>{{ item.deviceName }}</td>
-                        <td>{{ item.deviceInterface }}</td>
-                        <td>{{ item.interfaceDescription }}</td>
-                        <td>{{ item.checkTime }}</td>
-                        <td>{{ item.remarks }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.company }}</td>
+                        <td>{{ item.jobTitle }}</td>
+                        <td>{{ item.mobile }}</td>
+                        <td>{{ item.telephone }}</td>
+                        <td>{{ item.fax }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.remark }}</td>
+                        <td>
+                          <div class="fs-4 mb-3">
+                            <a href="#" @click="showEditModal(item.id)" ><i class="bi bi-pencil"></i></a>
+                            <a href="#" @click="remove(item.id)"><i class="bi bi-trash"></i></a>
+                          </div>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -133,6 +139,65 @@
       <!--end::Container-->
     </div>
     <!--end::App Content-->
+    <!--start::Modal -->
+    <Modal title="新增" ref="thisModal">
+      <template #body>
+        <div>
+            <div class="form-group row">
+                <label for="deviceName" class="col-sm-3 col-form-label">姓名</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="deviceName" placeholder="姓名" v-model="saveForm.name">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="deviceInterface" class="col-sm-3 col-form-label">公司</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="deviceInterface" placeholder="公司" v-model="saveForm.company">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="interfaceDescription" class="col-sm-3 col-form-label">職稱/負責項目</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="interfaceDescription" placeholder="職稱/負責項目" v-model="saveForm.jobTitle">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="interfaceDescription" class="col-sm-3 col-form-label">手機電話</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="interfaceDescription" placeholder="手機電話" v-model="saveForm.mobile">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="interfaceDescription" class="col-sm-3 col-form-label">電話號碼</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="interfaceDescription" placeholder="電話號碼" v-model="saveForm.telephone">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="interfaceDescription" class="col-sm-3 col-form-label">傳真號碼</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="interfaceDescription" placeholder="傳真號碼" v-model="saveForm.fax">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="interfaceDescription" class="col-sm-3 col-form-label">電子郵件</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="interfaceDescription" placeholder="電子郵件" v-model="saveForm.email">
+              </div>
+            </div>
+            <div class="form-group row">
+                <label for="interfaceDescription" class="col-sm-3 col-form-label">備註</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="interfaceDescription" placeholder="備註" v-model="saveForm.remark">
+              </div>
+            </div>
+        </div>
+      </template>
+      <template #footer>
+        <button class="btn btn-primary" @click="edit(saveForm.id)">確認</button>
+      </template>
+    </Modal>
+    <!--end:: Modal-->
   </main>
   <!--end::App Main-->
 </template>
@@ -144,28 +209,112 @@ const searchForm = reactive<{
   filter: string | undefined;
   results: PageInventoryDto | undefined;
 }>({
-  filter: undefined,
+  filter: '',
   results: undefined,
 });
 
-import { InventoryControllerApi } from '@/ts/openapi'
+import { OperationTeamControllerApi } from '@/ts/openapi'
 
 import type {PageInventoryDto} from '@/ts/openapi'
 
 import { useEInvAxios } from "@/ts/container/axios-container";
-//import axios from 'axios';
 const axios = useEInvAxios();
 
+import Modal from "@/components/modal.vue";
+
+let thisModal= ref(null);
 search();
 
 function search(page?: number, size?: number) {
-  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
-  api.findAllRes(searchForm, page, size).then(({ data }) => {
+  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+  api.findAllOperationTeam(searchForm, page, size).then(({ data }) => {
       console.log(data)
-      searchForm.results =  data.inventoryDto;
+      searchForm.results =  data.operationTeamDto;
     }).finally(() => {
      
     });
+}
+
+const saveForm = reactive<{
+  id: string | undefined;
+  name: string | undefined;
+  company: string | undefined;
+  jobTitle: string | undefined;
+  mobile: string | undefined;
+  telephone: string | undefined;
+  fax: string | undefined;
+  email: string | undefined;
+  remark: string | undefined;
+}>({
+  id: undefined,
+  name: undefined,
+  company: undefined,
+  jobTitle: undefined,
+  mobile: undefined,
+  telephone: undefined,
+  fax: undefined,
+  email: undefined,
+  remark: undefined,
+});
+
+function add() {
+  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)  
+  api.updateOperationTeam(saveForm).then(({ data }) => {}).finally(() => {
+    thisModal.value.hide();
+    search();
+  });
+  
+}
+
+function edit(id) {
+  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+  api.updateOperationTeam(saveForm).then(({ data }) => {}).finally(() => {
+    thisModal.value.hide();
+    search();
+  });
+  
+}
+
+function remove(id) {
+  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+  saveForm.id = id
+  api.deleteOneOperationTeam(saveForm).then(({ data }) => {}).finally(() => {
+    thisModal.value.hide();
+    search();
+  });
+}
+function showEditModal(id) {
+    if (id == undefined) {
+      saveForm.id = undefined
+      saveForm.name = undefined
+      saveForm.company = undefined
+      saveForm.jobTitle = undefined
+    
+      saveForm.mobile = undefined
+      saveForm.telephone = undefined
+      saveForm.fax = undefined
+      saveForm.email = undefined
+      saveForm.remark = undefined
+    } else {
+      const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+      saveForm.id = id
+      api.findOneOperationTeam(saveForm).then(({ data }) => {
+        console.log(data)
+        saveForm.id = data.operationTeamDto?.id
+        saveForm.name = data.operationTeamDto?.name
+        saveForm.company = data.operationTeamDto?.company
+        saveForm.jobTitle = data.operationTeamDto?.jobTitle
+        saveForm.mobile = data.operationTeamDto?.mobile
+        saveForm.telephone = data.operationTeamDto?.telephone
+        saveForm.fax = data.operationTeamDto?.fax
+        saveForm.email = data.operationTeamDto?.email
+        saveForm.remark = data.operationTeamDto?.remark
+      }).finally(() => {
+     
+      });
+    }
+    
+    thisModal.value.show();
 }
 
 </script>

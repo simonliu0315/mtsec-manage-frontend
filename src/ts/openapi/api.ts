@@ -22,6 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 import type {RequestArgs } from './base';
 
+
 /**
  * 
  * @export
@@ -155,19 +156,73 @@ export interface DeleteOneReq {
      * @type {string}
      * @memberof DeleteOneReq
      */
-    'deviceName'?: string;
+    'name'?: string;
     /**
      * 
      * @type {string}
      * @memberof DeleteOneReq
      */
-    'deviceInterface'?: string;
+    'company'?: string;
     /**
      * 
      * @type {string}
      * @memberof DeleteOneReq
      */
-    'interfaceDescription'?: string;
+    'jobTitle'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'mobile'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'telephone'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'fax'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'remark'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'createdBy'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteOneReq
+     */
+    'updatedBy'?: string;
 }
 /**
  * 素材管理查詢任務Request目的: 依據素材名稱、素材描述，進行素材查詢，顯示於素材清單列表 (應含未刪除註記、最新版次、最新版本日期)列表包含項次(rowCount)、素材名稱(name)、素材描述(description)、最新版次(maxResVerCreated)、最新版本日期(maxResVer)
@@ -190,10 +245,98 @@ export interface FindAllReq {
 export interface FindAllRes {
     /**
      * 
-     * @type {PageInventoryDto}
+     * @type {PageOperationTeamDto}
      * @memberof FindAllRes
      */
-    'inventoryDto'?: PageInventoryDto;
+    'operationTeamDto'?: PageOperationTeamDto;
+}
+/**
+ * 
+ * @export
+ * @interface FindEventHistoryReq
+ */
+export interface FindEventHistoryReq {
+    /**
+     * request參數1: 輸入之關鍵字
+     * @type {string}
+     * @memberof FindEventHistoryReq
+     */
+    'filter'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindEventHistoryReq
+     */
+    'timeInterval'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface FindEventHistoryRes
+ */
+export interface FindEventHistoryRes {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof FindEventHistoryRes
+     */
+    'checkTime'?: Array<string>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof FindEventHistoryRes
+     */
+    'normalCnt'?: Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof FindEventHistoryRes
+     */
+    'minorCnt'?: Array<number>;
+    /**
+     * 
+     * @type {Array<number>}
+     * @memberof FindEventHistoryRes
+     */
+    'criticalCnt'?: Array<number>;
+}
+/**
+ * 
+ * @export
+ * @interface FindEventReq
+ */
+export interface FindEventReq {
+    /**
+     * request參數1: 輸入之關鍵字
+     * @type {string}
+     * @memberof FindEventReq
+     */
+    'filter'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface FindEventRes
+ */
+export interface FindEventRes {
+    /**
+     * 
+     * @type {number}
+     * @memberof FindEventRes
+     */
+    'normalCnt'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindEventRes
+     */
+    'minorCnt'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof FindEventRes
+     */
+    'criticalCnt'?: number;
 }
 /**
  * 
@@ -216,112 +359,166 @@ export interface FindOneReq {
 export interface FindOneRes {
     /**
      * 
-     * @type {InventoryDto}
+     * @type {OperationTeamDto}
      * @memberof FindOneRes
      */
-    'inventoryDto'?: InventoryDto;
+    'operationTeamDto'?: OperationTeamDto;
 }
 /**
  * 
  * @export
- * @interface InventoryDto
+ * @interface OperationTeamDto
  */
-export interface InventoryDto {
+export interface OperationTeamDto {
     /**
      * 
      * @type {string}
-     * @memberof InventoryDto
+     * @memberof OperationTeamDto
      */
     'id'?: string;
     /**
      * 
      * @type {string}
-     * @memberof InventoryDto
+     * @memberof OperationTeamDto
      */
-    'deviceName'?: string;
+    'name'?: string;
     /**
      * 
      * @type {string}
-     * @memberof InventoryDto
+     * @memberof OperationTeamDto
      */
-    'deviceInterface'?: string;
+    'company'?: string;
     /**
      * 
      * @type {string}
-     * @memberof InventoryDto
+     * @memberof OperationTeamDto
      */
-    'interfaceDescription'?: string;
+    'jobTitle'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'mobile'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'telephone'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'fax'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'remark'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'createdBy'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof OperationTeamDto
+     */
+    'updatedBy'?: string;
 }
 /**
  * response參數1: 查詢結果清單 包含項次(rowCount)、素材名稱(name)、素材描述(description)、最新版次(maxResVerCreated)、最新版本日期(maxResVer)
  * @export
- * @interface PageInventoryDto
+ * @interface PageOperationTeamDto
  */
-export interface PageInventoryDto {
+export interface PageOperationTeamDto {
     /**
      * 
      * @type {number}
-     * @memberof PageInventoryDto
+     * @memberof PageOperationTeamDto
      */
     'totalElements'?: number;
     /**
      * 
      * @type {number}
-     * @memberof PageInventoryDto
+     * @memberof PageOperationTeamDto
      */
     'totalPages'?: number;
     /**
      * 
-     * @type {number}
-     * @memberof PageInventoryDto
-     */
-    'size'?: number;
-    /**
-     * 
-     * @type {Array<InventoryDto>}
-     * @memberof PageInventoryDto
-     */
-    'content'?: Array<InventoryDto>;
-    /**
-     * 
-     * @type {number}
-     * @memberof PageInventoryDto
-     */
-    'number'?: number;
-    /**
-     * 
-     * @type {Array<SortObject>}
-     * @memberof PageInventoryDto
-     */
-    'sort'?: Array<SortObject>;
-    /**
-     * 
      * @type {boolean}
-     * @memberof PageInventoryDto
+     * @memberof PageOperationTeamDto
      */
     'first'?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof PageInventoryDto
+     * @memberof PageOperationTeamDto
      */
     'last'?: boolean;
     /**
      * 
      * @type {number}
-     * @memberof PageInventoryDto
+     * @memberof PageOperationTeamDto
+     */
+    'size'?: number;
+    /**
+     * 
+     * @type {Array<OperationTeamDto>}
+     * @memberof PageOperationTeamDto
+     */
+    'content'?: Array<OperationTeamDto>;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageOperationTeamDto
+     */
+    'number'?: number;
+    /**
+     * 
+     * @type {Array<SortObject>}
+     * @memberof PageOperationTeamDto
+     */
+    'sort'?: Array<SortObject>;
+    /**
+     * 
+     * @type {number}
+     * @memberof PageOperationTeamDto
      */
     'numberOfElements'?: number;
     /**
      * 
      * @type {PageableObject}
-     * @memberof PageInventoryDto
+     * @memberof PageOperationTeamDto
      */
     'pageable'?: PageableObject;
     /**
      * 
      * @type {boolean}
-     * @memberof PageInventoryDto
+     * @memberof PageOperationTeamDto
      */
     'empty'?: boolean;
 }
@@ -354,13 +551,13 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'pageSize'?: number;
+    'pageNumber'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
-    'pageNumber'?: number;
+    'pageSize'?: number;
     /**
      * 
      * @type {boolean}
@@ -422,19 +619,73 @@ export interface UpdateOneReq {
      * @type {string}
      * @memberof UpdateOneReq
      */
-    'deviceName'?: string;
+    'name'?: string;
     /**
      * 
      * @type {string}
      * @memberof UpdateOneReq
      */
-    'deviceInterface'?: string;
+    'company'?: string;
     /**
      * 
      * @type {string}
      * @memberof UpdateOneReq
      */
-    'interfaceDescription'?: string;
+    'jobTitle'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'mobile'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'telephone'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'fax'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'remark'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'createdAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'createdBy'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'updatedAt'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateOneReq
+     */
+    'updatedBy'?: string;
 }
 
 /**
@@ -449,9 +700,9 @@ export const AlertReceiverApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes2: async (alertVM: AlertVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findAllRes1: async (alertVM: AlertVM, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'alertVM' is not null or undefined
-            assertParamExists('findAllRes2', 'alertVM', alertVM)
+            assertParamExists('findAllRes1', 'alertVM', alertVM)
             const localVarPath = `/alerting/receiver`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -483,7 +734,7 @@ export const AlertReceiverApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes2_1: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findAllRes2: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/alerting/getalert`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -589,8 +840,8 @@ export const AlertReceiverApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findAllRes2(alertVM: AlertVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes2(alertVM, options);
+        async findAllRes1(alertVM: AlertVM, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes1(alertVM, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -598,8 +849,8 @@ export const AlertReceiverApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findAllRes2_1(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes2_1(options);
+        async findAllRes2(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes2(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -638,16 +889,16 @@ export const AlertReceiverApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes2(alertVM: AlertVM, options?: any): AxiosPromise<object> {
-            return localVarFp.findAllRes2(alertVM, options).then((request) => request(axios, basePath));
+        findAllRes1(alertVM: AlertVM, options?: any): AxiosPromise<object> {
+            return localVarFp.findAllRes1(alertVM, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes2_1(options?: any): AxiosPromise<string> {
-            return localVarFp.findAllRes2_1(options).then((request) => request(axios, basePath));
+        findAllRes2(options?: any): AxiosPromise<string> {
+            return localVarFp.findAllRes2(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -684,8 +935,8 @@ export class AlertReceiverApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AlertReceiverApi
      */
-    public findAllRes2(alertVM: AlertVM, options?: AxiosRequestConfig) {
-        return AlertReceiverApiFp(this.configuration).findAllRes2(alertVM, options).then((request) => request(this.axios, this.basePath));
+    public findAllRes1(alertVM: AlertVM, options?: AxiosRequestConfig) {
+        return AlertReceiverApiFp(this.configuration).findAllRes1(alertVM, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -694,8 +945,8 @@ export class AlertReceiverApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AlertReceiverApi
      */
-    public findAllRes2_1(options?: AxiosRequestConfig) {
-        return AlertReceiverApiFp(this.configuration).findAllRes2_1(options).then((request) => request(this.axios, this.basePath));
+    public findAllRes2(options?: AxiosRequestConfig) {
+        return AlertReceiverApiFp(this.configuration).findAllRes2(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -738,9 +989,9 @@ export const DomesticCircuitControllerApiAxiosParamCreator = function (configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes1: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findAllRes: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'findAllReq' is not null or undefined
-            assertParamExists('findAllRes1', 'findAllReq', findAllReq)
+            assertParamExists('findAllRes', 'findAllReq', findAllReq)
             const localVarPath = `/domesticCircuit/find/all`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -779,6 +1030,78 @@ export const DomesticCircuitControllerApiAxiosParamCreator = function (configura
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindEventReq} findEventReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findEventCnt: async (findEventReq: FindEventReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findEventReq' is not null or undefined
+            assertParamExists('findEventCnt', 'findEventReq', findEventReq)
+            const localVarPath = `/domesticCircuit/find/eventCnt`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findEventReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindEventHistoryReq} findEventHistoryReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findEventCntHistory: async (findEventHistoryReq: FindEventHistoryReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findEventHistoryReq' is not null or undefined
+            assertParamExists('findEventCntHistory', 'findEventHistoryReq', findEventHistoryReq)
+            const localVarPath = `/domesticCircuit/find/eventCntHistory`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findEventHistoryReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -799,8 +1122,30 @@ export const DomesticCircuitControllerApiFp = function(configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findAllRes1(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes1(findAllReq, page, size, sort, options);
+        async findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes(findAllReq, page, size, sort, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindEventReq} findEventReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async findEventCnt(findEventReq: FindEventReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindEventRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findEventCnt(findEventReq, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindEventHistoryReq} findEventHistoryReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async findEventCntHistory(findEventHistoryReq: FindEventHistoryReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindEventHistoryRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findEventCntHistory(findEventHistoryReq, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -823,8 +1168,28 @@ export const DomesticCircuitControllerApiFactory = function (configuration?: Con
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes1(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
-            return localVarFp.findAllRes1(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
+        findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
+            return localVarFp.findAllRes(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindEventReq} findEventReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findEventCnt(findEventReq: FindEventReq, options?: any): AxiosPromise<FindEventRes> {
+            return localVarFp.findEventCnt(findEventReq, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindEventHistoryReq} findEventHistoryReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findEventCntHistory(findEventHistoryReq: FindEventHistoryReq, options?: any): AxiosPromise<FindEventHistoryRes> {
+            return localVarFp.findEventCntHistory(findEventHistoryReq, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -847,8 +1212,32 @@ export class DomesticCircuitControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DomesticCircuitControllerApi
      */
-    public findAllRes1(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
-        return DomesticCircuitControllerApiFp(this.configuration).findAllRes1(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    public findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
+        return DomesticCircuitControllerApiFp(this.configuration).findAllRes(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 取得素材清單
+     * @param {FindEventReq} findEventReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DomesticCircuitControllerApi
+     */
+    public findEventCnt(findEventReq: FindEventReq, options?: AxiosRequestConfig) {
+        return DomesticCircuitControllerApiFp(this.configuration).findEventCnt(findEventReq, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 取得素材清單
+     * @param {FindEventHistoryReq} findEventHistoryReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DomesticCircuitControllerApi
+     */
+    public findEventCntHistory(findEventHistoryReq: FindEventHistoryReq, options?: AxiosRequestConfig) {
+        return DomesticCircuitControllerApiFp(this.configuration).findEventCntHistory(findEventHistoryReq, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -866,9 +1255,9 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOne: async (deleteOneReq: DeleteOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteOneInventory: async (deleteOneReq: DeleteOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'deleteOneReq' is not null or undefined
-            assertParamExists('deleteOne', 'deleteOneReq', deleteOneReq)
+            assertParamExists('deleteOneInventory', 'deleteOneReq', deleteOneReq)
             const localVarPath = `/inventory/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -905,9 +1294,9 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findAllInventory: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'findAllReq' is not null or undefined
-            assertParamExists('findAllRes', 'findAllReq', findAllReq)
+            assertParamExists('findAllInventory', 'findAllReq', findAllReq)
             const localVarPath = `/inventory/find/all`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -953,9 +1342,9 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findOneRes: async (findOneReq: FindOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findOneInventory: async (findOneReq: FindOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'findOneReq' is not null or undefined
-            assertParamExists('findOneRes', 'findOneReq', findOneReq)
+            assertParamExists('findOneInventory', 'findOneReq', findOneReq)
             const localVarPath = `/inventory/find/one`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -989,9 +1378,9 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update: async (updateOneReq: UpdateOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateInventory: async (updateOneReq: UpdateOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'updateOneReq' is not null or undefined
-            assertParamExists('update', 'updateOneReq', updateOneReq)
+            assertParamExists('updateInventory', 'updateOneReq', updateOneReq)
             const localVarPath = `/inventory/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1035,8 +1424,8 @@ export const InventoryControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteOne(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOne(deleteOneReq, options);
+        async deleteOneInventory(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOneInventory(deleteOneReq, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1049,8 +1438,8 @@ export const InventoryControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllRes(findAllReq, page, size, sort, options);
+        async findAllInventory(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllInventory(findAllReq, page, size, sort, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1060,8 +1449,8 @@ export const InventoryControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findOneRes(findOneReq: FindOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.findOneRes(findOneReq, options);
+        async findOneInventory(findOneReq: FindOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findOneInventory(findOneReq, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1071,8 +1460,8 @@ export const InventoryControllerApiFp = function(configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async update(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.update(updateOneReq, options);
+        async updateInventory(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateInventory(updateOneReq, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1092,8 +1481,8 @@ export const InventoryControllerApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOne(deleteOneReq: DeleteOneReq, options?: any): AxiosPromise<FindOneRes> {
-            return localVarFp.deleteOne(deleteOneReq, options).then((request) => request(axios, basePath));
+        deleteOneInventory(deleteOneReq: DeleteOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.deleteOneInventory(deleteOneReq, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1105,8 +1494,8 @@ export const InventoryControllerApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
-            return localVarFp.findAllRes(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
+        findAllInventory(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
+            return localVarFp.findAllInventory(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1115,8 +1504,8 @@ export const InventoryControllerApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findOneRes(findOneReq: FindOneReq, options?: any): AxiosPromise<FindOneRes> {
-            return localVarFp.findOneRes(findOneReq, options).then((request) => request(axios, basePath));
+        findOneInventory(findOneReq: FindOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.findOneInventory(findOneReq, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1125,8 +1514,8 @@ export const InventoryControllerApiFactory = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        update(updateOneReq: UpdateOneReq, options?: any): AxiosPromise<FindOneRes> {
-            return localVarFp.update(updateOneReq, options).then((request) => request(axios, basePath));
+        updateInventory(updateOneReq: UpdateOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.updateInventory(updateOneReq, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1146,8 +1535,8 @@ export class InventoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof InventoryControllerApi
      */
-    public deleteOne(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).deleteOne(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
+    public deleteOneInventory(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).deleteOneInventory(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1161,8 +1550,8 @@ export class InventoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof InventoryControllerApi
      */
-    public findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).findAllRes(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    public findAllInventory(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).findAllInventory(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1173,8 +1562,8 @@ export class InventoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof InventoryControllerApi
      */
-    public findOneRes(findOneReq: FindOneReq, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).findOneRes(findOneReq, options).then((request) => request(this.axios, this.basePath));
+    public findOneInventory(findOneReq: FindOneReq, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).findOneInventory(findOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1185,8 +1574,8 @@ export class InventoryControllerApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof InventoryControllerApi
      */
-    public update(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).update(updateOneReq, options).then((request) => request(this.axios, this.basePath));
+    public updateInventory(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig) {
+        return InventoryControllerApiFp(this.configuration).updateInventory(updateOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1295,4 +1684,343 @@ export class ODS302WApi extends BaseAPI {
         return ODS302WApiFp(this.configuration).greeting(name, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
+
+/**
+ * OperationTeamControllerApi - axios parameter creator
+ * @export
+ */
+export const OperationTeamControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary 刪除資產
+         * @param {DeleteOneReq} deleteOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOneOperationTeam: async (deleteOneReq: DeleteOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'deleteOneReq' is not null or undefined
+            assertParamExists('deleteOneOperationTeam', 'deleteOneReq', deleteOneReq)
+            const localVarPath = `/operationTeam/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(deleteOneReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findAllOperationTeam: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findAllReq' is not null or undefined
+            assertParamExists('findAllOperationTeam', 'findAllReq', findAllReq)
+            const localVarPath = `/operationTeam/find/all`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findAllReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindOneReq} findOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findOneOperationTeam: async (findOneReq: FindOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findOneReq' is not null or undefined
+            assertParamExists('findOneOperationTeam', 'findOneReq', findOneReq)
+            const localVarPath = `/operationTeam/find/one`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findOneReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 修改資產
+         * @param {UpdateOneReq} updateOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOperationTeam: async (updateOneReq: UpdateOneReq, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'updateOneReq' is not null or undefined
+            assertParamExists('updateOperationTeam', 'updateOneReq', updateOneReq)
+            const localVarPath = `/operationTeam/update`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateOneReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * OperationTeamControllerApi - functional programming interface
+ * @export
+ */
+export const OperationTeamControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OperationTeamControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary 刪除資產
+         * @param {DeleteOneReq} deleteOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteOneOperationTeam(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOneOperationTeam(deleteOneReq, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async findAllOperationTeam(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindAllRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findAllOperationTeam(findAllReq, page, size, sort, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindOneReq} findOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async findOneOperationTeam(findOneReq: FindOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findOneOperationTeam(findOneReq, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @summary 修改資產
+         * @param {UpdateOneReq} updateOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateOperationTeam(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindOneRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateOperationTeam(updateOneReq, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * OperationTeamControllerApi - factory interface
+ * @export
+ */
+export const OperationTeamControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OperationTeamControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary 刪除資產
+         * @param {DeleteOneReq} deleteOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteOneOperationTeam(deleteOneReq: DeleteOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.deleteOneOperationTeam(deleteOneReq, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findAllOperationTeam(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindAllRes> {
+            return localVarFp.findAllOperationTeam(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 取得資產
+         * @param {FindOneReq} findOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findOneOperationTeam(findOneReq: FindOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.findOneOperationTeam(findOneReq, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 修改資產
+         * @param {UpdateOneReq} updateOneReq 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateOperationTeam(updateOneReq: UpdateOneReq, options?: any): AxiosPromise<FindOneRes> {
+            return localVarFp.updateOperationTeam(updateOneReq, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * OperationTeamControllerApi - object-oriented interface
+ * @export
+ * @class OperationTeamControllerApi
+ * @extends {BaseAPI}
+ */
+export class OperationTeamControllerApi extends BaseAPI {
+    /**
+     * 
+     * @summary 刪除資產
+     * @param {DeleteOneReq} deleteOneReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OperationTeamControllerApi
+     */
+    public deleteOneOperationTeam(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig) {
+        return OperationTeamControllerApiFp(this.configuration).deleteOneOperationTeam(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 取得資產
+     * @param {FindAllReq} findAllReq 
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OperationTeamControllerApi
+     */
+    public findAllOperationTeam(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
+        return OperationTeamControllerApiFp(this.configuration).findAllOperationTeam(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 取得資產
+     * @param {FindOneReq} findOneReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OperationTeamControllerApi
+     */
+    public findOneOperationTeam(findOneReq: FindOneReq, options?: AxiosRequestConfig) {
+        return OperationTeamControllerApiFp(this.configuration).findOneOperationTeam(findOneReq, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary 修改資產
+     * @param {UpdateOneReq} updateOneReq 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OperationTeamControllerApi
+     */
+    public updateOperationTeam(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig) {
+        return OperationTeamControllerApiFp(this.configuration).updateOperationTeam(updateOneReq, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
