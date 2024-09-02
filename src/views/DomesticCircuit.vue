@@ -22,8 +22,7 @@
           <div class="col-sm-6">
             <h3 class="mb-0">
               <img src="@/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
-                height="30px" style="opacity: 0.8" />{{
-                  $t('dashboard.TWARENMonitoringBashboard') }}
+                height="30px" style="opacity: 0.8" />國內骨幹流量狀況
             </h3>
           </div>
           <div class="col-sm-6">
@@ -363,9 +362,9 @@ const option0 = ref({
       startAngle: 0,
       endAngle: 360,
       data: [
-        { value: 17, name: '異常數', },
-        { value: 128, name: '不告警數' },
-        { value: 322, name: '正常數' },
+        { value: 0, name: '異常數', },
+        { value: 0, name: '不告警數' },
+        { value: 0, name: '正常數' },
       ],
       label: {
             show: true,
@@ -463,8 +462,8 @@ const historyOption = ref({
     trigger: 'axis'
   },
   legend: {
-    data: ['異常數', '不告警數', '正常數'],
-    //selected: { '同期異常': false }
+    data: ['異常數', '不告警數', '正常數', '同期異常數'],
+    selected: { '同期異常數': false }
   },
   grid: {
     left: '3%',
@@ -547,6 +546,21 @@ const historyOption = ref({
       yAxisIndex: 0,
       //areaStyle: {},
     },
+    {
+      name: '同期異常數',
+      type: 'line',
+      //stack: 'Total',
+      data: [0, 0, 0, 0, 0, 0, 0],
+      //areaStyle: {color: 'rgba(0, 165, 114, 0.6)'},
+      lineStyle: {color: 'rgba(241, 69, 69, 0.6)'},
+      itemStyle: {color: 'rgba(241, 69, 69, 0.6)'},
+      //itemStyle: {normal: {areaStyle: {type: 'default'}}},
+      label: {
+        show: true,
+        position: 'top',
+      },
+      yAxisIndex: 0,
+    }
   ],
 });
 
@@ -641,28 +655,19 @@ watch(
   () => {
     if (searchForm.sameTimeLast == true) {
       console.log('check')
-      historyOption.value.legend.data.push('同期數')
-      historyOption.value.legend.selected = {'不告警數': false, '正常數': false}
-      historyOption.value.series.push({
-      name: '同期數',
-      type: 'line',
-      //stack: 'Total',
-      data: [0, 0, 0, 0, 0, 0, 0],
-      //areaStyle: {color: 'rgba(0, 165, 114, 0.6)'},
-      lineStyle: {color: 'rgba(241, 69, 69, 0.6)'},
-      itemStyle: {color: 'rgba(241, 69, 69, 0.6)'},
-      //itemStyle: {normal: {areaStyle: {type: 'default'}}},
-      label: {
-        show: true,
-        position: 'top',
-      },
-      yAxisIndex: 0,
-    })
+      historyOption.value.legend.selected = {'異常數': true, '不告警數': false, '正常數': false, '同期異常數': true}
     } else {
       console.log('uncheck')
-      historyOption.value.legend.data.splice(3, 1);
-      historyOption.value.legend.selected = {'不告警數': true, '正常數': true}
-      historyOption.value.series.splice(3, 1);
+      console.log(historyOption.value.legend)
+      const index = historyOption.value.legend.data.indexOf('同期數');
+      console.log('index', index)
+      if (index >= 0) {
+        //historyOption.value.legend.data.value = ['異常數', '不告警數', '正常數']
+        console.log('historyOption.value.series')
+        console.log(historyOption.value.series)
+        //historyOption.value.series.splice(index, 1);
+      }
+      historyOption.value.legend.selected = {'異常數': true, '不告警數': true, '正常數': true, '同期異常數': false}
     }
     
   }
