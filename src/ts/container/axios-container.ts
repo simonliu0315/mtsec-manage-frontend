@@ -3,20 +3,23 @@ import { inject, provide } from "vue";
 import type { AxiosInstance, AxiosRequestConfig } from "axios";
 import Axios from "axios";
 
-import { useLoadingMasker } from "./loading-container";
+import { useLoadingMasker } from "@/ts/container/loading-container";
+import { useAlerter } from "@/ts/container/toast-container";
 
 const loadingMasker = useLoadingMasker();
+const alerter = useAlerter();
 
 export declare interface AxiosConfig {
   axiosRequestConfig?: AxiosRequestConfig;
   defaultDismissIn?: number;
 }
 
-export function createEInvAxios(axiosConfig: AxiosConfig): AxiosInstance {
+export function createNetworkAxios(axiosConfig: AxiosConfig): AxiosInstance {
   const axios = Axios.create(axiosConfig.axiosRequestConfig);
 
   axios.interceptors.request.use(
     function (config) {
+      console.log('loadingMasker show')
       loadingMasker.show();
       
       return config;
@@ -28,30 +31,37 @@ export function createEInvAxios(axiosConfig: AxiosConfig): AxiosInstance {
 
   axios.interceptors.response.use(
     (response) => {
+      console.log('loadingMasker hide')
+      console.log('response', response)
+      console.log("response header", response.headers["x-network-alert"])
       loadingMasker.hide();
-      const traceId = response.headers["x-inv-traceid"];
-      const code = response.headers["x-inv-alert"];
-      const params = eval(decodeURIComponent(response.headers["x-inv-params"]));
+      const traceId = response.headers["x-network-traceid"];
+      const code = response.headers["x-network-alert"];
+      //let code = "APP-APP001I-0001-E";
+      
+      const params = eval(decodeURIComponent(response.headers["x-network-params"]));
       if (code) {
+        alerter.alert(code, params, undefined, traceId);
         console.log(code, params, undefined, traceId);
       }
       return response;
     },
     (error) => {
-      const traceId = error.response?.headers?.["x-inv-traceid"];
-      const dismissIn =
-        error.config.headers["x-inv-dismiss-alert"] ??
+      const traceId = error.response?.headers?.["x-network-traceid"];
+      
+      const dismissIn = 
+        error.config.headers["x-network-dismiss-alert"] ??
         axiosConfig.defaultDismissIn ??
         import.meta.env.VITE_ALERTER_AUTO_DISMISS_IN;
       loadingMasker.hide();
       if (!error.response) {
-        console.log(
-          "INV-HTTP-0404-E",
+        alerter.alert(
+          "NETWORK-HTTP-0404-E",
           [escapeHtml(error.config.url)],
           dismissIn
         );
       } else {
-        console.log("INV-HTTP-0400-E", [], dismissIn, traceId);
+        alerter.alert("NETWORK-HTTP-0400-E", [], dismissIn, traceId);
       }
       return Promise.reject(error);
     }
@@ -61,21 +71,21 @@ export function createEInvAxios(axiosConfig: AxiosConfig): AxiosInstance {
 }
 
 export const dismissAlertConfig = {
-  headers: { "x-inv-dismiss-alert": 0 },
+  headers: { "x-netwotk-dismiss-alert": 0 },
 };
 
 export const dismissSecurityConfig = {
-  headers: { "x-inv-dismiss-security": true },
+  headers: { "x-netwotk-dismiss-security": true },
 };
 
-export const eInvAxiosKey: InjectionKey<AxiosInstance> = Symbol("$axios");
+export const networkAxiosKey: InjectionKey<AxiosInstance> = Symbol("$axios");
 
-export function setEInvAxios(axios: AxiosInstance): void {
-  provide(eInvAxiosKey, axios);
+export function setNetworkAxios(axios: AxiosInstance): void {
+  provide(networkAxiosKey, axios);
 }
 
-export function useEInvAxios(): AxiosInstance {
-  return inject(eInvAxiosKey);
+export function useNetworkAxios(): AxiosInstance {
+  return inject(networkAxiosKey);
 }
 
 function escapeHtml(message: string): string {

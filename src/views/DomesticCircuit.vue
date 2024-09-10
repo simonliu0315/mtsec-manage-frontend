@@ -328,6 +328,8 @@ import VChart, { THEME_KEY } from 'vue-echarts';
 import { ref, provide, reactive, onMounted, watch } from 'vue';
 import NetworkPagination from "@/components/network-pagination.vue"
 
+const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
+
 use([
   CanvasRenderer,
   PieChart,
@@ -575,19 +577,19 @@ const searchForm = reactive<{
   sameTimeLast: false,
   results: undefined,
 });
-import { DomesticCircuitControllerApi } from '@/ts/openapi'
+import { DomesticCircuitResourceApi } from '@/ts/openapi'
 
 import type {PageDomesticCircuitDto} from '@/ts/openapi'
 
-import { useEInvAxios } from "@/ts/container/axios-container";
+import { useNetworkAxios } from "@/ts/container/axios-container";
 //import axios from 'axios';
-const axios = useEInvAxios();
+const axios = useNetworkAxios();
 const pet = ref(null);
 
 search();
 
-function search(page?: number, size?: number) {
-  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
+function search(page: number = 0, size: number = 10) {
+  const api = new DomesticCircuitResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.findAllRes(searchForm, page, size).then(({ data }) => {
       console.log(data)
       searchForm.results =  data.domesticCircuitDto;
@@ -618,7 +620,7 @@ const eventCntForm = reactive<{
 console.log(currentOption.value.series[0].data[0])
 currentOption.value.series[0].data[0].value = 100
 function findEventCnt() {
-  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
+  const api = new DomesticCircuitResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.findEventCnt(searchForm).then(({ data }) => {
       console.log(data)
       eventCntForm.criticalCnt = data.criticalCnt
@@ -636,7 +638,7 @@ function findEventCnt() {
 findEventCnt();
 
 function findEventCntHistory() {
-  const api = new DomesticCircuitControllerApi(undefined,'http://localhost:8081', axios)
+  const api = new DomesticCircuitResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.findEventCntHistory(searchForm).then(({ data }) => {
       console.log(data)
       historyOption.value.xAxis.data = data.checkTime

@@ -19,6 +19,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.7.4",
+    "diff2html": "^3.4.48",
     "echarts": "^5.5.1",
     "pinia": "^2.1.7",
     "sortablejs": "^1.15.2",
@@ -27,7 +28,8 @@
     "vue": "^3.4.29",
     "vue-echarts": "^7.0.3",
     "vue-i18n": "^9.13.1",
-    "vue-router": "^4.3.3"
+    "vue-router": "^4.3.3",
+    "vue3-loading-overlay": "^0.0.0"
   },
   "devDependencies": {
     "@popperjs/core": "^2.11.5",

@@ -22,7 +22,6 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 import type {RequestArgs } from './base';
 
-
 /**
  * 
  * @export
@@ -253,6 +252,19 @@ export interface FindAllRes {
 /**
  * 
  * @export
+ * @interface FindDiffRes
+ */
+export interface FindDiffRes {
+    /**
+     * response參數1: 查詢結果清單 包含項次(rowCount)、素材名稱(name)、素材描述(description)、最新版次(maxResVerCreated)、最新版本日期(maxResVer)
+     * @type {string}
+     * @memberof FindDiffRes
+     */
+    'diffString'?: string;
+}
+/**
+ * 
+ * @export
  * @interface FindEventHistoryReq
  */
 export interface FindEventHistoryReq {
@@ -469,16 +481,10 @@ export interface PageOperationTeamDto {
     'totalPages'?: number;
     /**
      * 
-     * @type {boolean}
+     * @type {number}
      * @memberof PageOperationTeamDto
      */
-    'first'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PageOperationTeamDto
-     */
-    'last'?: boolean;
+    'numberOfElements'?: number;
     /**
      * 
      * @type {number}
@@ -505,10 +511,16 @@ export interface PageOperationTeamDto {
     'sort'?: Array<SortObject>;
     /**
      * 
-     * @type {number}
+     * @type {boolean}
      * @memberof PageOperationTeamDto
      */
-    'numberOfElements'?: number;
+    'first'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PageOperationTeamDto
+     */
+    'last'?: boolean;
     /**
      * 
      * @type {PageableObject}
@@ -551,13 +563,13 @@ export interface PageableObject {
      * @type {number}
      * @memberof PageableObject
      */
-    'pageNumber'?: number;
+    'pageSize'?: number;
     /**
      * 
      * @type {number}
      * @memberof PageableObject
      */
-    'pageSize'?: number;
+    'pageNumber'?: number;
     /**
      * 
      * @type {boolean}
@@ -974,10 +986,246 @@ export class AlertReceiverApi extends BaseAPI {
 
 
 /**
- * DomesticCircuitControllerApi - axios parameter creator
+ * CommonStatusApi - axios parameter creator
  * @export
  */
-export const DomesticCircuitControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const CommonStatusApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary 取得雙語資源檔
+         * @param {'en' | 'zh'} lang 語系
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        statusCodes: async (lang: 'en' | 'zh', options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'lang' is not null or undefined
+            assertParamExists('statusCodes', 'lang', lang)
+            const localVarPath = `/api/common/status/statusCodes/{lang}`
+                .replace(`{${"lang"}}`, encodeURIComponent(String(lang)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CommonStatusApi - functional programming interface
+ * @export
+ */
+export const CommonStatusApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CommonStatusApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary 取得雙語資源檔
+         * @param {'en' | 'zh'} lang 語系
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async statusCodes(lang: 'en' | 'zh', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: string; }>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.statusCodes(lang, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * CommonStatusApi - factory interface
+ * @export
+ */
+export const CommonStatusApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CommonStatusApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary 取得雙語資源檔
+         * @param {'en' | 'zh'} lang 語系
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        statusCodes(lang: 'en' | 'zh', options?: any): AxiosPromise<{ [key: string]: string; }> {
+            return localVarFp.statusCodes(lang, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CommonStatusApi - object-oriented interface
+ * @export
+ * @class CommonStatusApi
+ * @extends {BaseAPI}
+ */
+export class CommonStatusApi extends BaseAPI {
+    /**
+     * 
+     * @summary 取得雙語資源檔
+     * @param {'en' | 'zh'} lang 語系
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CommonStatusApi
+     */
+    public statusCodes(lang: 'en' | 'zh', options?: AxiosRequestConfig) {
+        return CommonStatusApiFp(this.configuration).statusCodes(lang, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * DeviceConfigurationResourceApi - axios parameter creator
+ * @export
+ */
+export const DeviceConfigurationResourceApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findDiff: async (findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'findAllReq' is not null or undefined
+            assertParamExists('findDiff', 'findAllReq', findAllReq)
+            const localVarPath = `/deviceConfiguration/find/diff`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (page !== undefined) {
+                localVarQueryParameter['page'] = page;
+            }
+
+            if (size !== undefined) {
+                localVarQueryParameter['size'] = size;
+            }
+
+            if (sort) {
+                localVarQueryParameter['sort'] = sort;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(findAllReq, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * DeviceConfigurationResourceApi - functional programming interface
+ * @export
+ */
+export const DeviceConfigurationResourceApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DeviceConfigurationResourceApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async findDiff(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FindDiffRes>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.findDiff(findAllReq, page, size, sort, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * DeviceConfigurationResourceApi - factory interface
+ * @export
+ */
+export const DeviceConfigurationResourceApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DeviceConfigurationResourceApiFp(configuration)
+    return {
+        /**
+         * 
+         * @summary 取得素材清單
+         * @param {FindAllReq} findAllReq 
+         * @param {number} [page] Zero-based page index (0..N)
+         * @param {number} [size] The size of the page to be returned
+         * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        findDiff(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: any): AxiosPromise<FindDiffRes> {
+            return localVarFp.findDiff(findAllReq, page, size, sort, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * DeviceConfigurationResourceApi - object-oriented interface
+ * @export
+ * @class DeviceConfigurationResourceApi
+ * @extends {BaseAPI}
+ */
+export class DeviceConfigurationResourceApi extends BaseAPI {
+    /**
+     * 
+     * @summary 取得素材清單
+     * @param {FindAllReq} findAllReq 
+     * @param {number} [page] Zero-based page index (0..N)
+     * @param {number} [size] The size of the page to be returned
+     * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DeviceConfigurationResourceApi
+     */
+    public findDiff(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
+        return DeviceConfigurationResourceApiFp(this.configuration).findDiff(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * DomesticCircuitResourceApi - axios parameter creator
+ * @export
+ */
+export const DomesticCircuitResourceApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -1106,11 +1354,11 @@ export const DomesticCircuitControllerApiAxiosParamCreator = function (configura
 };
 
 /**
- * DomesticCircuitControllerApi - functional programming interface
+ * DomesticCircuitResourceApi - functional programming interface
  * @export
  */
-export const DomesticCircuitControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = DomesticCircuitControllerApiAxiosParamCreator(configuration)
+export const DomesticCircuitResourceApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = DomesticCircuitResourceApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -1152,11 +1400,11 @@ export const DomesticCircuitControllerApiFp = function(configuration?: Configura
 };
 
 /**
- * DomesticCircuitControllerApi - factory interface
+ * DomesticCircuitResourceApi - factory interface
  * @export
  */
-export const DomesticCircuitControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = DomesticCircuitControllerApiFp(configuration)
+export const DomesticCircuitResourceApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = DomesticCircuitResourceApiFp(configuration)
     return {
         /**
          * 
@@ -1195,12 +1443,12 @@ export const DomesticCircuitControllerApiFactory = function (configuration?: Con
 };
 
 /**
- * DomesticCircuitControllerApi - object-oriented interface
+ * DomesticCircuitResourceApi - object-oriented interface
  * @export
- * @class DomesticCircuitControllerApi
+ * @class DomesticCircuitResourceApi
  * @extends {BaseAPI}
  */
-export class DomesticCircuitControllerApi extends BaseAPI {
+export class DomesticCircuitResourceApi extends BaseAPI {
     /**
      * 
      * @summary 取得素材清單
@@ -1210,10 +1458,10 @@ export class DomesticCircuitControllerApi extends BaseAPI {
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DomesticCircuitControllerApi
+     * @memberof DomesticCircuitResourceApi
      */
     public findAllRes(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
-        return DomesticCircuitControllerApiFp(this.configuration).findAllRes(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+        return DomesticCircuitResourceApiFp(this.configuration).findAllRes(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1222,10 +1470,10 @@ export class DomesticCircuitControllerApi extends BaseAPI {
      * @param {FindEventReq} findEventReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DomesticCircuitControllerApi
+     * @memberof DomesticCircuitResourceApi
      */
     public findEventCnt(findEventReq: FindEventReq, options?: AxiosRequestConfig) {
-        return DomesticCircuitControllerApiFp(this.configuration).findEventCnt(findEventReq, options).then((request) => request(this.axios, this.basePath));
+        return DomesticCircuitResourceApiFp(this.configuration).findEventCnt(findEventReq, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1234,19 +1482,19 @@ export class DomesticCircuitControllerApi extends BaseAPI {
      * @param {FindEventHistoryReq} findEventHistoryReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof DomesticCircuitControllerApi
+     * @memberof DomesticCircuitResourceApi
      */
     public findEventCntHistory(findEventHistoryReq: FindEventHistoryReq, options?: AxiosRequestConfig) {
-        return DomesticCircuitControllerApiFp(this.configuration).findEventCntHistory(findEventHistoryReq, options).then((request) => request(this.axios, this.basePath));
+        return DomesticCircuitResourceApiFp(this.configuration).findEventCntHistory(findEventHistoryReq, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
 
 /**
- * InventoryControllerApi - axios parameter creator
+ * InventoryResourceApi - axios parameter creator
  * @export
  */
-export const InventoryControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const InventoryResourceApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -1411,11 +1659,11 @@ export const InventoryControllerApiAxiosParamCreator = function (configuration?:
 };
 
 /**
- * InventoryControllerApi - functional programming interface
+ * InventoryResourceApi - functional programming interface
  * @export
  */
-export const InventoryControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = InventoryControllerApiAxiosParamCreator(configuration)
+export const InventoryResourceApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = InventoryResourceApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -1468,11 +1716,11 @@ export const InventoryControllerApiFp = function(configuration?: Configuration) 
 };
 
 /**
- * InventoryControllerApi - factory interface
+ * InventoryResourceApi - factory interface
  * @export
  */
-export const InventoryControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = InventoryControllerApiFp(configuration)
+export const InventoryResourceApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = InventoryResourceApiFp(configuration)
     return {
         /**
          * 
@@ -1521,22 +1769,22 @@ export const InventoryControllerApiFactory = function (configuration?: Configura
 };
 
 /**
- * InventoryControllerApi - object-oriented interface
+ * InventoryResourceApi - object-oriented interface
  * @export
- * @class InventoryControllerApi
+ * @class InventoryResourceApi
  * @extends {BaseAPI}
  */
-export class InventoryControllerApi extends BaseAPI {
+export class InventoryResourceApi extends BaseAPI {
     /**
      * 
      * @summary 刪除資產
      * @param {DeleteOneReq} deleteOneReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof InventoryControllerApi
+     * @memberof InventoryResourceApi
      */
     public deleteOneInventory(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).deleteOneInventory(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
+        return InventoryResourceApiFp(this.configuration).deleteOneInventory(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1548,10 +1796,10 @@ export class InventoryControllerApi extends BaseAPI {
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof InventoryControllerApi
+     * @memberof InventoryResourceApi
      */
     public findAllInventory(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).findAllInventory(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+        return InventoryResourceApiFp(this.configuration).findAllInventory(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1560,10 +1808,10 @@ export class InventoryControllerApi extends BaseAPI {
      * @param {FindOneReq} findOneReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof InventoryControllerApi
+     * @memberof InventoryResourceApi
      */
     public findOneInventory(findOneReq: FindOneReq, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).findOneInventory(findOneReq, options).then((request) => request(this.axios, this.basePath));
+        return InventoryResourceApiFp(this.configuration).findOneInventory(findOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1572,10 +1820,10 @@ export class InventoryControllerApi extends BaseAPI {
      * @param {UpdateOneReq} updateOneReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof InventoryControllerApi
+     * @memberof InventoryResourceApi
      */
     public updateInventory(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig) {
-        return InventoryControllerApiFp(this.configuration).updateInventory(updateOneReq, options).then((request) => request(this.axios, this.basePath));
+        return InventoryResourceApiFp(this.configuration).updateInventory(updateOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -1687,10 +1935,10 @@ export class ODS302WApi extends BaseAPI {
 
 
 /**
- * OperationTeamControllerApi - axios parameter creator
+ * OperationTeamResourceApi - axios parameter creator
  * @export
  */
-export const OperationTeamControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+export const OperationTeamResourceApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
@@ -1855,11 +2103,11 @@ export const OperationTeamControllerApiAxiosParamCreator = function (configurati
 };
 
 /**
- * OperationTeamControllerApi - functional programming interface
+ * OperationTeamResourceApi - functional programming interface
  * @export
  */
-export const OperationTeamControllerApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = OperationTeamControllerApiAxiosParamCreator(configuration)
+export const OperationTeamResourceApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = OperationTeamResourceApiAxiosParamCreator(configuration)
     return {
         /**
          * 
@@ -1912,11 +2160,11 @@ export const OperationTeamControllerApiFp = function(configuration?: Configurati
 };
 
 /**
- * OperationTeamControllerApi - factory interface
+ * OperationTeamResourceApi - factory interface
  * @export
  */
-export const OperationTeamControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = OperationTeamControllerApiFp(configuration)
+export const OperationTeamResourceApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = OperationTeamResourceApiFp(configuration)
     return {
         /**
          * 
@@ -1965,22 +2213,22 @@ export const OperationTeamControllerApiFactory = function (configuration?: Confi
 };
 
 /**
- * OperationTeamControllerApi - object-oriented interface
+ * OperationTeamResourceApi - object-oriented interface
  * @export
- * @class OperationTeamControllerApi
+ * @class OperationTeamResourceApi
  * @extends {BaseAPI}
  */
-export class OperationTeamControllerApi extends BaseAPI {
+export class OperationTeamResourceApi extends BaseAPI {
     /**
      * 
      * @summary 刪除資產
      * @param {DeleteOneReq} deleteOneReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof OperationTeamControllerApi
+     * @memberof OperationTeamResourceApi
      */
     public deleteOneOperationTeam(deleteOneReq: DeleteOneReq, options?: AxiosRequestConfig) {
-        return OperationTeamControllerApiFp(this.configuration).deleteOneOperationTeam(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
+        return OperationTeamResourceApiFp(this.configuration).deleteOneOperationTeam(deleteOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1992,10 +2240,10 @@ export class OperationTeamControllerApi extends BaseAPI {
      * @param {Array<string>} [sort] Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof OperationTeamControllerApi
+     * @memberof OperationTeamResourceApi
      */
     public findAllOperationTeam(findAllReq: FindAllReq, page?: number, size?: number, sort?: Array<string>, options?: AxiosRequestConfig) {
-        return OperationTeamControllerApiFp(this.configuration).findAllOperationTeam(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
+        return OperationTeamResourceApiFp(this.configuration).findAllOperationTeam(findAllReq, page, size, sort, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2004,10 +2252,10 @@ export class OperationTeamControllerApi extends BaseAPI {
      * @param {FindOneReq} findOneReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof OperationTeamControllerApi
+     * @memberof OperationTeamResourceApi
      */
     public findOneOperationTeam(findOneReq: FindOneReq, options?: AxiosRequestConfig) {
-        return OperationTeamControllerApiFp(this.configuration).findOneOperationTeam(findOneReq, options).then((request) => request(this.axios, this.basePath));
+        return OperationTeamResourceApiFp(this.configuration).findOneOperationTeam(findOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2016,10 +2264,10 @@ export class OperationTeamControllerApi extends BaseAPI {
      * @param {UpdateOneReq} updateOneReq 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof OperationTeamControllerApi
+     * @memberof OperationTeamResourceApi
      */
     public updateOperationTeam(updateOneReq: UpdateOneReq, options?: AxiosRequestConfig) {
-        return OperationTeamControllerApiFp(this.configuration).updateOperationTeam(updateOneReq, options).then((request) => request(this.axios, this.basePath));
+        return OperationTeamResourceApiFp(this.configuration).updateOperationTeam(updateOneReq, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

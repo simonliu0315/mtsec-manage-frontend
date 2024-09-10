@@ -12,9 +12,10 @@ import {
   NetworkPagination
 } from "@/components";
 
+import {i18n} from "@/i18n";
 
 
-import { eInvAxiosKey } from "@/ts/container/axios-container";
+import { networkAxiosKey } from "@/ts/container/axios-container";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
@@ -37,9 +38,11 @@ export declare interface EInvPluginConfig {
 
 const EInvPlugin: Plugin = {
   install: (app: App, options: EInvPluginConfig) => {
-    app.provide(eInvAxiosKey, options.axios);
+    app.provide(networkAxiosKey, options.axios);
     app
       .use(store)
+      .use(i18n)
+     // .use(createNetworkI18n(options.i18n.zh, options.i18n.en))
       .component("network-pagination", NetworkPagination)
       .component("font-awesome-icon", FontAwesomeIcon)
   },
@@ -48,10 +51,15 @@ const EInvPlugin: Plugin = {
 export default EInvPlugin;
 
 export {
-  createEInvAxios,
-  useEInvAxios,
+  NetworkApp
+} from "@/components";
+
+export {
+  createNetworkAxios,
+  useNetworkAxios,
   dismissAlertConfig,
   dismissSecurityConfig,
 } from "@/ts/container/axios-container";
 
+export { useAlerter } from "@/ts/container/toast-container";
 export { useLoadingMasker } from "@/ts/container/loading-container";

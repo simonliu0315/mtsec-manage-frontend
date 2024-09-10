@@ -19,50 +19,42 @@ const router = createRouter({
     {
       path: '/ResourceSoftware',
       name: 'ResourceSoftware',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/ResourceSoftware.vue')
     },
     {
       path: '/TopologyManage',
       name: 'TopologyManage',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/TopologyManage.vue')
     },
     {
       path: '/DomesticCircuit',  //國內骨幹流量狀況
       name: 'DomesticCircuit',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/DomesticCircuit.vue')
     },
     {
       path: '/monitoring-item-management/data-management/InventoryManage',  //資產管理
       name: 'InventoryManage',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/InventoryManage.vue')
     },
     {
       path: '/monitoring-item-management/data-management/OperationTeamManagement',  //維運團隊管理
       name: 'OperationTeamManagement',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/OperationTeamManagement.vue')
     },
     {
       path: '/contact-data/OperationTeam',  //維運團隊
       name: 'OperationTeam',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/OperationTeam.vue')
+    },
+    {
+      path: '/device-info/device-profile',  //設備資料設定檔
+      name: 'DeviceProfile',
+      component: () => import('../views/device-info/DeviceProfile.vue')
+    },
+    {
+      path: '/device-info/device-configuration',  //設備組態歷史備份紀錄
+      name: 'DeviceConfiguration',
+      component: () => import('../views/device-info/DeviceConfiguration.vue')
     },
   ]
 })

@@ -27,13 +27,15 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <!--begin::User Image-->
             <li class="header">
-                <a href="#" class="nav-link" @click="$i18n.locale = 'zh'">
+                <!--a href="#" class="nav-link" @click="$i18n.locale = 'zh'"-->
+                <a href="#" class="nav-link"  @click.prevent="changeLocale()">
                   <i class="bi bi-translate"></i>
                   中文
                 </a>
             </li>
             <li class="header">
-                <a href="#" class="nav-link" @click="$i18n.locale = 'en'">
+                <!--a href="#" class="nav-link" @click="$i18n.locale = 'en'"-->
+                <a href="#" class="nav-link"  @click.prevent="changeLocale()">
                   <i class="bi bi-alphabet-uppercase"></i>
                   英文
                 </a>
@@ -85,6 +87,17 @@
 </template>
 
 <script setup lang="ts">
+import { installStatusCodes } from "@/i18n";
+import { useI18n } from "vue-i18n";
+const { locale, t } = useI18n();
+
+const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
+installStatusCodes(VITE_NETWORK_API_URL);
+
+function changeLocale() {
+  locale.value = locale.value === "en" ? "zh" : "en";
+  localStorage.setItem("locale", locale.value);
+}
 /*
 import  PushMenu from '@/ts/adminlte'
 import { FullScreen } from '@/ts/adminlte'

@@ -9,7 +9,7 @@ import { createPinia } from 'pinia'
 import App from '@/App.vue'
 import router from '@/router'
 
-import { i18n } from '@/i18n' // 引入 I18n 套件
+import {i18n , installStatusCodes } from '@/i18n' // 引入 I18n 套件
 
 import VNetworkGraph from "v-network-graph"
 import "v-network-graph/lib/style.css"
@@ -21,23 +21,23 @@ import VueAwesomePaginatePlugin from "@/VueAwesomePaginatePlugin";
 
 
 import {
-    createEInvAxios
+    createNetworkAxios
   } from "@/ts/container/axios-container";
   
 document.body.classList.add('layout-fixed')
 document.body.classList.add('sidebar-expand-lg')
 document.body.classList.add('bg-body-tertiary')
 
-import EInvPortalPlugin from "@/entry";
+import NetworkPortalPlugin from "@/entry";
 
 const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
-app.use(EInvPortalPlugin, {
+app.use(NetworkPortalPlugin, {
     env: import.meta.env.MODE,
-    axios: createEInvAxios({  }),
+    axios: createNetworkAxios({  }),
     appName: import.meta.env.VITE_APP_NAME,
     appRoot: import.meta.env.BASE_URL,
     appHome: import.meta.env.VITE_APP_HOME,

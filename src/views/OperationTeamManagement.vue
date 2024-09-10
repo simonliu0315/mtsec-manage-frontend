@@ -213,20 +213,21 @@ const searchForm = reactive<{
   results: undefined,
 });
 
-import { OperationTeamControllerApi } from '@/ts/openapi'
+import { OperationTeamResourceApi } from '@/ts/openapi'
 
 import type {PageInventoryDto} from '@/ts/openapi'
 
-import { useEInvAxios } from "@/ts/container/axios-container";
-const axios = useEInvAxios();
+import { useNetworkAxios } from "@/ts/container/axios-container";
+const axios = useNetworkAxios();
+const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
 
 import Modal from "@/components/modal.vue";
 
 let thisModal= ref(null);
 search();
 
-function search(page?: number, size?: number) {
-  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+function search(page: number = 0, size: number = 10) {
+  const api = new OperationTeamResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.findAllOperationTeam(searchForm, page, size).then(({ data }) => {
       console.log(data)
       searchForm.results =  data.operationTeamDto;
@@ -258,7 +259,7 @@ const saveForm = reactive<{
 });
 
 function add() {
-  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)  
+  const api = new OperationTeamResourceApi(undefined, VITE_NETWORK_API_URL, axios)  
   api.updateOperationTeam(saveForm).then(({ data }) => {}).finally(() => {
     thisModal.value.hide();
     search();
@@ -267,7 +268,7 @@ function add() {
 }
 
 function edit(id) {
-  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+  const api = new OperationTeamResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.updateOperationTeam(saveForm).then(({ data }) => {}).finally(() => {
     thisModal.value.hide();
     search();
@@ -276,7 +277,7 @@ function edit(id) {
 }
 
 function remove(id) {
-  const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+  const api = new OperationTeamResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   saveForm.id = id
   api.deleteOneOperationTeam(saveForm).then(({ data }) => {}).finally(() => {
     thisModal.value.hide();
@@ -296,7 +297,7 @@ function showEditModal(id) {
       saveForm.email = undefined
       saveForm.remark = undefined
     } else {
-      const api = new OperationTeamControllerApi(undefined,'http://localhost:8081', axios)
+      const api = new OperationTeamResourceApi(undefined, VITE_NETWORK_API_URL, axios)
       saveForm.id = id
       api.findOneOperationTeam(saveForm).then(({ data }) => {
         console.log(data)

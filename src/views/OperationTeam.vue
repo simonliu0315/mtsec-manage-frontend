@@ -147,14 +147,15 @@ import { OperationTeamControllerApi } from '@/ts/openapi'
 
 import type {PageInventoryDto} from '@/ts/openapi'
 
-import { useEInvAxios } from "@/ts/container/axios-container";
+import { useNetworkAxios } from "@/ts/container/axios-container";
 //import axios from 'axios';
-const axios = useEInvAxios();
+const axios = useNetworkAxios();
+const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
 
 search();
 
-function search(page?: number, size?: number) {
-  const api = new OperationTeamControllerApi(searchForm,'http://localhost:8081', axios)
+function search(page: number = 0, size: number = 10) {
+  const api = new OperationTeamControllerApi(searchForm, VITE_NETWORK_API_URL, axios)
   api.findAllOperationTeam(searchForm, page, size).then(({ data }) => {
       console.log(data)
       searchForm.results =  data.operationTeamDto;

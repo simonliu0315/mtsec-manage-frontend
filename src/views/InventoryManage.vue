@@ -190,21 +190,22 @@ const searchForm = reactive<{
   results: undefined,
 });
 
-import { InventoryControllerApi } from '@/ts/openapi'
+import { InventoryResourceApi } from '@/ts/openapi'
 
 import type {PageInventoryDto} from '@/ts/openapi'
 
-import { useEInvAxios } from "@/ts/container/axios-container";
+import { useNetworkAxios } from "@/ts/container/axios-container";
 //import axios from 'axios';
-const axios = useEInvAxios();
+const axios = useNetworkAxios();
+const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
 
 import Modal from "@/components/modal.vue";
 
 let thisModal= ref(null);
 search();
 
-function search(page?: number, size?: number) {
-  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
+function search(page: number = 0, size: number = 10) {
+  const api = new InventoryResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.findAllInventory(searchForm, page, size).then(({ data }) => {
       console.log(data)
       searchForm.results =  data.inventoryDto;
@@ -226,7 +227,7 @@ const saveForm = reactive<{
 });
 
 function add() {
-  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)  
+  const api = new InventoryResourceApi(undefined, VITE_NETWORK_API_URL, axios)  
   api.updateInventory(saveForm).then(({ data }) => {}).finally(() => {
     thisModal.value.hide();
     search();
@@ -235,7 +236,7 @@ function add() {
 }
 
 function edit(id) {
-  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
+  const api = new InventoryResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.updateInventory(saveForm).then(({ data }) => {}).finally(() => {
     thisModal.value.hide();
     search();
@@ -244,7 +245,7 @@ function edit(id) {
 }
 
 function remove(id) {
-  const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
+  const api = new InventoryResourceApi(undefined, VITE_NETWORK_API_URL, axios)
   saveForm.id = id
   api.deleteOneInventory(saveForm).then(({ data }) => {}).finally(() => {
     thisModal.value.hide();
@@ -258,7 +259,7 @@ function showEditModal(id) {
       saveForm.deviceInterface = undefined
       saveForm.interfaceDescription = undefined
     } else {
-      const api = new InventoryControllerApi(undefined,'http://localhost:8081', axios)
+      const api = new InventoryResourceApi(undefined, VITE_NETWORK_API_URL, axios)
       saveForm.id = id
       api.findOneInventory(saveForm).then(({ data }) => {
         console.log(data)

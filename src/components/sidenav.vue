@@ -332,6 +332,24 @@
             <a href="#" class="nav-link">
               <i class="nav-icon bi bi-journal-richtext"></i>
               <p>
+                設備資料
+                <i class="nav-arrow bi bi-chevron-right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="/device-info/device-profile" class="nav-link">
+                  <i class="nav-icon bi bi-circle"></i>
+                  <p>設備資料設定檔</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon bi bi-journal-richtext"></i>
+              <p>
                 記錄查詢
                 <i class="nav-arrow bi bi-chevron-right"></i>
               </p>
@@ -517,11 +535,11 @@
                   </li>
                 </ul>
                 <li class="nav-item">
-                    <a href="/TopologyManage" class="nav-link">
-                      <i class="nav-icon bi bi-circle"></i>
+                  <a href="/TopologyManage" class="nav-link">
+                    <i class="nav-icon bi bi-circle"></i>
                       <p>網路流量拓樸圖管理</p>
-                    </a>
-                  </li>
+                  </a>
+                </li>
               </li>
             </ul>
           </li>

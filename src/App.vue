@@ -3,6 +3,7 @@
 </style>
 
 <template>
+  <network-app>
   <!--begin::App Wrapper-->
   <div class="app-wrapper">
     <Topbar />
@@ -12,6 +13,7 @@
     <Footer />
   </div>
   <!--end::App Wrapper-->
+  </network-app>
 </template>
 
 <script setup name="app" lang="ts">
@@ -19,6 +21,8 @@ import Topbar from '@/components/topbar.vue'
 import Sidenav from '@/components/sidenav.vue'
 import Footer from '@/components/footer.vue'
 import { ref, onMounted, onUnmounted } from 'vue'
+
+import NetworkApp from "@/components/network-app.vue";
 
 onMounted(() => {
   import('../src/ts/adminlte').then((m) => {
