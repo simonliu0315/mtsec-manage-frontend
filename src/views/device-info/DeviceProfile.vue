@@ -9,7 +9,7 @@
           <div class="row">
             <div class="col-sm-6">
               <h3 class="mb-0">
-                <img src="@/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
+                <img src="/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
                   height="30px" style="opacity: 0.8" />設備資料設定檔
               </h3>
             </div>
@@ -147,9 +147,9 @@
     results: undefined,
   });
   
-  import { OperationTeamResourceApi } from '@/ts/openapi'
+  import { OperationTeamMaintenanceApi } from 'mtsec-manage-client'
   
-  import type {PageInventoryDto} from '@/ts/openapi'
+  import type {PageInventoryDto} from 'mtsec-manage-client'
   
   import { useNetworkAxios } from "@/ts/container/axios-container";
   //import axios from 'axios';
@@ -159,8 +159,8 @@
   search();
   
   function search(page: number = 0, size: number = 10) {
-    const api = new OperationTeamResourceApi(searchForm, VITE_NETWORK_API_URL, axios)
-    api.findAllOperationTeam(searchForm, page, size).then(({ data }) => {
+    const api = new OperationTeamMaintenanceApi(searchForm, VITE_NETWORK_API_URL, axios)
+    api.findOperationTeamMaintenanceAllOperationTeam(searchForm, page, size).then(({ data }) => {
         console.log(data)
         searchForm.results =  data.operationTeamDto;
       }).finally(() => {

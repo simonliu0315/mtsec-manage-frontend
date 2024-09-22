@@ -17,7 +17,7 @@
           <div class="col-sm-6">
             <h3 class="mb-0">
               <img
-                src="@/assets/NCHCLogo.png"
+                src="/assets/NCHCLogo.png"
                 alt="NCHC Logo"
                 class="brand-image img-circle elevation-3"
                 width="30px"

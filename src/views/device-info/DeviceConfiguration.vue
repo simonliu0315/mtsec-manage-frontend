@@ -9,7 +9,7 @@
           <div class="row">
             <div class="col-sm-6">
               <h3 class="mb-0">
-                <img src="@/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
+                <img src="/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
                   height="30px" style="opacity: 0.8" />設備資料設定檔 - 設備組態
               </h3>
             </div>
@@ -146,9 +146,9 @@
     results: undefined,
   });
   
-  import { OperationTeamResourceApi, DeviceConfigurationResourceApi } from '@/ts/openapi'
+  import { OperationTeamMaintenanceApi, DeviceConfigurationApi } from 'mtsec-manage-client'
   
-  import type {PageInventoryDto} from '@/ts/openapi'
+  import type {PageInventoryDto} from 'mtsec-manage-client'
   
   import { useNetworkAxios } from "@/ts/container/axios-container";
   //import axios from 'axios';
@@ -158,9 +158,9 @@
   search();
   
   function search(page: number = 0, size: number = 10) {
-    const api = new OperationTeamResourceApi(searchForm, VITE_NETWORK_API_URL, axios)
+    const api = new OperationTeamMaintenanceApi(searchForm, VITE_NETWORK_API_URL, axios)
     console.log(page, size)
-    api.findAllOperationTeam(searchForm, page, size).then(({ data }) => {
+    api.findOperationTeamMaintenanceAllOperationTeam(searchForm, page, size).then(({ data }) => {
         console.log(data)
         searchForm.results =  data.operationTeamDto;
       }).finally(() => {
@@ -194,8 +194,8 @@ const configuration = { drawFileList: true, matching: 'lines' };
         outputFormat: 'side-by-side',
       });
   });
-  const api2 = new DeviceConfigurationResourceApi(diffForm, VITE_NETWORK_API_URL, axios)
-  api2.findDiff(searchForm, 0, 10).then(({ data }) => {
+  const api2 = new DeviceConfigurationApi(diffForm, VITE_NETWORK_API_URL, axios)
+  api2.findDeviceConfigurationDiff(searchForm, 0, 10).then(({ data }) => {
         console.log(data)
         diffForm.diffs = data.diffString
       }).finally(() => {

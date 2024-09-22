@@ -56,12 +56,12 @@ export function createNetworkAxios(axiosConfig: AxiosConfig): AxiosInstance {
       loadingMasker.hide();
       if (!error.response) {
         alerter.alert(
-          "NETWORK-HTTP-0404-E",
+          "NET-HTTP-0404-W",
           [escapeHtml(error.config.url)],
           dismissIn
         );
       } else {
-        alerter.alert("NETWORK-HTTP-0400-E", [], dismissIn, traceId);
+        alerter.alert("NET-HTTP-0400-W", [], dismissIn, traceId);
       }
       return Promise.reject(error);
     }

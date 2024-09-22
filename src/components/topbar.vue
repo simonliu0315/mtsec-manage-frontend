@@ -18,6 +18,7 @@
 
       <!--begin::End Navbar Links-->
       <ul class="navbar-nav ms-auto">
+
         <!--begin::User Menu Dropdown-->
         <li class="nav-item dropdown">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -52,6 +53,25 @@
         </li>
         <!--end::Fullscreen Toggle-->
 
+        <!--begin::Notifications Dropdown Menu-->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-bs-toggle="dropdown" href="#">
+          <i class="bi bi-bell-fill"></i>
+          <span class="navbar-badge badge text-bg-warning">15</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item" @click="notification()">
+            <i class="bi bi-envelope me-2"></i> 4 new messages
+            <span class="float-end text-secondary fs-7">3 mins</span>
+          </a>                    
+          <div class="dropdown-divider"></div>
+          <a href="#" class="dropdown-item dropdown-footer">
+            See All Notifications
+          </a>
+        </div>
+      </li>
+      <!--end::Notifications Dropdown Menu-->
         <!--begin::User Menu Dropdown-->
         <li class="nav-item dropdown user-menu">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
@@ -97,6 +117,13 @@ installStatusCodes(VITE_NETWORK_API_URL);
 function changeLocale() {
   locale.value = locale.value === "en" ? "zh" : "en";
   localStorage.setItem("locale", locale.value);
+}
+
+
+function notification() {
+    console.log("notification");
+    const audio = new Audio('/audio/6005.wav');
+          audio.play();
 }
 /*
 import  PushMenu from '@/ts/adminlte'

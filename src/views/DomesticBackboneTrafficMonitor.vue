@@ -13,7 +13,7 @@
           <div class="col-sm-6">
             <h3 class="mb-0">
               <img
-                src="@/assets/EduLogo.png"
+                src="/assets/EduLogo.png"
                 alt="NCHC Logo"
                 class="brand-image img-circle elevation-3"
                 width="30px"
@@ -178,7 +178,7 @@
                   <div class="p-1 flex-fill">
                     <img
                       id="mapclick"
-                      src="@/assets/eyesee_edu.png"
+                      src="/assets/eyesee_edu.png"
                       style="width: 100%; height: 100%"
                     />
                   </div>

@@ -13,7 +13,7 @@
           <div class="col-sm-6">
             <h3 class="mb-0">
               <img
-                src="@/assets/NCHCLogo.png"
+                src="/assets/NCHCLogo.png"
                 alt="NCHC Logo"
                 class="brand-image img-circle elevation-3"
                 width="30px"
@@ -180,7 +180,7 @@
                   <div class="p-1 flex-fill">
                     <img
                       id="mapclick"
-                      src="@/assets/eyesee_mtsec.png"
+                      src="/assets/eyesee_mtsec.png"
                       style="width: 100%; height: 100%"
                     />
                   </div>
@@ -321,18 +321,18 @@
                           class="icon bi bi-exclamation-circle-fill"
                           style="font-size: 20px; color: #dc3545"
                         ></i>
-                        <span class="btn-tool">15</span>
+                        <span class="btn-tool">{{ innerEventLogForm.criticalCnt }}</span>
                       </th>
                       <th style="text-align: center">
                         <i
                           class="icon bi bi-exclamation-triangle-fill"
                           style="font-size: 20px; color: #ffc107"
                         ></i>
-                        <span class="btn-tool">56</span>
+                        <span class="btn-tool">{{ innerEventLogForm.minorCnt }}</span>
                       </th>
                       <th style="text-align: center">
                         <i class="icon bi bi-check" style="font-size: 20px; color: #28a745"></i>
-                        <span class="btn-tool">30</span>
+                        <span class="btn-tool">{{ innerEventLogForm.normalCnt }}</span>
                       </th>
                     </tr>
                   </thead>
@@ -341,119 +341,41 @@
                   <table class="table table-hover text-nowrap">
                     <thead></thead>
                     <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i
-                            class="icon bi bi-exclamation-circle-fill"
-                            style="font-size: 20px; color: #dc3545"
-                          ></i>
+                      <tr v-for="(item, key) in innerEventLogForm.results?.content" :key="key">                        
+                        <td v-if="item.level == 'Critical'" style="text-align: center; vertical-align: middle; padding-left: 0.75rem">
+                          <i class="icon bi bi-exclamation-circle-fill" style="font-size: 20px; color: #dc3545"></i>
+                        </td>
+                        <td v-if="item.level == 'Minor'" style="text-align: center; vertical-align: middle; padding-left: 0.75rem">
+                          <i class="icon bi bi-exclamation-triangle-fill" style="font-size: 20px; color: #ffc107"></i>
+                        </td>
+                        <td v-if="item.level == 'Normal'" style="text-align: center; vertical-align: middle; padding-left: 0.75rem">
+                          <i class="icon icon bi bi-check" style="font-size: 20px; color: #28a745"></i>
                         </td>
                         <!--td style="background-color: rgba(241, 69, 69, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem"><i class="icon fas fa-exclamation-circle" style="color:#dc3545"></i><br/></td-->
                         <!--td style="background-color:#dc3545; text-align: center; vertical-align: middle;"><i class="icon fas fa-exclamation-circle" style="color:#fff"></i><br/></td-->
                         <td>
-                          事件編號 <span style="color: dodgerblue">1130101-004</span><br />
-                          類別 <span style="color: dodgerblue">Traffic </span>設備/單位
-                          <span style="color: dodgerblue">TWAREN-TN-ASR001-01</span><br />
+                          事件編號 <span style="color: dodgerblue">{{ item.id }}</span><br />
+                          類別 <span style="color: dodgerblue">{{ item.transactionType }}</span>設備/單位
+                          <span style="color: dodgerblue">{{ item.deviceId }}</span><br />
                           <div style="font-size: 14px">
                             描述
                             <span style="color: dodgerblue"
-                              >[to TWAREN-AC-AS002-01] in 0 Mbps, out 0Mbps</span
+                              >{{ item.description }}</span
                             >
                           </div>
                         </td>
                         <td style="font-size: 14px; float: right">
-                          2024/06/14 10:05:01<br />
-                          <div style="font-size: 14px; float: right">17hr 53min</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i
-                            class="icon bi bi-exclamation-circle-fill"
-                            style="font-size: 20px; color: #dc3545"
-                          ></i>
-                        </td>
-                        <!--td style="background-color: rgba(241, 69, 69, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem"><i class="icon fas fa-exclamation-circle" style="color:#dc3545"></i><br/></td-->
-                        <!--td style="background-color:#dc3545; text-align: center; vertical-align: middle;"><i class="icon fas fa-exclamation-circle" style="color:#fff"></i><br/></td-->
-                        <td>
-                          事件編號 <span style="color: dodgerblue">1130101-003</span><br />
-                          類別 <span style="color: dodgerblue">Traffic </span>設備/單位
-                          <span style="color: dodgerblue">TWAREN-TN-ASR001-02</span><br />
-                          <div style="font-size: 14px">
-                            描述
-                            <span style="color: dodgerblue"
-                              >[to TWAREN-AC-AS002-02] in 0 Mbps, out 0Mbps, in_high: 9000, in_low:
-                              1e-05, in_avg:0</span
-                            >
-                          </div>
-                        </td>
-                        <td style="font-size: 14px; float: right">
-                          2024/06/14 10:00:01<br />
-                          <div style="font-size: 14px; float: right">17hr 48min</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i
-                            class="icon bi bi-exclamation-triangle-fill"
-                            style="font-size: 20px; color: #ffc107"
-                          ></i>
-                        </td>
-                        <!--td style="background-color: rgba(247, 207, 7, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem"><i class="icon fas fa-exclamation-triangle" style="color:#ffc107"></i><br/></td-->
-                        <!--td style="background-color:#ffc107; text-align: center; vertical-align: middle;padding-left:-0.5 rem"><i class="icon fas fa-exclamation-triangle" style="color:#fff"></i><br/></td-->
-                        <td>
-                          事件編號 <span style="color: dodgerblue">1130101-002</span><br />
-                          類別 <span style="color: dodgerblue">InterfacesPort </span>設備/單位
-                          <span style="color: dodgerblue">TWAREN-TN-ASR001-02</span><br />
-                          <div style="font-size: 14px">
-                            描述
-                            <span style="color: dodgerblue"
-                              >Backbone Circuit Interface(Bundle-Ether2) Abnormal (to
-                              TWAREN-NIU-ASR9010-01)</span
-                            >
-                          </div>
-                        </td>
-                        <td style="font-size: 14px; float: right">
-                          2024/06/14 09:55:01<br />
-                          <div style="font-size: 14px; float: right">17hr 43min</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i
-                            class="icon bi bi-exclamation-circle-fill"
-                            style="font-size: 20px; color: #dc3545"
-                          ></i>
-                        </td>
-                        <!--td style="background-color: rgba(241, 69, 69, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem"><i class="icon fas fa-exclamation-circle" style="color:#dc3545"></i><br/></td-->
-                        <!--td style="background-color:#dc3545; text-align: center; vertical-align: middle;"><i class="icon fas fa-exclamation-circle" style="color:#fff"></i><br/></td-->
-                        <td>
-                          事件編號 <span style="color: dodgerblue">1130101-001</span><br />
-                          類別 <span style="color: dodgerblue">Traffic </span>設備/單位
-                          <span style="color: dodgerblue">TWAREN-TN-ASR001-01</span><br />
-                          <div style="font-size: 14px">
-                            描述
-                            <span style="color: dodgerblue"
-                              >[to TWAREN-AC-AS002-01] in 0 Mbps, out 0Mbps</span
-                            >
-                          </div>
-                        </td>
-                        <td style="font-size: 14px; float: right">
-                          2024/06/14 09:50:01<br />
-                          <div style="font-size: 14px; float: right">17hr 33min</div>
+                          <br />
+                          {{ $filters.formatDate(item.occurredAt) }}<br />
+                          <div style="font-size: 14px; float: right">{{ $filters.getRelativeTime(item.occurredAt) }}</div>
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
+                <div class="card-footer bg-light">
+                <network-pagination portal :data="innerEventLogForm.results" @page="findInnerEventLogNotClosed" />
+              </div>
               </div>
             </div>
           </div>
@@ -488,18 +410,18 @@
                           class="icon bi bi-exclamation-circle-fill"
                           style="font-size: 20px; color: #dc3545"
                         ></i
-                        ><span class="btn-tool">1</span>
+                        ><span class="btn-tool">{{ outterEventLogForm.criticalCnt }}</span>
                       </th>
                       <th style="text-align: center">
                         <i
                           class="icon bi bi-exclamation-triangle-fill"
                           style="font-size: 20px; color: #ffc107"
                         ></i
-                        ><span class="btn-tool">3</span>
+                        ><span class="btn-tool">{{ outterEventLogForm.minorCnt }}</span>
                       </th>
                       <th style="text-align: center">
                         <i class="icon bi bi-check" style="font-size: 20px; color: #28a745"></i
-                        ><span class="btn-tool">0</span>
+                        ><span class="btn-tool">{{ outterEventLogForm.normalCnt }}</span>
                       </th>
                     </tr>
                   </thead>
@@ -509,98 +431,30 @@
                   <table class="table table-hover text-nowrap">
                     <thead></thead>
                     <tbody>
-                      <tr>
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i
-                            class="icon bi bi-exclamation-triangle-fill"
-                            style="font-size: 20px; color: #ffc107"
-                          ></i>
+                      <tr v-for="(item, key) in outterEventLogForm.results?.content" :key="key">
+                        <td v-if="item.level == 'Critical'" style="text-align: center; vertical-align: middle; padding-left: 0.75rem">
+                          <i class="icon bi bi-exclamation-circle-fill" style="font-size: 20px; color: #dc3545"></i>
+                        </td>
+                        <td v-if="item.level == 'Minor'" style="text-align: center; vertical-align: middle; padding-left: 0.75rem">
+                          <i class="icon bi bi-exclamation-triangle-fill" style="font-size: 20px; color: #ffc107"></i>
+                        </td>
+                        <td v-if="item.level == 'Normal'" style="text-align: center; vertical-align: middle; padding-left: 0.75rem">
+                          <i class="icon icon bi bi-check" style="font-size: 20px; color: #28a745"></i>
                         </td>
                         <!--td style="background-color:#ffc107; text-align: center; vertical-align: middle;padding-left:-0.5 rem"><i class="icon fas fa-exclamation-triangle" style="color:#fff"></i><br/></td-->
                         <!--td style="background-color: rgba(247, 207, 7, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem;"><i class="icon fas fa-exclamation-triangle" style="color:#ffc107"></i><br/></td-->
                         <td>
-                          事件編號 <span style="color: dodgerblue">O1130104-001</span><br />
-                          類別 <span style="color: dodgerblue">Traffic </span>設備/單位
-                          <span style="color: dodgerblue">Big Data Platform</span><br />
+                          事件編號 <span style="color: dodgerblue">{{ item.id }}</span><br />
+                          類別 <span style="color: dodgerblue">{{ item.transactionType }}</span>設備/單位
+                          <span style="color: dodgerblue">{{ item.deviceId }}</span><br />
                           <div style="font-size: 14px">
                             描述
-                            <span style="color: dodgerblue">大數據資料平台連線Mail伺服器失敗</span>
+                            <span style="color: dodgerblue">{{ item.description }}</span>
                           </div>
                         </td>
                         <td style="font-size: 14px; float: right">
-                          2024/06/14 22:05:01<br />
-                          <div style="font-size: 14px; float: right">10hr 53min</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i
-                            class="icon bi bi-exclamation-circle-fill"
-                            style="font-size: 20px; color: #dc3545"
-                          ></i>
-                        </td>
-                        <!--td style="background-color:#dc3545; text-align: center; vertical-align: middle;"><i class="icon fas fa-exclamation-circle" style="color:#fff"></i><br/></td-->
-                        <!--td style="background-color: rgba(241, 69, 69, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem;"><i class="icon fas fa-exclamation-circle" style="color:#dc3545"></i><br/></td-->
-                        <td>
-                          事件編號 <span style="color: dodgerblue">O1130104-002</span><br />
-                          類別 <span style="color: dodgerblue">Traffic </span>設備/單位
-                          <span style="color: dodgerblue">Big Data Platform</span><br />
-                          <div style="font-size: 14px">
-                            描述 <span style="color: dodgerblue">大數據資料平台連線失敗</span>
-                          </div>
-                        </td>
-                        <td style="font-size: 14px; float: right">
-                          2024/06/14 22:05:01<br />
-                          <div style="font-size: 14px; float: right">10hr 53min</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i
-                            class="icon bi bi-exclamation-triangle-fill"
-                            style="font-size: 20px; color: #ffc107"
-                          ></i>
-                        </td>
-                        <!--td style="background-color: rgba(247, 207, 7, 0.6); text-align: center; vertical-align: middle;"><i class="icon fas fa-exclamation-triangle" style="color:#fff"></i><br/></td-->
-                        <!--td style="background-color: rgba(247, 207, 7, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem;"><i class="icon fas fa-exclamation-triangle" style="color:#ffc107"></i><br/></td-->
-                        <td>
-                          事件編號 <span style="color: dodgerblue">O1130104-003</span><br />
-                          類別 <span style="color: dodgerblue">Traffic </span>設備/單位
-                          <span style="color: dodgerblue">Mail Server</span><br />
-                          <div style="font-size: 14px">
-                            描述 <span style="color: dodgerblue">Ping Mail 伺服器失敗</span>
-                          </div>
-                        </td>
-                        <td style="font-size: 14px; float: right">
-                          2024/06/14 22:05:01<br />
-                          <div style="font-size: 14px; float: right">10hr 53min</div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <!--td style="background-color:#ffc107; text-align: center; vertical-align: middle;"><i class="icon fas fa-exclamation-triangle" style="color:#fff"></i><br/></td-->
-                        <!--td style="background-color: rgba(247, 207, 7, 0.6); text-align: center; vertical-align: middle;padding-left:-0.5 rem"><i class="icon fas fa-exclamation-triangle" style="color:#ffc107"></i><br/></td-->
-                        <td
-                          style="text-align: center; vertical-align: middle; padding-left: 0.75rem"
-                        >
-                          <i class="icon bi bi-check" style="font-size: 20px; color: #28a745"></i>
-                        </td>
-                        <td>
-                          事件編號 <span style="color: dodgerblue">O1130104-004</span><br />
-                          類別 <span style="color: dodgerblue">Traffic </span>設備/單位
-                          <span style="color: dodgerblue">Mail Server</span><br />
-                          <div style="font-size: 14px">
-                            描述 <span style="color: dodgerblue">Ping Mail 伺服器失敗 </span>
-                          </div>
-                        </td>
-                        <td style="font-size: 14px; float: right">
-                          2024/06/14 22:05:01<br />
-                          <div style="font-size: 14px; float: right">10hr 53min</div>
+                          {{ $filters.formatDate(item.occurredAt) }}<br />
+                          <div style="font-size: 14px; float: right">{{ $filters.getRelativeTime(item.occurredAt) }}</div>
                         </td>
                       </tr>
                     </tbody>
@@ -609,6 +463,9 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card-body -->
+              <div class="card-footer bg-light">
+                <network-pagination portal :data="outterEventLogForm.results" @page="findOutterEventLogNotClosed" />
+              </div>
             </div>
           </div>
         </div>
@@ -621,10 +478,78 @@
   <!--end::App Main-->
 </template>
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, reactive } from 'vue'
 //import { Sortable } from 'sortablejs-vue3'
 
 import Modal from "@/components/modal.vue";
+import NetworkPagination from "@/components/network-pagination.vue"
+
+import { DomesticDashboardApi } from 'mtsec-manage-client'
+
+import type { PageEventLog } from 'mtsec-manage-client'
+
+import { useNetworkAxios } from "@/ts/container/axios-container";
+const axios = useNetworkAxios();
+const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
+
+
+const innerEventLogForm = reactive<{
+  filter: string | undefined;
+  results: PageEventLog | undefined;
+  criticalCnt: number;
+  minorCnt: number;
+  normalCnt: number;
+}>({
+  filter: '',
+  results: undefined,
+  criticalCnt: 0,
+  minorCnt: 0,
+  normalCnt: 0
+});
+
+const outterEventLogForm = reactive<{
+  filter: string | undefined;
+  results: PageEventLog | undefined;
+  criticalCnt: number;
+  minorCnt: number;
+  normalCnt: number;
+}>({
+  filter: '',
+  results: undefined,
+  criticalCnt: 0,
+  minorCnt: 0,
+  normalCnt: 0
+});
+
+findInnerEventLogNotClosed()
+findOutterEventLogNotClosed()
+
+function findInnerEventLogNotClosed(page: number = 0, size: number = 10) {
+  const api = new DomesticDashboardApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findDomesticDashboardInnerEventLogNotClosed(innerEventLogForm, page, size).then(({ data }) => {
+      console.log(data)
+      innerEventLogForm.results = data.eventLog      
+      innerEventLogForm.criticalCnt = data.criticalCnt;
+      innerEventLogForm.minorCnt = data.minorCnt;
+      innerEventLogForm.normalCnt = data.normalCnt;
+    }).finally(() => {
+     
+    });
+}
+
+function findOutterEventLogNotClosed(page: number = 0, size: number = 10) {
+  const api = new DomesticDashboardApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findDomesticDashboardOutterEventLogNotClosed(outterEventLogForm, page, size).then(({ data }) => {
+      console.log(data)
+      outterEventLogForm.results = data.eventLog
+      outterEventLogForm.criticalCnt = data.criticalCnt;
+      outterEventLogForm.minorCnt = data.minorCnt;
+      outterEventLogForm.normalCnt = data.normalCnt;   
+    }).finally(() => {
+     
+    });
+}
+
 
 onMounted(() => {
   import('../../node_modules/sortablejs/Sortable').then((m) => {

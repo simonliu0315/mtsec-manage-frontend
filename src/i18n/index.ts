@@ -19,7 +19,7 @@ const i18n = new createI18n({
 export { i18n }
 
 import { dismissAlertConfig, useNetworkAxios } from "@/ts/container/axios-container";
-import { CommonStatusApi } from '@/ts/openapi'
+import { CommonStatusApi } from 'mtsec-manage-client'
 
 export function installStatusCodes(basePath?: string) {
   const eInvAxios = useNetworkAxios();

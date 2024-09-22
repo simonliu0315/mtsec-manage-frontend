@@ -7,6 +7,7 @@ const showToast = (
   traceId?: string
 ) => {
   if (code && dismissIn >= 0) {
+    console.log('*******', code)
     useToastStore().push({
       traceId,
       code,
@@ -24,6 +25,7 @@ const alertToast = (
   dismissIn = 5000
 ): void => {
   if (dismissIn >= 0) {
+    console.log('////////', code)
     useToastStore().push({
       code,
       params,

@@ -21,7 +21,7 @@
         <div class="row">
           <div class="col-sm-6">
             <h3 class="mb-0">
-              <img src="@/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
+              <img src="/assets/NCHCLogo.png" alt="NCHC Logo" class="brand-image img-circle elevation-3" width="30px"
                 height="30px" style="opacity: 0.8" />國內骨幹流量狀況
             </h3>
           </div>
@@ -577,9 +577,9 @@ const searchForm = reactive<{
   sameTimeLast: false,
   results: undefined,
 });
-import { DomesticCircuitResourceApi } from '@/ts/openapi'
+import { DomesticCircuitApi } from 'mtsec-manage-client'
 
-import type {PageDomesticCircuitDto} from '@/ts/openapi'
+import type {PageDomesticCircuitDto} from 'mtsec-manage-client'
 
 import { useNetworkAxios } from "@/ts/container/axios-container";
 //import axios from 'axios';
@@ -589,8 +589,8 @@ const pet = ref(null);
 search();
 
 function search(page: number = 0, size: number = 10) {
-  const api = new DomesticCircuitResourceApi(undefined, VITE_NETWORK_API_URL, axios)
-  api.findAllRes(searchForm, page, size).then(({ data }) => {
+  const api = new DomesticCircuitApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findDomesticCircuitAllRes(searchForm, page, size).then(({ data }) => {
       console.log(data)
       searchForm.results =  data.domesticCircuitDto;
     }).finally(() => {
@@ -620,8 +620,8 @@ const eventCntForm = reactive<{
 console.log(currentOption.value.series[0].data[0])
 currentOption.value.series[0].data[0].value = 100
 function findEventCnt() {
-  const api = new DomesticCircuitResourceApi(undefined, VITE_NETWORK_API_URL, axios)
-  api.findEventCnt(searchForm).then(({ data }) => {
+  const api = new DomesticCircuitApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findDomesticCircuitEventCnt(searchForm).then(({ data }) => {
       console.log(data)
       eventCntForm.criticalCnt = data.criticalCnt
       eventCntForm.minorCnt= data.minorCnt
@@ -638,8 +638,8 @@ function findEventCnt() {
 findEventCnt();
 
 function findEventCntHistory() {
-  const api = new DomesticCircuitResourceApi(undefined, VITE_NETWORK_API_URL, axios)
-  api.findEventCntHistory(searchForm).then(({ data }) => {
+  const api = new DomesticCircuitApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findDomesticCircuitEventCntHistory(searchForm).then(({ data }) => {
       console.log(data)
       historyOption.value.xAxis.data = data.checkTime
       historyOption.value.series[0].data = data.criticalCnt

@@ -36,9 +36,6 @@ defineExpose({ show: _show, hide: _hide });
         </div>
         <div class="modal-footer">
           <slot name="footer"></slot>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
         </div>
       </div>
     </div>
@@ -48,8 +45,8 @@ defineExpose({ show: _show, hide: _hide });
 .modal-dialog,
 .modal-content {
     /* 80% of window height */
-    height: 80%;
-    width: 80%;
+    height: 90%;
+    width: 120%;
 }
 
 .modal-body {
