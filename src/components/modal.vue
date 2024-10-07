@@ -46,7 +46,7 @@ defineExpose({ show: _show, hide: _hide });
 .modal-content {
     /* 80% of window height */
     height: 90%;
-    width: 120%;
+    width: 80%;
 }
 
 .modal-body {

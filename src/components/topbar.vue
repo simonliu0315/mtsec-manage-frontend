@@ -109,9 +109,13 @@
 <script setup lang="ts">
 import { installStatusCodes } from "@/i18n";
 import { useI18n } from "vue-i18n";
-const { locale, t } = useI18n();
 
+import {Howl, Howler} from 'howler';
+import { onMounted } from "vue";
+
+const { locale, t } = useI18n();
 const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
+navigator.mediaDevices.getUserMedia({ audio: true });
 installStatusCodes(VITE_NETWORK_API_URL);
 
 function changeLocale() {
@@ -125,6 +129,22 @@ function notification() {
     const audio = new Audio('/audio/6005.wav');
           audio.play();
 }
+
+
+var sound = new Howl({
+  src: ['/audio/6005.wav'],
+});
+const eventSource = new EventSource(VITE_NETWORK_API_URL + '/api/NotificationSender/stream');
+eventSource.onmessage = (event) => {
+      console.log(event.data);
+      if (event.data) {
+        sound.play();
+      }
+};
+onMounted(() => {
+  console.log('mount');
+  
+}) 
 /*
 import  PushMenu from '@/ts/adminlte'
 import { FullScreen } from '@/ts/adminlte'

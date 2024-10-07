@@ -283,8 +283,105 @@
                 <!-- /.card-header -->
                 <div class="card-body table-responsive p-0">
                   <table class="table table-hover text-nowrap">
-                    <thead></thead>
-                    <tbody></tbody>
+                    <thead>
+                      <tr>
+                        <th style="width: 140px">節點</th>
+                        <th style="width: 130px">區網中心</th>
+                        <th>總流量</th>
+					              <th>流入</th>
+					              <th>流出</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <td>教育部節點<i class="bi bi-chevron-double-down"></i></td>
+                        <td></td>
+					              <td>90 Gbps 
+                          <GaugeMeter :options="gaugeMeterOptions[0]" />
+					              </td>
+					              <td>30 Gbps
+					                <GaugeMeter :options="gaugeMeterOptions[1]" />
+					              </td>
+					              <td>60 Gbps
+					                <GaugeMeter :options="gaugeMeterOptions[2]" />
+					              </td>
+					            </tr>
+                      <tr class="collapse" id="collapseExample">
+                      <td colspan="5">
+                        <p style="">
+                          </p><table class="table" style="">
+						    <tbody>
+						    <tr>
+							  <td style="width: 130px"></td>
+							  <td style="width: 130px">臺北區網中心I</td>
+							  <td>60 Gbps 
+                  <GaugeMeter :options="gaugeMeterOptions[0]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[1]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[2]" />
+							  </td>
+							</tr>
+							<tr>
+							  <td style="width: 130px"></td>
+							  <td style="width: 130px">臺北區網中心II</td>
+							  <td>60 Gbps 
+                  <GaugeMeter :options="gaugeMeterOptions[0]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[1]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[2]" />
+							  </td>
+							</tr>
+							<tr>
+							  <td style="width: 130px"></td>
+							  <td style="width: 130px">桃園區網中心</td>
+							  <td>60 Gbps 
+                  <GaugeMeter :options="gaugeMeterOptions[2]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[1]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[0]" />
+							  </td>
+							</tr>
+							<tr>
+							  <td style="width: 130px"></td>
+							  <td style="width: 130px">宜蘭區網中心</td>
+							  <td>60 Gbps 
+                  <GaugeMeter :options="gaugeMeterOptions[0]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[2]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[1]" />
+							  </td>
+							</tr>
+							<tr>
+							  <td style="width: 130px"></td>
+							  <td style="width: 130px">台東區網中心</td>
+							  <td>60 Gbps 
+                  <GaugeMeter :options="gaugeMeterOptions[1]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[1]" />
+							  </td>
+							  <td>30 Gbps
+                  <GaugeMeter :options="gaugeMeterOptions[2]" />
+							  </td>
+							</tr>
+							</tbody>
+						  </table>
+                        <p style=""></p>
+                      </td>
+                    </tr>
+                    </tbody>
                   </table>
                 </div>
                 <!-- /.card-body -->
@@ -550,6 +647,33 @@ function findOutterEventLogNotClosed(page: number = 0, size: number = 10) {
     });
 }
 
+import { GaugeMeter } from "vue3-gauge-chart";
+import type GaugeMeterOptions from "vue3-gauge-chart";
+
+const gaugeMeterOptions: GaugeMeterOptions = [{
+  areaWidth: 80,
+  arcColors: ['rgb(57, 204, 204)', 'lightgray'],
+  arcDelimiters: [(100/400)*100],
+  centralLabel:  Math.round((100/400)*100) + '%',
+  rangeLabelFontSize: 10,
+  needleStartValue: (100/400)*100,
+}, {
+  areaWidth: 80,
+  arcColors: ['rgb(0, 192, 239)', 'lightgray'],
+  arcDelimiters: [(125/400)*100],
+  centralLabel:  Math.round((125/400)*100) + '%',
+  rangeLabelFontSize: 10,
+  needleStartValue: (125/400)*100,
+}, {
+  areaWidth: 80,
+  arcColors: [' rgb(147, 42, 182)', 'lightgray'],
+  arcDelimiters: [(150/400)*100],
+  centralLabel:  Math.round((150/400)*100) + '%',
+  rangeLabelFontSize: 10,
+  needleStartValue: (150/400)*100,
+}];
+
+
 
 onMounted(() => {
   import('../../node_modules/sortablejs/Sortable').then((m) => {
@@ -568,6 +692,7 @@ onMounted(() => {
       cardHeader.style.cursor = 'move'
     })
   })
+
 })
   
 

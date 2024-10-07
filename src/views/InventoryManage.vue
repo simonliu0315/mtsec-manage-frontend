@@ -106,7 +106,7 @@
                         <td>{{ item.deviceName }}</td>
                         <td>{{ item.deviceInterface }}</td>
                         <td>{{ item.interfaceDescription }}</td>
-                        <td>{{ item.checkTime }}</td>
+                        <td>{{ $filters.formatDate(item.updatedAt) }}</td>
                         <td>{{ item.remarks }}</td>
                         <td>
                           <div class="fs-4 mb-3">
@@ -165,9 +165,9 @@
                 </div>
               </div>
               <div class="form-group row mb-2">
-                <label for="deviceName" class="col-sm-2 col-form-label text-start fw-bold">管理IP</label>
+                <label for="manageIp" class="col-sm-2 col-form-label text-start fw-bold">管理IP</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="deviceName" placeholder="管理IP"
+                  <input type="text" class="form-control" id="manageIp" placeholder="管理IP"
                     v-model="saveForm.deviceIP">
                 </div>
               </div>
