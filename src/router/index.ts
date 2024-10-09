@@ -22,6 +22,11 @@ const router = createRouter({
       component: () => import('../views/ResourceSoftware.vue')
     },
     {
+      path: '/TopologyEditor',
+      name: 'TopologyEditor',
+      component: () => import('../views/TopologyEditor.vue')
+    },
+    {
       path: '/TopologyManage',
       name: 'TopologyManage',
       component: () => import('../views/TopologyManage.vue')

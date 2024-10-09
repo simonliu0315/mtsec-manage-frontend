@@ -1,11 +1,36 @@
 <style lang="scss">
 //@import '@/assets/scss/adminlte.scss';
+@keyframes reveal {
+  from {
+    transform: translateY(200%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+.back {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: block;
+    width: 3rem;
+    border-radius: 100px;
+    background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+    color: #fff;
+    line-height: 3rem;
+    text-align: center;
+    text-decoration: none;
+    animation: reveal linear;
+    animation-timeline: scroll();
+    animation-range: 0vh 10vh;
+  }
 </style>
 
 <template>
   <network-app>
   <!--begin::App Wrapper-->
   <div class="app-wrapper">
+    <a href="#" class="back">TOP</a>
     <Topbar />
     <Sidenav />
     <!--Sidenav path={path} mainPage={mainPage} page={page} /-->
