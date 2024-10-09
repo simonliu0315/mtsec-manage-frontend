@@ -519,6 +519,19 @@ function search() {
       Object.assign(layouts, JSON.parse(data.topologyDto?.layouts))
       Object.assign(edges, JSON.parse(data.topologyDto?.edges))
       console.log(edges)
+      const edgeIds = Object.keys(edges);
+      edgeIds.forEach(edgeId => {
+        const edge = edges[edgeId];
+        if (traffics[edge.source] == undefined) {
+          traffics[edge.source] = {}
+        }
+        traffics[edge.source][edge.target] = 0
+        if (traffics[edge.target] == undefined) {
+          traffics[edge.target] = {}
+        }
+        traffics[edge.target][edge.source] = 0
+      });
+      /*
       for (const edgeId in edges) {
         const edge = edges[edgeId];
         if (traffics[edge.source] == undefined) {
@@ -530,18 +543,12 @@ function search() {
           traffics[edge.target] = {}
         }
         traffics[edge.target][edge.source] = 0
-      }
+      }*/
     }).finally(() => {
      
     });
 }
-function replaceObjectProperties(originalObj, newObj) {
-  // 使用展開運算子複製原物件
-  const mergedObj = { ...originalObj };
-  // 將新物件的屬性覆蓋到複製物件上
-  Object.assign(mergedObj, newObj);
-  return mergedObj;
-}
+
 const saveForm = reactive<{
   id: string | undefined;
   name: string | undefined;
