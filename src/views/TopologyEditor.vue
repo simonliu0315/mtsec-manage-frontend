@@ -66,14 +66,14 @@
                   <div class="btn-toolbar m-3">
                     <div class="btn-group me-2">
                       <label>新增節點:</label>
-                      <button class="btn btn-primary" @click="addMasterRouterNode">
+                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addMasterRouterNode">
                         <img src="/icons/router.svg" width="20px" height="20px"/>主節點Router</button>
-                      <button class="btn btn-primary" @click="addRegionRouterNode">
+                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addRegionRouterNode">
                         <img src="/icons/router_purple.svg" width="20px" height="20px"/>區網Router</button>
-                      <button class="btn btn-primary" @click="addSwitchNode">
+                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addSwitchNode">
                         <img src="/icons/switch.svg" width="20px" height="20px">Switch</button>
-                      <button class="btn btn-primary" @click="addHubNode">Hub</button>
-                      <button class="btn btn-primary" @click="addBlackNode">ZZXZ</button>
+                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addHubNode">Hub</button>
+                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addBlackNode">ZZXZ</button>
                       <button class="btn btn-danger" :disabled="selectedNodes.length == 0"
                         @click="removeNode">移除</button>
                     </div>
@@ -93,6 +93,13 @@
                         <download />Download SVG
                       </button>
                     </div>
+                  </div>
+                  <div class="btn-toolbar m-3">
+                    <div class="btn-group me-2">
+                      <label>編輯節點:</label>
+                      <button class="btn btn-secondary" :disabled="!isNodeEditable()" @click="editNode">編輯</button>
+                    </div>
+                  
                   </div>
                   <!--div>
                     {{edges}}<br/>
@@ -159,14 +166,30 @@
           <div class="form-group row">
             <label for="deviceName" class="col-sm-3 col-form-label">節點名稱</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="deviceName" placeholder="節點名稱" v-model="saveNode.name">
+              <input type="text" class="form-control" id="deviceName" placeholder="節點名稱" v-model="saveNode.name" />
             </div>
           </div>
         </div>
       </template>
       <template #footer>
         <button class="btn btn-gray" @click="cancelNode()">取消</button>
-        <button class="btn btn-primary" @click="editNode(saveNode.type)">確認</button>
+        <button class="btn btn-primary" @click="newNode(saveNode.type)">確認</button>
+      </template>
+    </Modal>
+    <Modal title="編輯節點" ref="editNodeModal">
+      <template #body>
+        <div>
+          <div class="form-group row">
+            <label for="deviceName" class="col-sm-3 col-form-label">節點名稱</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="deviceName" placeholder="節點名稱" />
+            </div>
+          </div>
+        </div>
+      </template>
+      <template #footer>
+        <button class="btn btn-gray" @click="cancelNode()">取消</button>
+        <button class="btn btn-primary" @click="saveEditNode()">確認</button>
       </template>
     </Modal>
     <!--end:: Modal-->
@@ -320,15 +343,18 @@ const configs = reactive(defineConfigs({
 import Modal from "@/components/modal.vue";
 
 let nodeModal= ref(null);
+let editNodeModal = ref(null);
 
 const saveNode = reactive<{
   id: string | undefined;
   name: string | undefined;
   type: string | undefined;
+  node : Object | undefined;
 }>({
   id: undefined,
   name: undefined,
   type: undefined,
+  node: undefined,
 });
 
 
@@ -389,28 +415,32 @@ const selectedEdges = ref<string[]>([])
 function isEdgeAddable() {
   return selectedNodes.value.length == 2
 }
+function isNodeEditable() {
+  return selectedNodes.value.length == 1
+}
 function cancelNode() {
   nodeModal.value.hide();
 }
 function addMasterRouterNode() {
   console.log('addMasterRouterNode')
   nodeModal.value.show();
+  saveNode.name = ''
   saveNode.type = 'router'
   //addNode({ size: 20, icon: "router" , label: true })
 }
-function editNode(type) {
-  if (type == 'router') {
-    addNode({ size: 20, icon: "router" , label: true })
-  } else  if (type == 'regionRouter') {
-    addNode({ size: 14, icon: "router_purple" , label: true })
-  }
-  cancelNode()
-  saveNode.name = ''
-  saveNode.type = ''
+function newNode(type) {
+    if (type == 'router') {
+      addNode({ size: 20, icon: "router" , label: true })
+    } else  if (type == 'regionRouter') {
+      addNode({ size: 14, icon: "router_purple" , label: true })
+    }
+    cancelNode()
+    saveNode.type = ''
 }
 function addRegionRouterNode() {
   console.log('addRegionRouterNode')
   nodeModal.value.show();
+   saveNode.name = ''
   saveNode.type = 'regionRouter'
   //addNode({ size: 14, icon: "router_purple" , label: true })
 }
@@ -424,13 +454,13 @@ function addHubNode() {
   addNode({ size: 18, icon: "&#xF6EC" , label: true })
 }
 
-
 function addNormalEdge() {
   addEdge({ width: 3, color: "skyblue" })
 }
 
 function addNode(node: Omit<Node, "name">) {
-  nextNodeIndex = ref(Object.keys(nodes).length + 1)
+  //nextNodeIndex = ref(Object.keys(nodes).length + 1)
+  nextNodeIndex = ref(new Date().getTime())
   const nodeId = `node${nextNodeIndex.value}`
   //const name = `Node ${nextNodeIndex.value}`
   const name = saveNode.name
@@ -439,9 +469,16 @@ function addNode(node: Omit<Node, "name">) {
 
   nextNodeIndex.value++
   layouts.nodes[nodeId] = {x : 100, y: 100}
-
 }
 
+function editNode() {
+  editNodeModal.value.show();
+  saveNode.name = saveNode.node.name
+}
+function saveEditNode() {
+  saveNode.node.name = saveNode.name
+  editNodeModal.value.hide();
+}
 function removeNode() {
   for (const nodeId of selectedNodes.value) {
     delete nodes[nodeId]
@@ -450,7 +487,10 @@ function removeNode() {
 function addEdge(edge: Omit<Edge, "source" | "target">) {
   if (selectedNodes.value.length !== 2) return
 
-  nextEdgeIndex = ref(Object.keys(edges).length + 1)
+  
+  //nextEdgeIndex = ref(Object.keys(edges).length + 1)
+  nextEdgeIndex = ref(new Date().getTime())
+  console.log('nextEdgeIndex:', nextEdgeIndex)
   const [source, target] = selectedNodes.value
   const edgeId = `edge${nextEdgeIndex.value}`
   edges[edgeId] = { source, target, ...edge } as Edge
@@ -485,9 +525,14 @@ function showData() {
 }
 const eventHandlers: vNG.EventHandlers = {
   "node:click": ({ node }) => {
-    console.log('on click', nodes[node])
-    //check if it is parents. drill down the map
-
+    console.log('node on click', nodes[node])
+    //check if it is parents. drill down the map    
+    saveNode.node = nodes[node]
+  },
+  "edge:click": ({ edge }) => {
+    console.log('edge on click', edge)
+    //check if it is parents. drill down the map    
+   
   },
 }
 
