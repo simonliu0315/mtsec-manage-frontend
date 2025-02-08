@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "serve": "vite",
     "build2": "run-p type-check \"build-only {@}\" --",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
@@ -14,6 +15,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@bhplugin/vue3-datatable": "^2.0.0",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/vue-fontawesome": "^3.0.0-5",

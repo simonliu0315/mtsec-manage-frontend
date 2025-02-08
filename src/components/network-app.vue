@@ -23,7 +23,6 @@
         />
       </div>
     </div>
-    QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ
   </template>
   
   <script lang="ts" name="network-app" setup>

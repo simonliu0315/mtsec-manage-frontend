@@ -29,13 +29,22 @@
 <template>
   <network-app>
   <!--begin::App Wrapper-->
-  <div class="app-wrapper">
-    <a href="#" class="back">TOP</a>
-    <Topbar />
-    <Sidenav />
+  <!--登入頁版型-->
+  <div class="app-wrapper d-flex justify-content-center align-items-center" v-if="!useAuthStore().isAuthorized" style="background-image: url('src/assets/images/background.jpg');background-repeat: no-repeat;background-size: cover;background-attachment: fixed;background-position: top;">
+    <Topbar v-if="useAuthStore().isAuthorized"/>
+    <Sidenav v-if="useAuthStore().isAuthorized"/> 
     <!--Sidenav path={path} mainPage={mainPage} page={page} /-->
     <router-view />
-    <Footer />
+    <Footer v-if="useAuthStore().isAuthorized"/>
+  </div>
+  <!--一般頁版型-->
+  <div class="app-wrapper" v-else>
+    <a href="#" class="back">TOP</a>
+    <Topbar v-if="useAuthStore().isAuthorized"/>
+    <Sidenav v-if="useAuthStore().isAuthorized"/>
+    <!--Sidenav path={path} mainPage={mainPage} page={page} /-->
+    <router-view />
+    <Footer v-if="useAuthStore().isAuthorized"/>
   </div>
   <!--end::App Wrapper-->
   </network-app>
@@ -45,13 +54,25 @@
 import Topbar from '@/components/topbar.vue'
 import Sidenav from '@/components/sidenav.vue'
 import Footer from '@/components/footer.vue'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, reactive, onUnmounted, computed } from 'vue'
+
+import { useAuthStore } from "@/stores/auth";
 
 import NetworkApp from "@/components/network-app.vue";
-
+const ENV = reactive<{
+  MODE: string | undefined;
+}>({
+  MODE: import.meta.env.VITE_ENV_MODE,
+});
+console.log("MODE EEEEEE", ENV.MODE =='DEV')
 onMounted(() => {
   import('../src/ts/adminlte').then((m) => {
     // use my library here or call a method that uses it
   })
+})
+const currentLayout = computed(() => {
+  console.log('computed')
+  console.log(this.$store)
+  return this.$store.state.auth.user;
 })
 </script>

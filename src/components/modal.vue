@@ -6,6 +6,14 @@ defineProps({
     type: String,
     default: "<<Title goes here>>",
   },
+  modalHeight: {
+    type: String,
+    default: '80%'
+  },
+  modalWidth: {
+    type: String,
+    default: '120%'
+  }
 });
 let modalEle = ref(null);
 let thisModalObj = null;
@@ -26,7 +34,7 @@ defineExpose({ show: _show, hide: _hide });
   <div class="modal fade modal-lg" id="exampleModal" tabindex="-1" aria-labelledby=""
     aria-hidden="true" ref="modalEle">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content" :style="{ height: modalHeight, width: modalWidth }">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">{{ title }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -45,8 +53,8 @@ defineExpose({ show: _show, hide: _hide });
 .modal-dialog,
 .modal-content {
     /* 80% of window height */
-    height: 90%;
-    width: 80%;
+    height: 50%;
+    width: 120%;
 }
 
 .modal-body {

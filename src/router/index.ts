@@ -4,9 +4,19 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/Login',  //Login
+      name: 'Login',
+      component: () => import('../views/Login.vue')
+    },
+    {
       path: '/',  //TWAREN監控儀錶板
       name: 'MtsecDashboard',
       component: () => import('../views/MtsecDashboard.vue')
+    },
+    {
+      path: '/MtsecDashboardTmp',  //TWAREN監控儀錶板
+      name: 'MtsecDashboardTmp',
+      component: () => import('../views/MtsecDashboardTmp.vue')
     },
     {
       path: '/DomesticBackboneTrafficMonitor',  //TANet監控儀錶板
@@ -60,6 +70,11 @@ const router = createRouter({
       path: '/device-info/device-configuration',  //設備組態歷史備份紀錄
       name: 'DeviceConfiguration',
       component: () => import('../views/device-info/DeviceConfiguration.vue')
+    }, 
+    {
+      path: '/monitoring-item-management/data-management/UserManagement',  //使用者管理
+      name: 'UserManagement',
+      component: () => import('../views/UserManagement.vue')
     },
   ]
 })

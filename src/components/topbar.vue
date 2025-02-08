@@ -76,14 +76,14 @@
         <li class="nav-item dropdown user-menu">
           <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
             <i data-lte-icon="maximize" class="rounded-circle shadow bi bi-person-circle"></i>
-            <span class="d-none d-md-inline">Administrator</span>
+            <span class="d-none d-md-inline">{{ currentUser != null ? currentUser.username : ''  }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
             <!--begin::User Image-->
             <li class="user-header text-bg-primary">
               <i data-lte-icon="maximize" class="rounded-circle shadow bi bi-person-circle"></i>
               <p>
-                Administrator
+               {{ currentUser != null ? currentUser.username : '' }}
                 <small>Member since Nov. 2023</small>
               </p>
             </li>
@@ -92,7 +92,7 @@
             <!--begin::Menu Footer-->
             <li class="user-footer">
               <a href="#" class="btn btn-default btn-flat">Profile</a>
-              <a href="#" class="btn btn-default btn-flat float-end">Sign out</a>
+              <button class="btn btn-default btn-flat float-end" @click="logout">Sign out</button>
             </li>
             <!--end::Menu Footer-->
           </ul>
@@ -111,9 +111,14 @@ import { installStatusCodes } from "@/i18n";
 import { useI18n } from "vue-i18n";
 
 import {Howl, Howler} from 'howler';
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router/dist/vue-router";
+import AuthService from '../services/AuthService';
+import { useAuthStore } from "@/stores/auth";
 
 const { locale, t } = useI18n();
+const router = useRouter();
+
 const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
 navigator.mediaDevices.getUserMedia({ audio: true });
 installStatusCodes(VITE_NETWORK_API_URL);
@@ -128,6 +133,12 @@ function notification() {
     console.log("notification");
     const audio = new Audio('/audio/6005.wav');
           audio.play();
+}
+
+function logout() {
+  alert("登出")
+  useAuthStore().logout();
+  router.push('/login');
 }
 
 
@@ -145,6 +156,9 @@ onMounted(() => {
   console.log('mount');
   
 }) 
+const currentUser = computed(() => {
+  return JSON.parse(useAuthStore().userInfo);
+})
 /*
 import  PushMenu from '@/ts/adminlte'
 import { FullScreen } from '@/ts/adminlte'

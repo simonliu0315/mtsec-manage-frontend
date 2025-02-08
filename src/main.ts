@@ -37,7 +37,7 @@ app.use(createPinia())
 app.use(router)
 app.use(i18n)
 app.use(NetworkPortalPlugin, {
-    env: import.meta.env.MODE,
+    env: import.meta.env.VITE_ENV_MODE,
     axios: createNetworkAxios({  }),
     appName: import.meta.env.VITE_APP_NAME,
     appRoot: import.meta.env.BASE_URL,

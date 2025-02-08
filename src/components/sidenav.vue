@@ -488,7 +488,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/tables/data.html" class="nav-link">
+                    <a href="/monitoring-item-management/data-management/UserManagement" class="nav-link">
                       <i class="nav-icon bi bi-circle"></i>
                       <p>帳號管理</p>
                     </a>
@@ -542,6 +542,15 @@
                 </li>
               </li>
             </ul>
+            <!--ul class="nav nav-pills tab_set" -->
+            <!--ul class="nav nav-treeview">
+              <li v-for="(item, index) in items" class="nav-item">
+                <a :href="item" class="nav-link">
+                <i class="nav-icon bi bi-circle"></i>
+                <p>{{ items["path"] }}</p>
+                </a>
+              </li>
+            </ul-->
           </li>
         </ul>
         <!--end::Sidebar Menu-->
@@ -551,3 +560,30 @@
   </aside>
   <!--end::Sidebar-->
 </template>
+<script setup lang="ts">
+import { computed, onMounted  } from "vue";
+import {
+  onBeforeRouteLeave,
+  onBeforeRouteUpdate,
+  useRoute,
+  useRouter,
+} from "vue-router";
+
+const route = useRoute();
+const router = useRouter();
+
+const items = computed(() => {
+  console.log("computed router....")
+  console.log(router.getRoutes())
+  const rootRoute = router
+    .getRoutes()
+    .find(
+      ({ meta }) =>
+        meta.flowId === route.meta.flowId &&
+        meta.functionId === route.meta.functionId
+    );
+  console.log("rootRoute ", rootRoute)
+  return rootRoute;
+});
+</script>
+

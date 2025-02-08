@@ -1,8 +1,53 @@
 <style scoped lang="scss">
-.graph {
-  width: 1024px;
-  height: 768px;
-  border: 1px solid #000;
+
+.image-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-wrapper {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.endpoint {
+  text-align: center;
+  position: relative; /* 為 top-label 定位 */
+}
+
+.connector {
+  height: 2px;
+  background-color: black;
+  flex-grow: 1;
+}
+
+.top-label, .bottom-label, .left-label, .right-label {
+  position: absolute;
+}
+
+.top-label {
+  top: -20px;
+}
+
+.bottom-label {
+  bottom: 30%;
+}
+
+.left-label {
+  left: 15%;
+  top: 40px;
+  transform: translateY(-50%);
+}
+
+.right-label {
+  right: 15%;
+  top: 40px;
+  transform: translateY(-50%);
 }
 </style>
 <template>
@@ -67,13 +112,15 @@
                     <div class="btn-group me-2">
                       <label>新增節點:</label>
                       <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addMasterRouterNode">
-                        <img src="/icons/router.svg" width="20px" height="20px"/>主節點Router</button>
+                        <img src="/icons/router.svg" width="20px" height="20px" />主節點Router</button>
                       <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addRegionRouterNode">
-                        <img src="/icons/router_purple.svg" width="20px" height="20px"/>區網Router</button>
+                        <img src="/icons/router_purple.svg" width="20px" height="20px" />區網Router</button>
                       <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addSwitchNode">
                         <img src="/icons/switch.svg" width="20px" height="20px">Switch</button>
-                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addHubNode">Hub</button>
-                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0" @click="addBlackNode">ZZXZ</button>
+                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0"
+                        @click="addHubNode">Hub</button>
+                      <button class="btn btn-primary" :disabled="selectedNodes.length > 0"
+                        @click="addBlackNode">子拓樸</button>
                       <button class="btn btn-danger" :disabled="selectedNodes.length == 0"
                         @click="removeNode">移除</button>
                     </div>
@@ -99,15 +146,31 @@
                       <label>編輯節點:</label>
                       <button class="btn btn-secondary" :disabled="!isNodeEditable()" @click="editNode">編輯</button>
                     </div>
-                  
+                    <div class="btn-group me-2">
+                      <label>關閉流量:</label>
+                      <button class="btn btn-secondary" @click="disableTraffic">關閉</button>
+                    </div>
+                    <div class="btn-group me-2">
+                      <label>開啟流量:</label>
+                      <button class="btn btn-secondary" @click="openTraffic">開啟</button>
+                    </div>
+                    <div class="btn-group me-2">
+                      <label>背景圖上傳:</label>
+                      <input type="file" ref="fileInput" style="display: none;" @change="handleFileSelect">
+                      <button class="btn btn-secondary" @click="$refs.fileInput.click()">選擇檔案</button>
+                      <input type="number" v-model="otherForm.width" placeholder="請輸入寬度">%
+                      <input type="number" v-model="otherForm.height" placeholder="請輸入高度">%
+                      <button class="btn btn-secondary" :disabled="!otherForm.selectedFile" @click="handleFileUpload">上傳</button>
+                    </div>
+                    
                   </div>
                   <!--div>
                     {{edges}}<br/>
                     {{nodes}}<br/>
                     {{ layouts }}
                   </div-->
-                  <div class="card-img" alt="100%x768"
-                    style="background-color: rgba(173, 181, 189 , 0.1); height: 768px; width: 1024px; display: block;">
+                  <div class="card-img" alt="1024x768"
+                    style="background-color: rgba(173, 181, 189 , 0.1); width: 1024px; height: 768px; display: block;">
                     <v-network-graph ref="graph" :nodes="nodes" :edges="edges" :layouts="layouts" :configs="configs"
                       :layers="layers" v-model:selected-nodes="selectedNodes" v-model:selected-edges="selectedEdges"
                       :event-handlers="eventHandlers">
@@ -118,7 +181,7 @@
                         {{ base64Str.results }}
                       </component>
                       </defs-->
-                      <template #edge-label="{ edgeId, edge, scale, ...slotProps }">
+                      <template v-if="otherForm.isTraffic" #edge-label="{ edgeId, edge, scale, ...slotProps }">
                         <!--v-edge-label :text="edgeId" align="center" vertical-align="below" v-bind="slotProps"/-->
                         <v-edge-label :text="`${traffics[edge.source][edge.target]} k`" align="source"
                           vertical-align="above" v-bind="slotProps" fill="#ff5500" :font-size="12 * scale" />
@@ -143,7 +206,7 @@
 
                       </template>
                       <template #worldmap>
-                        <image href="/taiwanmap.png" x="0" y="0" @load="onLoadImage" height="768px" width="1024px" />
+                        <image v-if=" searchForm.results != undefined && searchForm.results.backgroundImage != undefined" :href="searchForm.image" x="0" y="0" @load="onLoadImage" :height="searchForm.results.backgroundImageHeight" />
                       </template>
                     </v-network-graph>
                   </div>
@@ -164,11 +227,55 @@
       <template #body>
         <div>
           <div class="form-group row">
-            <label for="deviceName" class="col-sm-3 col-form-label">節點名稱</label>
+            <label for="deviceName" class="col-sm-3 col-form-label">來源</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="deviceName" placeholder="節點名稱" v-model="saveNode.name" />
+              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="attribute" id="on" autocomplete="off" value="1"
+                  v-model="saveNode.attribute" checked>
+                <label class="btn btn-outline-primary" for="on">已納管</label>
+                <input type="radio" class="btn-check" name="attribute" id="off" autocomplete="off" value="2"
+                  v-model="saveNode.attribute">
+                <label class="btn btn-outline-primary" for="off">自訂</label>
+              </div>
             </div>
           </div>
+          <div class="form-group row">
+            <label for="deviceName" class="col-sm-3 col-form-label"></label>
+          </div>
+          <div class="form-group row" v-show="saveNode.attribute == '1'">
+            <label for="deviceName" class="col-sm-3 col-form-label">類別</label>
+            <div class="col-sm-9">
+              <select v-model="saveNode.deviceType">
+                <option value="switch">交換器</option>
+                <option value="router">路由器</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row" v-show="saveNode.attribute == '1'">
+            <label for="deviceName" class="col-sm-3 col-form-label">位置</label>
+            <div class="col-sm-9">
+              <select v-model="saveNode.location">
+                <option value="taipei">台北</option>
+                <option value="taichong">台中</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row" v-show="saveNode.attribute == '1'">
+            <label for="deviceName" class="col-sm-3 col-form-label">設備名稱</label>
+            <div class="col-sm-9">
+              <select v-model="saveNode.name">
+                <option v-for="device in searchForm.devices" :key="device.id" :value="device.deviceName">{{
+                  device.deviceName + ' (' + device.manageIp + ')'}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row" v-show="saveNode.attribute == '2'">
+            <label for="nodeName" class="col-sm-3 col-form-label">節點名稱</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" id="nodeName" placeholder="節點名稱" v-model="saveNode.name" />
+            </div>
+          </div>
+          <input type="text" class="form-control" hidden id="nodeId" v-model="saveNode.id" />
         </div>
       </template>
       <template #footer>
@@ -180,9 +287,12 @@
       <template #body>
         <div>
           <div class="form-group row">
+            <label for="deviceName" class="col-sm-3 col-form-label">來源</label>
+          </div>
+          <div class="form-group row">
             <label for="deviceName" class="col-sm-3 col-form-label">節點名稱</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" id="deviceName" placeholder="節點名稱" />
+              <input type="text" class="form-control" id="deviceName" placeholder="節點名稱" v-model="saveNode.name" />
             </div>
           </div>
         </div>
@@ -192,11 +302,70 @@
         <button class="btn btn-primary" @click="saveEditNode()">確認</button>
       </template>
     </Modal>
+    <Modal title="建立連線" ref="editEdgeModal" modalHeight="300px" modalWidth="150%">
+      <template #body>
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="image-wrapper">
+                <img v-if="saveEdge.sourceNode" :src="'/icons/' + saveEdge.sourceNode.icon + '.svg'"
+                  width="34.977491260251476" height="34.977491260251476"></img>
+                <p  style="margin-bottom:0rem" v-if="saveEdge.sourceNode">{{ saveEdge.sourceNode.name }}</p>
+                <p  style="margin-bottom:0rem" v-if="searchForm.sourceNodeData">{{ searchForm.sourceNodeData.manageIp }}</p>
+              </div>
+              <div class="connector">
+                <span class="left-label">介面頻寬：{{ sourceNode.interface ? sourceNode.interface.ifSpeedNm : '' }}</span>
+                <span class="right-label">介面頻寬：{{ targetNode.interface ? targetNode.interface.ifSpeedNm : '' }}</span>
+              </div>
+              <div class="image-wrapper">
+                <img v-if="saveEdge.targetNode" :src="'/icons/' + saveEdge.targetNode.icon + '.svg'"
+                  width="34.977491260251476" height="34.977491260251476"></img>
+                <p style="margin-bottom:0rem" v-if="saveEdge.targetNode">{{ saveEdge.targetNode.name }}</p>
+                <p  style="margin-bottom:0rem" v-if="searchForm.targetNodeData">{{ searchForm.targetNodeData.manageIp }}</p>
+              </div>
+            </div>
+            <div class="text-center">
+              <span class="bandwidth">100MB</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 border">
+            <div class="form-group">
+              <label for="nodeName1">節點名稱</label>
+              {{ saveEdge.sourceNode == undefined ? '' : saveEdge.sourceNode.name }}
+            </div>
+            <label for="port1">連接埠</label>
+            <select v-model="sourceNode.interface">
+              <option v-for="sourceInterface in sourceNode.interfaces" :key="sourceInterface.ifIndex"
+                :value="sourceInterface">{{
+                sourceInterface.ifDescr + '( 頻寬:' + sourceInterface.ifSpeedNm + ')' }}</option>
+            </select>
+          </div>
+          <div class="col-6 border">
+            <div class="form-group">
+              <label for="nodeName1">節點名稱</label>
+              {{ saveEdge.targetNode == undefined ? '' : saveEdge.targetNode.name }}
+            </div>
+            <label for="port1">連接埠</label>
+            <select v-model="targetNode.interface">
+              <option v-for="targetInterface in targetNode.interfaces" :key="targetInterface.ifIndex"
+                :value="targetInterface">{{
+                targetInterface.ifDescr + '( 頻寬:' + targetInterface.ifSpeedNm + ')' }}</option>
+            </select>
+          </div>
+        </div>
+      </template>
+      <template #footer>
+        <button class="btn btn-gray" @click="cancelEdge()">取消</button>
+        <button class="btn btn-primary" @click="saveEditEdge()">確認</button>
+      </template>
+    </Modal>
     <!--end:: Modal-->
   </main>
 </template>
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted } from "vue"
+import { ref, reactive, onMounted, onUnmounted, watch, computed } from "vue"
 
 import { defineConfigs } from "v-network-graph"
 import type { Nodes, Edges, Layouts, Instance } from "v-network-graph"
@@ -209,6 +378,18 @@ const base64Str = reactive<{
   results: string | undefined;
 }>({
   results: '',
+});
+
+const otherForm = reactive<{
+  isTraffic: boolean | undefined;
+  width: number | 0;
+  height : number | 0;
+  selectedFile : object | undefined;
+}>({
+  isTraffic: true,
+  width: 100,
+  height: 100,
+  selectedFile: undefined
 });
 
 async function urlToBase64() {
@@ -230,6 +411,7 @@ async function urlToBase64() {
 }
 
 interface Node extends vNG.Node {
+  id: string
   size: number
   color?: string
   label?: boolean
@@ -245,24 +427,25 @@ interface Edge extends vNG.Edge {
 const nodes = reactive<Record<string, Node>>({
   //node1: { name: "Node 1", hue: 100, color: "#4466cc", icon: "&#xef5c", size: 20, label: true },
   //node1: { name: "主節點Router", hue: 100, color: "#4466cc", icon: "router", size: 20, label: true },
-  node1: { name: "台北主節點", hue: 100, icon: "router", size: 20, label: true },
-  node2: { name: "新竹主節點", hue: 320, icon: "router", size: 20, label: true },
-  node3: { name: "台中主節點", hue: 320, icon: "router", size: 20, label: true },
-  node4: { name: "台南主節點", hue: 320, icon: "router", size: 20, label: true }
+  
+  //node1: { id:"1", name: "台北主節點", hue: 100, icon: "router", size: 20, label: true },
+  //node2: { id:"2", name: "新竹主節點", hue: 320, icon: "router", size: 20, label: true },
+  //node3: { id:"3", name: "台中主節點", hue: 320, icon: "router", size: 20, label: true },
+  //node4: { id:"4", name: "台南主節點", hue: 320, icon: "router", size: 20, label: true }
 })
 
 const edges = reactive<Record<string, Edge>>({
-  edge1: { source: "node1", target: "node2", dashed: false },
-  edge2: { source: "node2", target: "node3" },
-  edge3: { source: "node2", target: "node4" }
+  //edge1: { source: "node1", target: "node2", dashed: false },
+  //edge2: { source: "node2", target: "node3" },
+  //edge3: { source: "node2", target: "node4" }
 })
 
 const layouts = reactive<Layouts>({
   nodes: {
-    node1: { x: 450, y: 100 },
-    node2: { x: 300, y: 100 },
-    node3: { x: 290, y: 250 },
-    node4: { x: 180, y: 410 }
+    //node1: { x: 450, y: 100 },
+    //node2: { x: 300, y: 100 },
+    //node3: { x: 290, y: 250 },
+    //node4: { x: 180, y: 410 }
   },
 });
 
@@ -282,8 +465,8 @@ const configs = reactive(defineConfigs({
       bottom: '0px',
     },
     grid: {
-    visible: true
-  },
+      visible: true
+    },
   },
   node: {
     selectable: true,
@@ -344,19 +527,39 @@ import Modal from "@/components/modal.vue";
 
 let nodeModal= ref(null);
 let editNodeModal = ref(null);
+let editEdgeModal = ref(null);
 
 const saveNode = reactive<{
   id: string | undefined;
   name: string | undefined;
   type: string | undefined;
-  node : Object | undefined;
+  node : object | undefined;
+  attribute: string | undefined;
+  deviceType: string | undefined;
+  location: string | undefined;
 }>({
   id: undefined,
   name: undefined,
   type: undefined,
   node: undefined,
+  attribute: '1',
+  deviceType: undefined,
+  location: undefined,
 });
 
+const saveEdge = reactive<{
+  id: string | undefined;
+  name: string | undefined;
+  type: string | undefined;
+  sourceNode : object | undefined;
+  targetNode : object | undefined;
+}>({
+  id: undefined,
+  name: undefined,
+  type: undefined,
+  sourceNode: undefined,
+  targetNode: undefined
+});
 
 
 type TrafficData = Record<string, Record<string, number>>
@@ -388,6 +591,23 @@ onUnmounted(() => {
   }
 })
 
+watch(
+ () => saveNode.name,
+  (newValue) => {
+      // 當選項改變時，更新 input 的值
+      console.log("watch ====>", newValue)
+      if (searchForm.devices != undefined) {
+        console.log("watch ====>", searchForm.devices.find(device => device.deviceName === newValue))
+        var device = searchForm.devices.find(device => device.deviceName === newValue)
+        if (device != undefined) {
+          saveNode.id = device.id
+        }
+          
+      } 
+  }
+)
+
+
 async function downloadAsSvg() {
   if (!graph.value) return
   const text = await graph.value.exportAsSvgText({embedImages:true})
@@ -412,6 +632,22 @@ let nextEdgeIndex = ref(Object.keys(edges).length + 1)
 const selectedNodes = ref<string[]>([])
 const selectedEdges = ref<string[]>([])
 
+const sourceNode = reactive<{
+  interface: object | undefined
+  interfaces: object | undefined
+}>({
+  interface: undefined,
+  interfaces: undefined
+});
+
+const targetNode = reactive<{
+  interface: object | undefined
+  interfaces: object | undefined
+}>({
+  interface: undefined,
+  interfaces: undefined
+});
+
 function isEdgeAddable() {
   return selectedNodes.value.length == 2
 }
@@ -423,7 +659,14 @@ function cancelNode() {
 }
 function addMasterRouterNode() {
   console.log('addMasterRouterNode')
+  saveNode.deviceType=''
+  saveNode.location=''
   nodeModal.value.show();
+  const api = new TopologyMaintenanceApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findTopologyMaintenanceInventoryList(saveNode).then(({ data }) => {
+    console.log("---->", data)
+    searchForm.devices = data.inventories;
+  });
   saveNode.name = ''
   saveNode.type = 'router'
   //addNode({ size: 20, icon: "router" , label: true })
@@ -440,7 +683,12 @@ function newNode(type) {
 function addRegionRouterNode() {
   console.log('addRegionRouterNode')
   nodeModal.value.show();
-   saveNode.name = ''
+  const api = new TopologyMaintenanceApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findTopologyMaintenanceInventoryList(saveNode).then(({ data }) => {
+    console.log("---->", data)
+    searchForm.devices = data.inventories;
+  });
+  saveNode.name = ''
   saveNode.type = 'regionRouter'
   //addNode({ size: 14, icon: "router_purple" , label: true })
 }
@@ -455,7 +703,37 @@ function addHubNode() {
 }
 
 function addNormalEdge() {
-  addEdge({ width: 3, color: "skyblue" })
+  editEdgeModal.value.show();
+  const [source, target] = selectedNodes.value
+  console.log("selectedNodes", nodes[source], nodes[target])
+  saveEdge.sourceNode = nodes[source]
+  saveEdge.targetNode = nodes[target]
+
+  const api = new TopologyMaintenanceApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.findTopologyMaintenanceInventoryInterfaceList({deviceName: saveEdge.sourceNode.name}).then(({ data }) => {
+    console.log("source interfaces--->", data)
+    sourceNode.interfaces = data.interfaces
+  });
+  api.findTopologyMaintenanceInventoryOne({deviceName: saveEdge.sourceNode.name}).then(({ data }) => {
+    console.log("source interfaces--->", data)
+    if (data.inventories != undefined && data.inventories.length > 0) {
+      searchForm.sourceNodeData = data.inventories[0]
+    }
+  });
+  
+
+  api.findTopologyMaintenanceInventoryInterfaceList({deviceName: saveEdge.targetNode.name}).then(({ data }) => {
+    targetNode.interfaces = data.interfaces
+  });
+
+  api.findTopologyMaintenanceInventoryOne({deviceName: saveEdge.targetNode.name}).then(({ data }) => {
+    console.log("source interfaces--->", data)
+    if (data.inventories != undefined && data.inventories.length > 0) {
+      searchForm.targetNodeData = data.inventories[0]
+    }
+    
+  });
+  //addEdge({ width: 3, color: "skyblue" })
 }
 
 function addNode(node: Omit<Node, "name">) {
@@ -464,8 +742,9 @@ function addNode(node: Omit<Node, "name">) {
   const nodeId = `node${nextNodeIndex.value}`
   //const name = `Node ${nextNodeIndex.value}`
   const name = saveNode.name
-  console.log(nodeId, name)
-  nodes[nodeId] = { name, ...node } as Node
+  const id = saveNode.id
+  console.log(nodeId, name, id)
+  nodes[nodeId] = { name, id, ...node } as Node
 
   nextNodeIndex.value++
   layouts.nodes[nodeId] = {x : 100, y: 100}
@@ -474,9 +753,11 @@ function addNode(node: Omit<Node, "name">) {
 function editNode() {
   editNodeModal.value.show();
   saveNode.name = saveNode.node.name
+  saveNode.id = saveNode.node.id  
 }
 function saveEditNode() {
-  saveNode.node.name = saveNode.name
+  saveNode.node.name = saveNode.name  
+  saveNode.node.id = saveNode.id  
   editNodeModal.value.hide();
 }
 function removeNode() {
@@ -484,7 +765,7 @@ function removeNode() {
     delete nodes[nodeId]
   }
 }
-function addEdge(edge: Omit<Edge, "source" | "target">) {
+function saveEditEdge(edge: Omit<Edge, "source" | "target">) {
   if (selectedNodes.value.length !== 2) return
 
   
@@ -543,8 +824,22 @@ const VITE_NETWORK_API_URL = import.meta.env.VITE_NETWORK_API_URL;
 
 const searchForm = reactive<{
   id: string | undefined;
+  results: object | undefined;
+  devices: object | undefined;
+  sourceNode: object | undefined;
+  sourceNodeData: object | undefined;
+  targetNode: object | undefined;
+  targetNodeData: object | undefined;
+  image: object | undefined;
 }>({
   id: undefined,
+  results: undefined,
+  devices: undefined,
+  sourceNode: undefined,
+  targetNode: undefined,
+  sourceNodeData: undefined,
+  targetNodeData: undefined,
+  image: undefined
 });
 
 search()
@@ -555,7 +850,7 @@ function search() {
   searchForm.id = id
   const api = new TopologyMaintenanceApi(undefined, VITE_NETWORK_API_URL, axios)
   api.findTopologyMaintenanceOneTopology(searchForm).then(({ data }) => {
-      console.log(data)
+      console.log('findTopologyMaintenanceOneTopology:',data)
       searchForm.results =  data.topologyDto;
       console.log(data.topologyDto?.name)
       saveForm.name = data.topologyDto?.name
@@ -576,6 +871,19 @@ function search() {
         }
         traffics[edge.target][edge.source] = 0
       });
+
+      api.getImage(searchForm.results.backgroundImage).then(({ data })=> {
+        console.log("AAAAAAAAAAAAAAAAAA ",typeof data)
+        console.log("AAAAAAAAAAAAAAAAAA ",data)
+        //searchForm.image = URL.createObjectURL(new Blob([data], { type: "image/jpeg" }))
+        searchForm.image = "data:image/jpeg;base64,"+data
+        //const base64data = blobToData(data);
+        //searchForm.image = base64data
+
+      });
+      //console.log(typeof api.getImage(searchForm.results.backgroundImage))
+      //api.getImage(searchForm.results.backgroundImage)
+      
       /*
       for (const edgeId in edges) {
         const edge = edges[edgeId];
@@ -592,6 +900,14 @@ function search() {
     }).finally(() => {
      
     });
+   
+}
+function blobToData(blob) {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result)
+    reader.readAsDataURL(blob)
+  })
 }
 
 const saveForm = reactive<{
@@ -632,4 +948,31 @@ function saveAll() {
 function backQuery() {
   window.location.href =  "./TopologyManage"
 }
+
+function disableTraffic() {
+  otherForm.isTraffic = false
+}
+
+function openTraffic() {
+  otherForm.isTraffic = true
+}
+
+const handleFileUpload = () => {  
+  console.log("上傳圖檔")
+  const file = otherForm.selectedFile;
+  console.log("上傳圖檔" + file)
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('width', otherForm.width);
+  formData.append('height', otherForm.height);
+  const api = new TopologyMaintenanceApi(undefined, VITE_NETWORK_API_URL, axios)
+  api.saveTopologyMaintenanceUploadFile(otherForm.width, otherForm.height, searchForm.id, file).then(({ data }) => {}).finally(() => {
+  
+  })
+};
+
+const handleFileSelect = (event) => {
+  otherForm.selectedFile = event.target.files[0];
+};
+
 </script>
